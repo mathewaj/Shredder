@@ -13,13 +13,15 @@
 // Typedef a block called ParseReturned which receives a contact and returns a BOOL
 typedef void (^ParseReturned) (BOOL signedUp);
 
-@interface ContactDetailViewController : UITableViewController <MFMailComposeViewControllerDelegate, UIAlertViewDelegate, UITextFieldDelegate>
+@interface ContactDetailViewController : UITableViewController <MFMessageComposeViewControllerDelegate, MFMailComposeViewControllerDelegate, UIAlertViewDelegate, UITextFieldDelegate>
 
 // Model is a contact
 @property (nonatomic, readwrite) Contact *contact;
 @property (nonatomic, strong) UIManagedDocument *contactsDatabase;
 
 @property (weak, nonatomic) IBOutlet UILabel *contactNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *contactPhoneNumberLabel;
+@property (weak, nonatomic) IBOutlet UILabel *contactEmailLabel;
 @property (weak, nonatomic) IBOutlet UITextField *contactEmailTextField;
 @property (weak, nonatomic) IBOutlet UITableViewCell *contactEmailCell;
 @property (weak, nonatomic) IBOutlet UILabel *contactInviteLabel;

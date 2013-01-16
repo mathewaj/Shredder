@@ -34,19 +34,19 @@
     self.title = @"Contacts";
     [self setupFetchedResultsController];
     
+    
+}
+
+-(void)viewDidAppear:(BOOL)animated{
     // Scan Parse everytime contacts is opened
     [self scanParseForNewContacts];
-    
 }
 
 -(void)setupFetchedResultsController{
     
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Contact"];
-    
     NSSortDescriptor *descriptor1 = [NSSortDescriptor sortDescriptorWithKey:@"nameInitial" ascending:YES];
     NSSortDescriptor *descriptor2 = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(caseInsensitiveCompare:)];
-    
-    
     request.sortDescriptors = [NSArray arrayWithObjects:descriptor1, descriptor2, nil];
     self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.contactsDatabase.managedObjectContext sectionNameKeyPath:@"nameInitial" cacheName:nil];
 }
@@ -75,7 +75,7 @@
     }
     
     cell.textLabel.text = contact.name;
-    cell.detailTextLabel.text = contact.email;
+    //cell.detailTextLabel.text = contact.email;
 
     
     return cell;

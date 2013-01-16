@@ -51,8 +51,16 @@
 
 - (void)application:(UIApplication *)application
 didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    
+    NSString *path = [[NSBundle bundleWithIdentifier:@"com.apple.UIKit"] pathForResource:@"Tock" ofType:@"aiff"];
+    SystemSoundID soundID;
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef)[NSURL fileURLWithPath:path], &soundID);
+    AudioServicesPlaySystemSound(soundID);
+    AudioServicesDisposeSystemSoundID(soundID);
 
-    // Do not handle push notifications when app is active
+    // Broadcast when push notification recieved so that messaging view may reload
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadMessagesTable" object:nil];
+    
     
 }
 

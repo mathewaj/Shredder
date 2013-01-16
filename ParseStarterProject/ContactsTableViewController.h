@@ -16,7 +16,5 @@
 // Model is the contacts database
 @property (nonatomic, strong) UIManagedDocument *contactsDatabase;
 
-// Model is the Address Book
-@property (nonatomic, strong) NSMutableArray *people;
 
 @end

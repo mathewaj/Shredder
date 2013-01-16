@@ -2,7 +2,7 @@
 //  Contact.m
 //  Shredder
 //
-//  Created by Alan Mathews on 27/11/2012.
+//  Created by Shredder on 16/01/2013.
 //
 //
 
@@ -14,10 +14,10 @@
 
 @dynamic email;
 @dynamic name;
+@dynamic nameInitial;
 @dynamic parseID;
 @dynamic signedUp;
-@dynamic nameInitial;
+@dynamic phoneNumber;
 @dynamic emails;
-
 
 @end

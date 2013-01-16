@@ -31,13 +31,20 @@
     // Set name cell
     self.contactNameLabel.text = self.contact.name;
     
+    // Set phone number cell
+    if(self.contact.phoneNumber){
+        self.contactPhoneNumberLabel.text = self.contact.phoneNumber;
+    } else {
+        self.contactPhoneNumberLabel.text = @"";
+    }
+    
     // Set email cell
     if(self.contact.email)
     {
-        self.contactEmailTextField.text = self.contact.email;
+        self.contactEmailLabel.text = self.contact.email;
+    } else {
+        self.contactEmailLabel.text = @"";
     }
-    
-    self.contactEmailTextField.enabled = NO;
     
     // Set invite cell
     [self setupInviteLabel];
@@ -58,34 +65,27 @@
 
 -(void)setupInviteLabel{
     
-    if([self validateEmail:self.contactEmailTextField.text]) {
+    if([self.contact.signedUp isEqualToNumber:[NSNumber numberWithBool:YES]])
+    {
+        [self.contactInviteLabel setText:@"Contact is on Shredder!"];
+        self.contactInviteLabel.textColor = [UIColor grayColor];
+        self.contactInviteCell.userInteractionEnabled = NO;
         
-        if([self.contact.signedUp isEqualToNumber:[NSNumber numberWithBool:YES]])
-        {
-            [self.contactInviteLabel setText:@"Contact is on Shredder!"];
-            self.contactInviteLabel.textColor = [UIColor grayColor];
-            self.contactInviteCell.userInteractionEnabled = NO;
-            
-        } else
-        {
-            [self.contactInviteLabel setText:@"Invite Contact to Shredder"];
-            self.contactInviteLabel.textColor = [UIColor blueColor];
-            self.contactInviteCell.userInteractionEnabled = YES;
-        }
-        
+    } else if(self.contact.phoneNumber || self.contact.email){
+        [self.contactInviteLabel setText:@"Invite Contact to Shredder"];
+        self.contactInviteLabel.textColor = [UIColor blueColor];
+        self.contactInviteCell.userInteractionEnabled = YES;
     } else {
         
         [self.contactInviteLabel setText:@"Invite Contact to Shredder"];
         self.contactInviteLabel.textColor = [UIColor grayColor];
-        self.contactInviteCell.userInteractionEnabled = YES;
+        self.contactInviteCell.userInteractionEnabled = NO;
     }
-    
-    
     
 }
 
 
-
+/*
 - (BOOL) validateEmail: (NSString *) candidate {
     NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
     NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
@@ -94,7 +94,6 @@
 }
 
 - (IBAction)editButtonPressed:(UIBarButtonItem *)sender {
-    
     
     if([sender.title isEqualToString:@"Edit"])
     {
@@ -181,7 +180,7 @@
 
 
 
-/*
+
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -232,42 +231,42 @@
     
     if(indexPath.section == 2){
         
-        if(![self validateEmail:self.contact.email])
-        {
+        // Try phone number, then email
+        if (self.contact.phoneNumber && [MFMessageComposeViewController canSendText]){
+            
+            MFMessageComposeViewController *messanger = [[MFMessageComposeViewController alloc] init];
+            messanger.messageComposeDelegate = self;
+            NSArray *toRecipients = [NSArray arrayWithObject:self.contact.phoneNumber];
+            [messanger setRecipients:toRecipients];
+            NSString *messageBody = [NSString stringWithFormat:@"I'd like to send you a confidential message on the new private messaging app Shredder. Please download it from the App Store now!\nitms://itunes.com/apps/Shredder\n\nMy Username: %@", [PFUser currentUser].username ];
+            [messanger setBody:messageBody];
+            [self presentModalViewController:messanger animated:YES];
+            
+
+            
+        } else if(self.contact.email && [MFMailComposeViewController canSendMail]) {
+            
+            MFMailComposeViewController *mailer = [[MFMailComposeViewController alloc] init];
+            mailer.mailComposeDelegate = self;
+            //[messager setSubject:@"Join Shredder"];
+            NSArray *toRecipients = [NSArray arrayWithObject:self.contact.email];
+            [mailer setSubject:@"Join Shredder"];
+            [mailer setToRecipients:toRecipients];
+            //UIImage *myImage = [UIImage imageNamed:@"mobiletuts-logo.png"];
+            //NSData *imageData = UIImagePNGRepresentation(myImage);
+            //[mailer addAttachmentData:imageData mimeType:@"image/png" fileName:@"mobiletutsImage"];
+            NSString *messageBody = [NSString stringWithFormat:@"I'd like to send you a confidential message on the new private messaging app Shredder. \n\nPlease download it from the App Store now!\n\nitms://itunes.com/apps/Shredder\n\nMy Username: %@", [PFUser currentUser].username ];
+            [mailer setMessageBody:messageBody isHTML:NO];
+            [self presentModalViewController:mailer animated:YES];
+            
+        } else {
+            
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Warning"
-                                                            message:@"Please enter a valid email address"
+                                                            message:@"Cannot send message to this contact"
                                                            delegate:nil
                                                   cancelButtonTitle:@"OK"
                                                   otherButtonTitles: nil];
             [alert show];
-        } else {
-            
-            if ([MFMailComposeViewController canSendMail])
-            {
-                MFMailComposeViewController *mailer = [[MFMailComposeViewController alloc] init];
-                mailer.mailComposeDelegate = self;
-                [mailer setSubject:@"Join Shredder"];
-                NSArray *toRecipients = [NSArray arrayWithObject:self.contact.email];
-                [mailer setToRecipients:toRecipients];
-                //UIImage *myImage = [UIImage imageNamed:@"mobiletuts-logo.png"];
-                //NSData *imageData = UIImagePNGRepresentation(myImage);
-                //[mailer addAttachmentData:imageData mimeType:@"image/png" fileName:@"mobiletutsImage"];
-                NSString *emailBody = @"I'd like to send you a confidential message on Shredder.\n\nPlease download from the App Store now!";
-                [mailer setMessageBody:emailBody isHTML:NO];
-                [self presentModalViewController:mailer animated:YES];
-            }
-            else
-            {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failure"
-                                                                message:@"Your device doesn't support the composer sheet"
-                                                               delegate:nil
-                                                      cancelButtonTitle:@"OK"
-                                                      otherButtonTitles: nil];
-                [alert show];
-                
-            }
-
-            
         }
         
                 
@@ -298,12 +297,50 @@
     [self dismissModalViewControllerAnimated:YES];
 }
 
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result{
+    
+    switch (result)
+    {
+        case MessageComposeResultCancelled: {
+            UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Cancelled"
+                                                                message:@"You have cancelled the message"
+                                                               delegate:self
+                                                      cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alertView show];
+            
+        }
+            
+            
+            break;
+        case MessageComposeResultSent:
+        {
+            UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Message Sent"
+                                                                message:nil
+                                                               delegate:self
+                                                      cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alertView show];
+            
+        }
+            
+            break;
+        default:
+            NSLog(@"Mail not sent.");
+            break;
+    }
+    // Remove the mail view
+    
+    [self dismissModalViewControllerAnimated:YES];
+    
+}
+
 - (void)viewDidUnload {
     [self setContactNameLabel:nil];
     [self setContactInviteLabel:nil];
     [self setContactInviteCell:nil];
     [self setContactEmailCell:nil];
     [self setEditButton:nil];
+    [self setContactPhoneNumberLabel:nil];
+    [self setContactEmailLabel:nil];
     [super viewDidUnload];
 }
 @end

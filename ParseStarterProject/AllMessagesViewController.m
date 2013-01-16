@@ -32,9 +32,17 @@
         self.pullToRefreshEnabled = YES;
         self.paginationEnabled = NO;
         self.objectsPerPage = 25;
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appReceivedMessage) name:@"ReloadMessagesTable" object:nil];
+        
     }
     
     return self;
+}
+
+-(void)appReceivedMessage
+{
+    [self loadObjects];
 }
 
 -(void)viewDidLoad

@@ -2,7 +2,7 @@
 //  Contact.h
 //  Shredder
 //
-//  Created by Alan Mathews on 27/11/2012.
+//  Created by Shredder on 16/01/2013.
 //
 //
 
@@ -15,9 +15,10 @@
 
 @property (nonatomic, retain) NSString * email;
 @property (nonatomic, retain) NSString * name;
+@property (nonatomic, retain) NSString * nameInitial;
 @property (nonatomic, retain) NSString * parseID;
 @property (nonatomic, retain) NSNumber * signedUp;
-@property (nonatomic, retain) NSString * nameInitial;
+@property (nonatomic, retain) NSString * phoneNumber;
 @property (nonatomic, retain) NSSet *emails;
 @end
 

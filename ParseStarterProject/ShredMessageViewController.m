@@ -107,6 +107,7 @@
     // Check if already shredding to prevent multiple shred reports
     if([self.shreddingInProcess isEqualToNumber:[NSNumber numberWithBool:NO]])
     {
+        
         self.shreddingInProcess = [NSNumber numberWithBool:YES];
         
         // Create a shred report message
@@ -178,6 +179,9 @@
         // Delete message
         [self.message deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
             
+            // Broadcast notification that message being shredded so that All Messages table reloads
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadMessagesTable" object:nil];
+            
         }];
     }
       
@@ -229,7 +233,7 @@
     
     [UIView animateWithDuration:0.5
                      animations:^{
-                         CGRect newFrame = self.view.frame;
+                         CGRect newFrame = self.view.bounds;
                          self.attachmentView.frame = newFrame;
                          
                      }

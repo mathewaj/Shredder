@@ -15,9 +15,14 @@
 #import "MBProgressHUD.h"
 #import <AddressBook/AddressBook.h>
 #import "Contact+Create.h"
+#import "UIImage+ResizeAdditions.h"
 
 
 @interface ShredderSlideMenuControllerViewController ()
+
+@property (nonatomic, assign) UIBackgroundTaskIdentifier fileUploadBackgroundTaskId;
+@property (nonatomic, assign) UIBackgroundTaskIdentifier messagePostBackgroundTaskId;
+@property (nonatomic, strong) PFFile *photoFile;
 
 @end
 
@@ -152,6 +157,9 @@
     } else {
         [self databaseIsReady];
     }
+    
+    // Send welcome message!
+    [self sendWelcomeMessage];
 }
 
 // Sent to the delegate to determine whether the sign up request should be submitted to the server.
@@ -241,6 +249,11 @@
     NSURL *url = [[[NSFileManager defaultManager] URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask] lastObject];
     url = [url URLByAppendingPathComponent:@"MyDocument.md"];
     self.contactsDatabase = [[UIManagedDocument alloc] initWithFileURL:url];
+    
+    NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
+                             [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
+                             [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption, nil];
+    self.contactsDatabase.persistentStoreOptions = options;
     
     // File exists so open
     if ([[NSFileManager defaultManager] fileExistsAtPath:[url path]]) {
@@ -346,6 +359,101 @@
     logInViewController.signUpController.fields = PFSignUpFieldsUsernameAndPassword | PFSignUpFieldsSignUpButton | PFSignUpFieldsDismissButton;
     
     [controller presentModalViewController:logInViewController animated:NO];
+}
+
+-(void)sendWelcomeMessage
+{
+    [self shouldUploadImage];
+    
+    PFUser *Shredder = [PFQuery getUserObjectWithId:@"h6PDNLxCvW"];
+    
+    PFObject *message = [PFObject objectWithClassName:@"Message"];
+    [message setObject:@"Welcome to Shredder!\n\nThis new private messaging app is designed to ensure that sensitive information is permanently erased once it has been read.\n\nImages may be attached to your messages, please tap on the thumbnail in the below right to view.\n\nWhen you are finished reading, please press the Shredder button below to delete the message forever." forKey:@"body"];
+    [message setObject:Shredder forKey:@"sender"];
+    [message setObject:[PFUser currentUser] forKey:@"recipient"];
+    [message setObject:[NSNumber numberWithBool:NO] forKey:@"report"];
+    
+    // Handle attached image
+    if(self.photoFile)
+    {
+        [message setObject:self.photoFile forKey:@"attachedImage"];
+    }
+    
+    PFACL *messageACL = [PFACL ACL];
+    [messageACL setReadAccess:YES forUser:[PFUser currentUser]];
+    [messageACL setWriteAccess:YES forUser:[PFUser currentUser]];
+    //[messageACL setReadAccess:YES forUser:self.recipientUser];
+    //[messageACL setWriteAccess:YES forUser:self.recipientUser];
+    
+    message.ACL = messageACL;
+    
+    // Request a background execution task to allow us to finish uploading
+    // the message even if the app is sent to the background
+    self.messagePostBackgroundTaskId = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+        [[UIApplication sharedApplication] endBackgroundTask:self.messagePostBackgroundTaskId];
+    }];
+    
+    [message saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
+        
+        if(succeeded){
+            
+            // Create our installation query
+            PFQuery *pushQuery = [PFInstallation query];
+            [pushQuery whereKey:@"owner" equalTo:[PFUser currentUser]];
+            
+            // Send push notification to query
+            PFPush *push = [[PFPush alloc] init];
+            [push setQuery:pushQuery];
+            NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
+                                  @"You have received a message on Shredder", @"alert",
+                                  @"Increment", @"badge",
+                                  @"chainsaw-02.wav", @"sound",
+                                  nil];
+            [push setData:data];
+            [push sendPushInBackground];
+        } else {
+            
+            // No welcome message, doh
+            
+        }
+        
+        [[UIApplication sharedApplication] endBackgroundTask:self.messagePostBackgroundTaskId];
+    }];
+}
+
+- (BOOL)shouldUploadImage {
+    // Resize the image to be square (what is shown in the preview)
+    UIImage *anImage = [UIImage imageNamed:@"surferatsunset.jpg"];
+    UIImage *resizedImage = [anImage resizedImageWithContentMode:UIViewContentModeScaleAspectFit
+                                                          bounds:CGSizeMake(560.0f, 560.0f)
+                                            interpolationQuality:kCGInterpolationHigh];
+    
+    // Get an NSData representation of our images. We use JPEG 
+
+    NSData *imageData = UIImageJPEGRepresentation(resizedImage, 0.8f);
+    if (!imageData) {
+        return NO;
+    }
+    
+    // Create the PFFiles and store them in properties since we'll need them later
+    self.photoFile = [PFFile fileWithData:imageData];
+    
+    // Request a background execution task to allow us to finish uploading the photo even if the app is backgrounded
+    self.fileUploadBackgroundTaskId = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+        [[UIApplication sharedApplication] endBackgroundTask:self.fileUploadBackgroundTaskId];
+    }];
+    
+    [self.photoFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            NSLog(@"Image uploaded successfully");
+        } else {
+            NSLog(@"Image failed to upload");
+        }
+        [[UIApplication sharedApplication] endBackgroundTask:self.fileUploadBackgroundTaskId];
+    }];
+    
+    return YES;
+    
 }
 
 

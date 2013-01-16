@@ -128,6 +128,15 @@ void AddressBookUpdated(ABAddressBookRef addressBook, CFDictionaryRef info, void
             // Create a contact for every phone entry
             Contact *contact = [Contact contactWithName:fullName inContext:document.managedObjectContext];
             
+            // Obtain the phone number for the contact
+            ABMultiValueRef phoneNumbers = ABRecordCopyValue(person, kABPersonPhoneProperty);
+            NSString* phone = nil;
+            if (ABMultiValueGetCount(phoneNumbers) > 0) {
+                
+                phone = (__bridge NSString *)(ABMultiValueCopyValueAtIndex(phoneNumbers, 0));
+                contact.phoneNumber = phone;
+            }
+            
             // Obtain email information from record and then iterate through
             ABMultiValueRef emails = ABRecordCopyValue(person, kABPersonEmailProperty);
             

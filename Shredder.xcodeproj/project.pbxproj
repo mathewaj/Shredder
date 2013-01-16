@@ -20,6 +20,11 @@
 		09ABC07F13A1D52D009C3FCF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 09ABC07E13A1D52D009C3FCF /* main.m */; };
 		09ABC08213A1D52D009C3FCF /* ParseStarterProjectAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 09ABC08113A1D52D009C3FCF /* ParseStarterProjectAppDelegate.m */; };
 		09BEF34C13D51C3F001BBCDB /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09BEF34B13D51C3F001BBCDB /* Security.framework */; };
+		0B52462C16A745B900082321 /* Contact.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B52462B16A745B900082321 /* Contact.m */; };
+		0B52463016A759F700082321 /* surferatsunset.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0B52462D16A759F700082321 /* surferatsunset.jpg */; };
+		0B52463116A759F700082321 /* surferatsunset-568h@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0B52462E16A759F700082321 /* surferatsunset-568h@2x.jpg */; };
+		0B52463216A759F700082321 /* surferatsunset@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0B52462F16A759F700082321 /* surferatsunset@2x.jpg */; };
+		0B52463416A75E4B00082321 /* RecipientBox@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B52463316A75E4B00082321 /* RecipientBox@2x.png */; };
 		2FCDD6B014A573F500295AAC /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FCDD6AF14A573F500295AAC /* QuartzCore.framework */; };
 		4998650515BF305000803E05 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4998650415BF305000803E05 /* StoreKit.framework */; };
 		6332375415E438E900AE2736 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6332375315E438E900AE2736 /* libsqlite3.dylib */; };
@@ -56,7 +61,6 @@
 		E788877D1664E5C9003C5ACB /* 117-todo.png in Resources */ = {isa = PBXBuildFile; fileRef = E788877B1664E5C9003C5ACB /* 117-todo.png */; };
 		E788877E1664E5C9003C5ACB /* 117-todo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E788877C1664E5C9003C5ACB /* 117-todo@2x.png */; };
 		E78887851664EE72003C5ACB /* AllReportsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E78887841664EE72003C5ACB /* AllReportsViewController.m */; };
-		E78887881664FADA003C5ACB /* Contact.m in Sources */ = {isa = PBXBuildFile; fileRef = E78887871664FADA003C5ACB /* Contact.m */; };
 		E78E04DD16768424004A5E1D /* background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E78E04DC16768424004A5E1D /* background@2x.png */; };
 		E795B742163FF87B00BEC072 /* MyLogInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E795B741163FF87B00BEC072 /* MyLogInViewController.m */; };
 		E795B746163FFA8E00BEC072 /* MySignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E795B745163FFA8D00BEC072 /* MySignUpViewController.m */; };
@@ -151,6 +155,13 @@
 		09ABC08013A1D52D009C3FCF /* ParseStarterProjectAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParseStarterProjectAppDelegate.h; sourceTree = "<group>"; };
 		09ABC08113A1D52D009C3FCF /* ParseStarterProjectAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ParseStarterProjectAppDelegate.m; sourceTree = "<group>"; };
 		09BEF34B13D51C3F001BBCDB /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		0B52462916A7458D00082321 /* ContactsDatabase 2.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ContactsDatabase 2.0.xcdatamodel"; sourceTree = "<group>"; };
+		0B52462A16A745B900082321 /* Contact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Contact.h; sourceTree = "<group>"; };
+		0B52462B16A745B900082321 /* Contact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Contact.m; sourceTree = "<group>"; };
+		0B52462D16A759F700082321 /* surferatsunset.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = surferatsunset.jpg; sourceTree = "<group>"; };
+		0B52462E16A759F700082321 /* surferatsunset-568h@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "surferatsunset-568h@2x.jpg"; sourceTree = "<group>"; };
+		0B52462F16A759F700082321 /* surferatsunset@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "surferatsunset@2x.jpg"; sourceTree = "<group>"; };
+		0B52463316A75E4B00082321 /* RecipientBox@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "RecipientBox@2x.png"; sourceTree = "<group>"; };
 		2FCDD6AF14A573F500295AAC /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		4998650415BF305000803E05 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		6332375315E438E900AE2736 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
@@ -201,8 +212,6 @@
 		E788877C1664E5C9003C5ACB /* 117-todo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "117-todo@2x.png"; sourceTree = "<group>"; };
 		E78887831664EE72003C5ACB /* AllReportsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AllReportsViewController.h; path = ../AllReportsViewController.h; sourceTree = "<group>"; };
 		E78887841664EE72003C5ACB /* AllReportsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AllReportsViewController.m; path = ../AllReportsViewController.m; sourceTree = "<group>"; };
-		E78887861664FADA003C5ACB /* Contact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Contact.h; sourceTree = "<group>"; };
-		E78887871664FADA003C5ACB /* Contact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Contact.m; sourceTree = "<group>"; };
 		E78E04DC16768424004A5E1D /* background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "background@2x.png"; sourceTree = "<group>"; };
 		E795B740163FF87B00BEC072 /* MyLogInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyLogInViewController.h; sourceTree = "<group>"; };
 		E795B741163FF87B00BEC072 /* MyLogInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyLogInViewController.m; sourceTree = "<group>"; };
@@ -421,6 +430,10 @@
 		09ABC07813A1D52D009C3FCF /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				0B52463316A75E4B00082321 /* RecipientBox@2x.png */,
+				0B52462D16A759F700082321 /* surferatsunset.jpg */,
+				0B52462E16A759F700082321 /* surferatsunset-568h@2x.jpg */,
+				0B52462F16A759F700082321 /* surferatsunset@2x.jpg */,
 				E7AB3401167943CE008F4CA3 /* PaperClip.png */,
 				E7AB3402167943CF008F4CA3 /* PaperClip@2x.png */,
 				E7AB33F9167940CD008F4CA3 /* CancelButton.png */,
@@ -531,9 +544,9 @@
 		E7B8D7DE165179D900BD89B6 /* Database */ = {
 			isa = PBXGroup;
 			children = (
+				0B52462A16A745B900082321 /* Contact.h */,
+				0B52462B16A745B900082321 /* Contact.m */,
 				E7B8D7D5165178F800BD89B6 /* ContactsDatabase.xcdatamodeld */,
-				E78887861664FADA003C5ACB /* Contact.h */,
-				E78887871664FADA003C5ACB /* Contact.m */,
 				E7F3B53A1656CD3100C99D62 /* Email.h */,
 				E7F3B53B1656CD3100C99D62 /* Email.m */,
 				E7B8D7DF16517A0C00BD89B6 /* Contact+Create.h */,
@@ -688,6 +701,10 @@
 				E7AB3403167943CF008F4CA3 /* PaperClip.png in Resources */,
 				E7AB3404167943CF008F4CA3 /* PaperClip@2x.png in Resources */,
 				E7015B47167BCBB900843A73 /* LoginFieldBG.png in Resources */,
+				0B52463016A759F700082321 /* surferatsunset.jpg in Resources */,
+				0B52463116A759F700082321 /* surferatsunset-568h@2x.jpg in Resources */,
+				0B52463216A759F700082321 /* surferatsunset@2x.jpg in Resources */,
+				0B52463416A75E4B00082321 /* RecipientBox@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -724,9 +741,9 @@
 				E76FF708165F7CCF005F1081 /* ShredMessageViewController.m in Sources */,
 				E76FF711165FA2FB005F1081 /* SettingsViewController.m in Sources */,
 				E78887851664EE72003C5ACB /* AllReportsViewController.m in Sources */,
-				E78887881664FADA003C5ACB /* Contact.m in Sources */,
 				E7015B3C167B7F9000843A73 /* MenuCell.m in Sources */,
 				E7015B5E167F9CD900843A73 /* NSString+InitialHelper.m in Sources */,
+				0B52462C16A745B900082321 /* Contact.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -825,8 +842,8 @@
 				INFOPLIST_FILE = "ParseStarterProject/Shredder-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "FEF9B1AE-D416-484E-AD5B-FD97E68B9C72";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "FEF9B1AE-D416-484E-AD5B-FD97E68B9C72";
+				PROVISIONING_PROFILE = "D3C917E5-6647-46D2-A59F-5C2711B629D3";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D3C917E5-6647-46D2-A59F-5C2711B629D3";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};
@@ -859,9 +876,10 @@
 		E7B8D7D5165178F800BD89B6 /* ContactsDatabase.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				0B52462916A7458D00082321 /* ContactsDatabase 2.0.xcdatamodel */,
 				E7B8D7D6165178F800BD89B6 /* ContactsDatabase.xcdatamodel */,
 			);
-			currentVersion = E7B8D7D6165178F800BD89B6 /* ContactsDatabase.xcdatamodel */;
+			currentVersion = 0B52462916A7458D00082321 /* ContactsDatabase 2.0.xcdatamodel */;
 			name = ContactsDatabase.xcdatamodeld;
 			path = ParseStarterProject/ContactsDatabase.xcdatamodeld;
 			sourceTree = "<group>";
