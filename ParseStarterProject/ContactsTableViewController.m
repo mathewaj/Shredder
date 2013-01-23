@@ -23,6 +23,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.debug = YES;
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -33,6 +35,7 @@
 
     self.title = @"Contacts";
     [self setupFetchedResultsController];
+    
     
     
 }
@@ -46,9 +49,13 @@
     
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Contact"];
     NSSortDescriptor *descriptor1 = [NSSortDescriptor sortDescriptorWithKey:@"nameInitial" ascending:YES];
-    NSSortDescriptor *descriptor2 = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(caseInsensitiveCompare:)];
-    request.sortDescriptors = [NSArray arrayWithObjects:descriptor1, descriptor2, nil];
+    //NSSortDescriptor *descriptor2 = [NSSortDescriptor sortDescriptorWithKey:@"nameInitial" ascending:YES selector:@selector(caseInsensitiveCompare:)];
+    request.sortDescriptors = [NSArray arrayWithObject: descriptor1];
+    
     self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.contactsDatabase.managedObjectContext sectionNameKeyPath:@"nameInitial" cacheName:nil];
+    self.fetchedResultsController.delegate = self;
+    NSLog([[self.fetchedResultsController fetchedObjects] description]);
+    [self.fetchedResultsController performFetch:nil];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -57,7 +64,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if(cell==nil){
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"Contact Cell"];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Contact Cell"];
     }
             
     Contact *contact = [self.fetchedResultsController objectAtIndexPath:indexPath];
@@ -95,13 +102,10 @@
 }
 
 -(void)scanParseForNewContacts{
-    
     AddressBookHelper *addressBookHelper = [[AddressBookHelper alloc] init];
     addressBookHelper.contactsDatabase = self.contactsDatabase;
     addressBookHelper.delegate = self;
     [addressBookHelper checkWhichContactsSignedUp];
-    
-    
 }
 
 -(void)finishedMatchingContacts
@@ -149,6 +153,7 @@
 */
 
 #pragma mark - Table view delegate
+
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {

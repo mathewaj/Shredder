@@ -40,6 +40,7 @@
         self.confettiWhite.scale = 1.0;
         self.confettiWhite.scaleRange = 0.2;
         self.confettiWhite.spinRange = 10.0;
+        self.confettiWhite.color = [[UIColor colorWithRed:1.0 green:1.0 blue:120.0/255.0 alpha:1.0] CGColor];
         
         
         self.confettiColour = [CAEmitterCell emitterCell];

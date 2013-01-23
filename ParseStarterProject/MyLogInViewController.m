@@ -9,12 +9,17 @@
 #import "MyLogInViewController.h"
 #import "MySignUpViewController.h"
 #import "MBProgressHUD.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface MyLogInViewController ()
 
 @end
 
 @implementation MyLogInViewController
+
+#define isPhone568 ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && [UIScreen mainScreen].bounds.size.height == 568)
+#define iPhone568ImageNamed(image) (isPhone568 ? [NSString stringWithFormat:@"%@-568h.%@", [image stringByDeletingPathExtension], [image pathExtension]] : image)
+#define iPhone568Image(image) ([UIImage imageNamed:iPhone568ImageNamed(image)])
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -28,8 +33,10 @@
 -(void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
+    CGFloat xOffset = 50;
+    self.logInView.usernameField.frame = CGRectMake(self.logInView.usernameField.frame.origin.x + xOffset, self.logInView.usernameField.frame.origin.y, self.logInView.usernameField.frame.size.width - xOffset, self.logInView.usernameField.frame.size.height);
+    self.logInView.passwordField.frame = CGRectMake(self.logInView.passwordField.frame.origin.x + xOffset, self.logInView.passwordField.frame.origin.y, self.logInView.passwordField.frame.size.width - xOffset, self.logInView.passwordField.frame.size.height);
     
-    //[self.fieldsBackground setFrame:CGRectMake(35, 190, 250, 100)];
 }
 
 - (void)viewDidLoad
@@ -37,13 +44,14 @@
     [super viewDidLoad];
     
     // Set background
-    //[self.logInView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"background.png"]]];
+    self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:iPhone568ImageNamed(@"LoginBackground.png")]];
     
-    //[self.logInView setBackgroundColor:[UIColor clearColor]];
+    // Set sign up label colour
+    self.logInView.signUpLabel.textColor = [UIColor whiteColor];
     
-    // Add login field background
-    //self.fieldsBackground = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"LoginFieldBG.png"]];
-    //[self.logInView insertSubview:self.fieldsBackground atIndex:1];
+    // Set username textfield properties
+    self.logInView.usernameField.textColor = [UIColor grayColor];
+    [self.logInView.usernameField setKeyboardType:UIKeyboardTypeEmailAddress];
     
     if([[NSUserDefaults standardUserDefaults] objectForKey:@"mostRecentUsername"])
     {
@@ -51,18 +59,22 @@
         [self.logInView.passwordField becomeFirstResponder];
         
     } else {
-       self.logInView.usernameField.placeholder = @"Email Address"; 
+        self.logInView.usernameField.placeholder = @"Email Address";
     }
-	
-    [self.logInView.usernameField setKeyboardType:UIKeyboardTypeEmailAddress];
-    self.logInView.passwordField.placeholder = @"PIN";
+    
+    // Set password textfield properties
+    self.logInView.passwordField.textColor = [UIColor grayColor];
     [self.logInView.passwordField setKeyboardType:UIKeyboardTypeNumberPad];
+    self.logInView.passwordField.placeholder = @"PIN";
     
-    UIImageView *logo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"loginLogo.png"]];
+    // Get rid of automatic logo
+    self.logInView.logo = nil;
     
-    self.logInView.logo = logo;
-
-    
+    // Remove text shadows
+    CALayer *layer = self.logInView.usernameField.layer;
+    layer.shadowOpacity = 0.0f;
+    layer = self.logInView.passwordField.layer;
+    layer.shadowOpacity = 0.0f;
 }
 
 -(void)viewDidAppear:(BOOL)animated

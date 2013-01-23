@@ -11,7 +11,7 @@
 #import <MessageUI/MessageUI.h>
 
 // Typedef a block called ParseReturned which receives a contact and returns a BOOL
-typedef void (^ParseReturned) (BOOL signedUp);
+//typedef void (^ParseReturned) (BOOL signedUp);
 
 @interface ContactDetailViewController : UITableViewController <MFMessageComposeViewControllerDelegate, MFMailComposeViewControllerDelegate, UIAlertViewDelegate, UITextFieldDelegate>
 
@@ -22,6 +22,8 @@ typedef void (^ParseReturned) (BOOL signedUp);
 @property (weak, nonatomic) IBOutlet UILabel *contactNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *contactPhoneNumberLabel;
 @property (weak, nonatomic) IBOutlet UILabel *contactEmailLabel;
+@property (weak, nonatomic) IBOutlet UITableViewCell *contactPhoneCell;
+@property (weak, nonatomic) IBOutlet UITextField *contactPhoneTextField;
 @property (weak, nonatomic) IBOutlet UITextField *contactEmailTextField;
 @property (weak, nonatomic) IBOutlet UITableViewCell *contactEmailCell;
 @property (weak, nonatomic) IBOutlet UILabel *contactInviteLabel;

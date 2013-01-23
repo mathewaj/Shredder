@@ -7,6 +7,8 @@
 //
 
 #import "NewContactViewController.h"
+#import <Parse/Parse.h>
+#import "MBProgressHUD.h"
 
 @interface NewContactViewController ()
 
@@ -34,6 +36,8 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     //self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
+    self.contactInviteCell.hidden = NO;
+    
 
 }
 
@@ -53,9 +57,11 @@
 }
 
 - (IBAction)saveButtonPressed:(UIBarButtonItem *)sender {
+    
+    // Disable save button
     self.saveButton.enabled = NO;
     
-    // Validate info and save to contact
+    // Validate that a name has entered
     if(!self.contactNameTextField || [self.contactNameTextField.text isEqualToString:@""]){
         
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Warning"
@@ -66,7 +72,7 @@
         [alert show];
         self.saveButton.enabled = YES;
         
-    // If not a valid email address prompt and re-enable save button
+    // Validate email address
     } else if (![self validateEmail:self.contactEmailTextField.text]){
         
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Warning"
@@ -77,7 +83,7 @@
         [alert show];
         self.saveButton.enabled = YES;
     
-    // If contact already exists prompt and re-enable save button
+    // Validate that it is not a duplicate contact
     } else if ([Contact checkIfContactExists:self.contactEmailTextField.text inContext:self.contactsDatabase.managedObjectContext]){
         
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Warning"
@@ -91,6 +97,7 @@
     // If contact valid and does not exist, create.
     } else {
         
+        // Create contact
         Contact *contact = [Contact contactWithName:self.contactNameTextField.text inContext:self.contactsDatabase.managedObjectContext];
         contact.email = self.contactEmailTextField.text;
         self.contact = contact;
@@ -98,12 +105,17 @@
         self.contactEmailCell.userInteractionEnabled = NO;
         [self.contactsDatabase.managedObjectContext save:nil];
         [self.view endEditing:TRUE];
-        [self setupInviteLabel];
-        self.inviteCellRowHeight = [NSNumber numberWithInt:44];
-        [self.tableView beginUpdates];
-        [self.tableView endUpdates];
         
-        }
+        // Check if contact on Shredder and update invite label accordingly
+        [self checkIfContactOnShredder:self.contact onCompletion:^(BOOL signedUp){
+            
+            self.contact.signedUp = [NSNumber numberWithBool:signedUp];
+            
+            [self setupInviteLabel];
+            
+        }];
+        
+    }
     
 }
 
@@ -113,23 +125,29 @@
     {
         return [self.inviteCellRowHeight floatValue];
     } else {
-        return 44;
+        return 43;
     }
 }
 
 
 -(void)setupInviteLabel{
     
+    self.inviteCellRowHeight = [NSNumber numberWithInt:44];
+    [self.tableView beginUpdates];
+    [self.tableView endUpdates];
+    
     if([self.contact.signedUp isEqualToNumber:[NSNumber numberWithBool:YES]])
     {
         [self.contactInviteLabel setText:@"Contact is on Shredder!"];
         self.contactInviteLabel.textColor = [UIColor grayColor];
+        [self.tableView reloadData];
         
     } else
     {
         [self.contactInviteLabel setText:@"Invite Contact to Shredder!"];
         self.contactInviteLabel.textColor = [UIColor blueColor];
         self.contactInviteCell.userInteractionEnabled = YES;
+        [self.tableView reloadData];
     }
     
 }
@@ -184,7 +202,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
+    
+    // Name Field First Responder
     if(indexPath.section == 0)
     {
         if(!self.contactNameTextField)
@@ -200,6 +219,7 @@
         
     }
     
+    // Email Field First Responder
     if(indexPath.section == 1)
     {
         if(!self.contactEmailTextField)
@@ -208,6 +228,7 @@
             self.contactEmailTextField.backgroundColor = [UIColor clearColor];
             self.contactEmailTextField.font = [UIFont boldSystemFontOfSize:15];
             self.contactEmailTextField.keyboardType = UIKeyboardTypeEmailAddress;
+            self.contactEmailTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
             [self.contactEmailCell addSubview:self.contactEmailTextField];
         }
         
@@ -215,8 +236,11 @@
         
     }
     
+    // Validation
+    // Set up invite
     if(indexPath.section == 2){
         
+        // Is email entered valid?
         if(![self validateEmail:self.contact.email])
         {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Warning"
@@ -226,40 +250,84 @@
                                                   otherButtonTitles: nil];
             [alert show];
         } else {
+            [self sendInvite];
+        }
+    }
+}
+
+-(void)checkIfContactOnShredder:(Contact *)contact onCompletion:(ParseReturned)parseReturned
+{
+    /*Add UIActivityIndicator to view
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [self.contactInviteCell.contentView addSubview:spinner];
+    [spinner setFrame:CGRectMake(self.contactInviteCell.contentView.frame.size.width/2 - spinner.frame.size.width/2, self.contactInviteCell.frame.size.height/2 - spinner.frame.size.height/2, spinner.frame.size.width, spinner.frame.size.height)];
+    
+    
+    
+    [spinner startAnimating];*/
+    
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    //hud.labelText = @"Loading...";
+    
+    // Check Parse contact for this email address
+    // Make it a lowercase query
+    PFQuery *query = [PFUser query];
+    NSString* regexName = [NSString stringWithFormat:@"(?i)%@$", contact.email];
+    [query whereKey:@"username" matchesRegex:regexName];
+    
+    // Query Parse
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        
+        if (!error) {
             
-            if ([MFMailComposeViewController canSendMail])
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            if([objects count] == 1)
             {
-                MFMailComposeViewController *mailer = [[MFMailComposeViewController alloc] init];
-                mailer.mailComposeDelegate = self;
-                [mailer setSubject:@"Join Shredder"];
-                NSArray *toRecipients = [NSArray arrayWithObject:self.contact.email];
-                [mailer setToRecipients:toRecipients];
-                NSArray *ccRecipients = [NSArray arrayWithObject:@"alanpearsonmathews@gmail.com"];
-                [mailer setCcRecipients:ccRecipients];
-                //UIImage *myImage = [UIImage imageNamed:@"mobiletuts-logo.png"];
-                //NSData *imageData = UIImagePNGRepresentation(myImage);
-                //[mailer addAttachmentData:imageData mimeType:@"image/png" fileName:@"mobiletutsImage"];
-                NSString *emailBody = @"I'd like to send you a confidential message on the amazing new app Shredder.\n\nPlease hit reply all to this email to receive further instructions on how to download the app!";
-                [mailer setMessageBody:emailBody isHTML:NO];
-                [self presentModalViewController:mailer animated:YES];
+                // Confirmed Shredder user
+                PFUser *user = [objects lastObject];
+                self.contact.parseID = user.objectId;
+                parseReturned(YES);
                 
-            }
-            else
-            {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failure"
-                                                                message:@"Your device doesn't support the composer sheet"
-                                                               delegate:nil
-                                                      cancelButtonTitle:@"OK"
-                                                      otherButtonTitles: nil];
-                [alert show];
-                
+            } else {
+                // Email not found
+                parseReturned(NO);
             }
             
+            
+        } else {
+            
+            // Log details of the failure
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
             
         }
+    }];
+}
+
+-(void)sendInvite{
+    
+    if(self.contact.email && [MFMailComposeViewController canSendMail]) {
         
+        MFMailComposeViewController *mailer = [[MFMailComposeViewController alloc] init];
+        mailer.mailComposeDelegate = self;
+        NSArray *toRecipients = [NSArray arrayWithObject:self.contact.email];
+        [mailer setSubject:@"Join Shredder"];
+        [mailer setToRecipients:toRecipients];
+        NSString *messageBody = [NSString stringWithFormat:@"I'd like to send you a confidential message on the new private messaging app Shredder. \n\nPlease download it from the App Store now!\n\nitms://itunes.com/apps/Shredder\n\nMy Username: %@", [PFUser currentUser].username ];
+        [mailer setMessageBody:messageBody isHTML:NO];
+        [self presentModalViewController:mailer animated:YES];
         
+    } else {
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Warning"
+                                                        message:@"Cannot send message to this contact"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles: nil];
+        [alert show];
     }
+    
 }
 
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error

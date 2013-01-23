@@ -158,8 +158,6 @@
         [self databaseIsReady];
     }
     
-    // Send welcome message!
-    [self sendWelcomeMessage];
 }
 
 // Sent to the delegate to determine whether the sign up request should be submitted to the server.
@@ -214,6 +212,11 @@
     // Save username for future logins
     [[NSUserDefaults standardUserDefaults] setObject:[user username] forKey:@"mostRecentUsername"];
     
+    /*
+    // Set email to allow email verification option
+    NSString *email = user.username;
+    user.email = email;*/
+    
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:signUpController.view animated:YES];
     hud.labelText = @"Loading...";
     
@@ -235,6 +238,9 @@
         // Database is ready so scan address book for new contacts
         [self databaseIsReady];
     }
+    
+    // Send welcome message!
+    [self sendWelcomeMessage];
 }
 
 - (void)signUpViewControllerDidCancelSignUp:(PFSignUpViewController *)signUpController {
@@ -368,7 +374,7 @@
     PFUser *Shredder = [PFQuery getUserObjectWithId:@"h6PDNLxCvW"];
     
     PFObject *message = [PFObject objectWithClassName:@"Message"];
-    [message setObject:@"Welcome to Shredder!\n\nThis new private messaging app is designed to ensure that sensitive information is permanently erased once it has been read.\n\nImages may be attached to your messages, please tap on the thumbnail in the below right to view.\n\nWhen you are finished reading, please press the Shredder button below to delete the message forever." forKey:@"body"];
+    [message setObject:@"Welcome to Shredder!\n\nThis new private messaging app is designed to ensure that sensitive information is permanently erased once it has been read.\n\nImages may be attached to your messages, please tap on the thumbnail in the top right to view.\n\nWhen you are finished reading, please press the Shredder button below to delete the message forever." forKey:@"body"];
     [message setObject:Shredder forKey:@"sender"];
     [message setObject:[PFUser currentUser] forKey:@"recipient"];
     [message setObject:[NSNumber numberWithBool:NO] forKey:@"report"];

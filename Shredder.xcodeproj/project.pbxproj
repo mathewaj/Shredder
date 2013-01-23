@@ -25,6 +25,22 @@
 		0B52463116A759F700082321 /* surferatsunset-568h@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0B52462E16A759F700082321 /* surferatsunset-568h@2x.jpg */; };
 		0B52463216A759F700082321 /* surferatsunset@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0B52462F16A759F700082321 /* surferatsunset@2x.jpg */; };
 		0B52463416A75E4B00082321 /* RecipientBox@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B52463316A75E4B00082321 /* RecipientBox@2x.png */; };
+		0B52464616AA149200082321 /* spacer.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B52464516AA149200082321 /* spacer.png */; };
+		0BADE87716AF1B47004C73B5 /* ShredBackground-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BADE87416AF1B47004C73B5 /* ShredBackground-568h@2x.png */; };
+		0BADE87D16AF1B74004C73B5 /* ShredTop.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BADE87B16AF1B74004C73B5 /* ShredTop.png */; };
+		0BADE87E16AF1B74004C73B5 /* ShredTop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BADE87C16AF1B74004C73B5 /* ShredTop@2x.png */; };
+		0BADE88116AF1D2F004C73B5 /* ShredBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BADE87F16AF1D2F004C73B5 /* ShredBackground.png */; };
+		0BADE88216AF1D2F004C73B5 /* ShredBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BADE88016AF1D2F004C73B5 /* ShredBackground@2x.png */; };
+		0BB73A5116ADE67700E95403 /* LoginBackground-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BB73A4E16ADE67700E95403 /* LoginBackground-568h@2x.png */; };
+		0BB73A5216ADE67700E95403 /* LoginBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BB73A4F16ADE67700E95403 /* LoginBackground.png */; };
+		0BB73A5316ADE67700E95403 /* LoginBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BB73A5016ADE67700E95403 /* LoginBackground@2x.png */; };
+		0BB73A6216ADE83100E95403 /* SignUpBackground-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BB73A6016ADE83100E95403 /* SignUpBackground-568h@2x.png */; };
+		0BB73A6316ADE83100E95403 /* SignUpBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BB73A6116ADE83100E95403 /* SignUpBackground@2x.png */; };
+		0BB73A6516ADE85600E95403 /* SignUpBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BB73A6416ADE85600E95403 /* SignUpBackground.png */; };
+		0BB9E35516B0578D00BE9850 /* FetchedResultsTableControllerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BB9E35416B0578D00BE9850 /* FetchedResultsTableControllerViewController.m */; };
+		0BB9E35916B05EE100BE9850 /* CoreDataTableViewController2.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BB9E35816B05EE100BE9850 /* CoreDataTableViewController2.m */; };
+		0BC6DD1D16AC77DD00BFD791 /* YellowMessage.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BC6DD1B16AC77DD00BFD791 /* YellowMessage.png */; };
+		0BC6DD1E16AC77DD00BFD791 /* YellowMessage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BC6DD1C16AC77DD00BFD791 /* YellowMessage@2x.png */; };
 		2FCDD6B014A573F500295AAC /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FCDD6AF14A573F500295AAC /* QuartzCore.framework */; };
 		4998650515BF305000803E05 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4998650415BF305000803E05 /* StoreKit.framework */; };
 		6332375415E438E900AE2736 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6332375315E438E900AE2736 /* libsqlite3.dylib */; };
@@ -155,13 +171,31 @@
 		09ABC08013A1D52D009C3FCF /* ParseStarterProjectAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParseStarterProjectAppDelegate.h; sourceTree = "<group>"; };
 		09ABC08113A1D52D009C3FCF /* ParseStarterProjectAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ParseStarterProjectAppDelegate.m; sourceTree = "<group>"; };
 		09BEF34B13D51C3F001BBCDB /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		0B52462916A7458D00082321 /* ContactsDatabase 2.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ContactsDatabase 2.0.xcdatamodel"; sourceTree = "<group>"; };
+		0B52462916A7458D00082321 /* ContactsDatabase 2.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ContactsDatabase 2.0.xcdatamodel"; sourceTree = "<group>"; };
 		0B52462A16A745B900082321 /* Contact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Contact.h; sourceTree = "<group>"; };
 		0B52462B16A745B900082321 /* Contact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Contact.m; sourceTree = "<group>"; };
 		0B52462D16A759F700082321 /* surferatsunset.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = surferatsunset.jpg; sourceTree = "<group>"; };
 		0B52462E16A759F700082321 /* surferatsunset-568h@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "surferatsunset-568h@2x.jpg"; sourceTree = "<group>"; };
 		0B52462F16A759F700082321 /* surferatsunset@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "surferatsunset@2x.jpg"; sourceTree = "<group>"; };
 		0B52463316A75E4B00082321 /* RecipientBox@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "RecipientBox@2x.png"; sourceTree = "<group>"; };
+		0B52464516AA149200082321 /* spacer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spacer.png; sourceTree = "<group>"; };
+		0BADE87416AF1B47004C73B5 /* ShredBackground-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ShredBackground-568h@2x.png"; sourceTree = "<group>"; };
+		0BADE87B16AF1B74004C73B5 /* ShredTop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ShredTop.png; sourceTree = "<group>"; };
+		0BADE87C16AF1B74004C73B5 /* ShredTop@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ShredTop@2x.png"; sourceTree = "<group>"; };
+		0BADE87F16AF1D2F004C73B5 /* ShredBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ShredBackground.png; sourceTree = "<group>"; };
+		0BADE88016AF1D2F004C73B5 /* ShredBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ShredBackground@2x.png"; sourceTree = "<group>"; };
+		0BB73A4E16ADE67700E95403 /* LoginBackground-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LoginBackground-568h@2x.png"; sourceTree = "<group>"; };
+		0BB73A4F16ADE67700E95403 /* LoginBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LoginBackground.png; sourceTree = "<group>"; };
+		0BB73A5016ADE67700E95403 /* LoginBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LoginBackground@2x.png"; sourceTree = "<group>"; };
+		0BB73A6016ADE83100E95403 /* SignUpBackground-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SignUpBackground-568h@2x.png"; sourceTree = "<group>"; };
+		0BB73A6116ADE83100E95403 /* SignUpBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SignUpBackground@2x.png"; sourceTree = "<group>"; };
+		0BB73A6416ADE85600E95403 /* SignUpBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SignUpBackground.png; sourceTree = "<group>"; };
+		0BB9E35316B0578D00BE9850 /* FetchedResultsTableControllerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FetchedResultsTableControllerViewController.h; sourceTree = "<group>"; };
+		0BB9E35416B0578D00BE9850 /* FetchedResultsTableControllerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FetchedResultsTableControllerViewController.m; sourceTree = "<group>"; };
+		0BB9E35716B05EE100BE9850 /* CoreDataTableViewController2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataTableViewController2.h; sourceTree = "<group>"; };
+		0BB9E35816B05EE100BE9850 /* CoreDataTableViewController2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataTableViewController2.m; sourceTree = "<group>"; };
+		0BC6DD1B16AC77DD00BFD791 /* YellowMessage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = YellowMessage.png; sourceTree = "<group>"; };
+		0BC6DD1C16AC77DD00BFD791 /* YellowMessage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "YellowMessage@2x.png"; sourceTree = "<group>"; };
 		2FCDD6AF14A573F500295AAC /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		4998650415BF305000803E05 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		6332375315E438E900AE2736 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
@@ -414,6 +448,8 @@
 				E795B7481640064000BEC072 /* ComposeMessageViewController.m */,
 				E76FF706165F7CCF005F1081 /* ShredMessageViewController.h */,
 				E76FF707165F7CCF005F1081 /* ShredMessageViewController.m */,
+				0BB9E35316B0578D00BE9850 /* FetchedResultsTableControllerViewController.h */,
+				0BB9E35416B0578D00BE9850 /* FetchedResultsTableControllerViewController.m */,
 				E76FF70F165FA2FA005F1081 /* SettingsViewController.h */,
 				E76FF710165FA2FA005F1081 /* SettingsViewController.m */,
 				E7015B3A167B7F8F00843A73 /* MenuCell.h */,
@@ -430,6 +466,20 @@
 		09ABC07813A1D52D009C3FCF /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				0BADE87B16AF1B74004C73B5 /* ShredTop.png */,
+				0BADE87C16AF1B74004C73B5 /* ShredTop@2x.png */,
+				0BADE87F16AF1D2F004C73B5 /* ShredBackground.png */,
+				0BADE88016AF1D2F004C73B5 /* ShredBackground@2x.png */,
+				0BADE87416AF1B47004C73B5 /* ShredBackground-568h@2x.png */,
+				0BB73A6416ADE85600E95403 /* SignUpBackground.png */,
+				0BB73A6016ADE83100E95403 /* SignUpBackground-568h@2x.png */,
+				0BB73A6116ADE83100E95403 /* SignUpBackground@2x.png */,
+				0BB73A4E16ADE67700E95403 /* LoginBackground-568h@2x.png */,
+				0BB73A4F16ADE67700E95403 /* LoginBackground.png */,
+				0BB73A5016ADE67700E95403 /* LoginBackground@2x.png */,
+				0BC6DD1B16AC77DD00BFD791 /* YellowMessage.png */,
+				0BC6DD1C16AC77DD00BFD791 /* YellowMessage@2x.png */,
+				0B52464516AA149200082321 /* spacer.png */,
 				0B52463316A75E4B00082321 /* RecipientBox@2x.png */,
 				0B52462D16A759F700082321 /* surferatsunset.jpg */,
 				0B52462E16A759F700082321 /* surferatsunset-568h@2x.jpg */,
@@ -492,6 +542,8 @@
 		E76FF6BC165E714C005F1081 /* CoreDataTableViewController */ = {
 			isa = PBXGroup;
 			children = (
+				0BB9E35716B05EE100BE9850 /* CoreDataTableViewController2.h */,
+				0BB9E35816B05EE100BE9850 /* CoreDataTableViewController2.m */,
 				E76FF6BD165E7178005F1081 /* CoreDataTableViewController.h */,
 				E76FF6BE165E7178005F1081 /* CoreDataTableViewController.m */,
 			);
@@ -705,6 +757,20 @@
 				0B52463116A759F700082321 /* surferatsunset-568h@2x.jpg in Resources */,
 				0B52463216A759F700082321 /* surferatsunset@2x.jpg in Resources */,
 				0B52463416A75E4B00082321 /* RecipientBox@2x.png in Resources */,
+				0B52464616AA149200082321 /* spacer.png in Resources */,
+				0BC6DD1D16AC77DD00BFD791 /* YellowMessage.png in Resources */,
+				0BC6DD1E16AC77DD00BFD791 /* YellowMessage@2x.png in Resources */,
+				0BB73A5116ADE67700E95403 /* LoginBackground-568h@2x.png in Resources */,
+				0BB73A5216ADE67700E95403 /* LoginBackground.png in Resources */,
+				0BB73A5316ADE67700E95403 /* LoginBackground@2x.png in Resources */,
+				0BB73A6216ADE83100E95403 /* SignUpBackground-568h@2x.png in Resources */,
+				0BB73A6316ADE83100E95403 /* SignUpBackground@2x.png in Resources */,
+				0BB73A6516ADE85600E95403 /* SignUpBackground.png in Resources */,
+				0BADE87716AF1B47004C73B5 /* ShredBackground-568h@2x.png in Resources */,
+				0BADE87D16AF1B74004C73B5 /* ShredTop.png in Resources */,
+				0BADE87E16AF1B74004C73B5 /* ShredTop@2x.png in Resources */,
+				0BADE88116AF1D2F004C73B5 /* ShredBackground.png in Resources */,
+				0BADE88216AF1D2F004C73B5 /* ShredBackground@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -744,6 +810,8 @@
 				E7015B3C167B7F9000843A73 /* MenuCell.m in Sources */,
 				E7015B5E167F9CD900843A73 /* NSString+InitialHelper.m in Sources */,
 				0B52462C16A745B900082321 /* Contact.m in Sources */,
+				0BB9E35516B0578D00BE9850 /* FetchedResultsTableControllerViewController.m in Sources */,
+				0BB9E35916B05EE100BE9850 /* CoreDataTableViewController2.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -765,8 +833,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Alan Matthews (95BA2V95PA)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Alan Matthews (95BA2V95PA)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: greg Birdthistle (W89Z2ERHNK)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: greg Birdthistle (W89Z2ERHNK)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
@@ -775,8 +843,8 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
-				PROVISIONING_PROFILE = "A6F29199-D341-41DA-AA1D-E257DAE3C5FE";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A6F29199-D341-41DA-AA1D-E257DAE3C5FE";
+				PROVISIONING_PROFILE = "D8A81091-3BF6-40C0-977B-0DD87AD0DA07";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D8A81091-3BF6-40C0-977B-0DD87AD0DA07";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -785,16 +853,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Alan Matthews";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Alan Matthews";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Greg Birdthistle";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Greg Birdthistle";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				PROVISIONING_PROFILE = "8683A75D-C176-45B5-8708-2EB06162565E";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8683A75D-C176-45B5-8708-2EB06162565E";
+				PROVISIONING_PROFILE = "BF5B52B0-2FCE-438D-98F8-8280C2757B7F";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "BF5B52B0-2FCE-438D-98F8-8280C2757B7F";
 				SDKROOT = iphoneos;
 			};
 			name = Release;
@@ -818,8 +886,6 @@
 				INFOPLIST_FILE = "ParseStarterProject/Shredder-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -842,8 +908,6 @@
 				INFOPLIST_FILE = "ParseStarterProject/Shredder-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "D3C917E5-6647-46D2-A59F-5C2711B629D3";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D3C917E5-6647-46D2-A59F-5C2711B629D3";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};

@@ -37,6 +37,9 @@
 {
     [super viewDidLoad];
     
+    // Set message background to transparent
+    self.messageView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.0];
+    
     // Identify the PFUser to receive the message
     [self identifyMessageReceiver];
     
@@ -54,6 +57,11 @@
     [toolbar setItems:[NSArray arrayWithObjects:extraSpace, doneButton, nil]];
     self.messageTextView.inputAccessoryView = toolbar;
     [self.messageTextView becomeFirstResponder];
+    
+    // Add listener so text field can be adjusted based on keyboard showing or not
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];
     
 }
 
@@ -84,7 +92,7 @@
     
     [self shouldUploadImage:self.attachedImage];
     
-    CGFloat squareEdge = 40;
+    CGFloat squareEdge = 30;
     
     // Create a thumbnail and add a corner radius
     self.attachedImageThumbnailView.frame = CGRectMake(self.attachedImageThumbnailView.frame.origin.x-((squareEdge-self.attachedImageThumbnailView.frame.size.width)/2), self.attachedImageThumbnailView.frame.origin.y-((squareEdge-self.attachedImageThumbnailView.frame.size.height)/2), squareEdge, squareEdge);
@@ -344,6 +352,32 @@
         
 
     }
+}
+
+- (void)keyboardDidShow:(NSNotification*)notification {
+    
+    CGFloat ratio = 3.0/2.0;
+    
+    CGRect newFrame = CGRectMake(self.messageTextView.frame.origin.x, self.messageTextView.frame.origin.y, self.messageTextView.frame.size.width, self.messageTextView.frame.size.height / ratio);
+    
+    [UIView animateWithDuration:0.2 animations:^{
+        self.messageTextView.frame = newFrame;
+    }];
+    
+}
+
+- (void)keyboardDidHide:(NSNotification*)notification {
+    
+    CGFloat ratio = 3.0/2.0;
+    
+    CGRect newFrame = CGRectMake(self.messageTextView.frame.origin.x, self.messageTextView.frame.origin.y, self.messageTextView.frame.size.width, self.messageTextView.frame.size.height * ratio);
+    
+    [UIView animateWithDuration:0.2 animations:^{
+        self.messageTextView.frame = newFrame;
+    }];
+    
+    
+    
 }
 
 

@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
+// Typedef a block called ParseReturned which receives a contact and returns a BOOL
+typedef void (^ParseReturned) (BOOL signedUp);
+
 @class Email;
 
 @interface Contact : NSManagedObject

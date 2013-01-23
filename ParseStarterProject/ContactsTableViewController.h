@@ -7,14 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "CoreDataTableViewController.h"
+#import "CoreDataTableViewController2.h"
 #import <Parse/Parse.h>
 #import "AddressBookHelper.h"
 
-@interface ContactsTableViewController : CoreDataTableViewController <AddressBookHelperDelegate>
+
+@interface ContactsTableViewController : CoreDataTableViewController2 <AddressBookHelperDelegate>
 
 // Model is the contacts database
 @property (nonatomic, strong) UIManagedDocument *contactsDatabase;
-
 
 @end

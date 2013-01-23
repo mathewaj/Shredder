@@ -29,5 +29,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *shredButton;
 @property (weak, nonatomic) IBOutlet ShreddingEffectView *shreddingEffectView;
 @property (strong, nonatomic) NSNumber *shreddingInProcess;
+@property (strong, nonatomic) NSNumber *reportSent;
 
 @end

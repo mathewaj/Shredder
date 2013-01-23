@@ -15,6 +15,10 @@
 
 @end
 
+#define isPhone568 ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && [UIScreen mainScreen].bounds.size.height == 568)
+#define iPhone568ImageNamed(image) (isPhone568 ? [NSString stringWithFormat:@"%@-568h.%@", [image stringByDeletingPathExtension], [image pathExtension]] : image)
+#define iPhone568Image(image) ([UIImage imageNamed:iPhone568ImageNamed(image)])
+
 @implementation ShredMessageViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -31,8 +35,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    // Set background
+    self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:iPhone568ImageNamed(@"ShredBackground.png")]];
         
     self.shreddingInProcess = [NSNumber numberWithBool:NO];
+    self.reportSent = [NSNumber numberWithBool:NO];
+    
+    // Set message background to transparent
+    self.messageView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.0];
     
     // Add notification to dismiss oneself if app re-activates
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -102,36 +113,21 @@
     
 }
 
-- (IBAction)shredButtonPressed:(id)sender {
+- (IBAction)shredButtonPressed:(UITapGestureRecognizer *)sender {
+    
+    sender.enabled = NO;
     
     // Check if already shredding to prevent multiple shred reports
     if([self.shreddingInProcess isEqualToNumber:[NSNumber numberWithBool:NO]])
     {
-        
         self.shreddingInProcess = [NSNumber numberWithBool:YES];
         
         // Create a shred report message
-        PFObject *shredReport = [PFObject objectWithClassName:@"Message"];
-        [shredReport setObject:[NSNumber numberWithBool:YES] forKey:@"report"];
-        
-        // Set message date, recipient, sender
-        NSDate *sentDate = self.message.createdAt;
-        [shredReport setObject:sentDate forKey:@"messageSent"];
-        
-        PFUser *messageRecipient = [self.message objectForKey:@"recipient"];
-        [shredReport setObject:messageRecipient forKey:@"recipient"];
-        
-        PFUser *messageSender = [self.message objectForKey:@"sender"];
-        [shredReport setObject:messageSender forKey:@"sender"];
-        
-        PFACL *messageACL = [PFACL ACL];
-        [messageACL setReadAccess:YES forUser:messageSender];
-        [messageACL setWriteAccess:YES forUser:messageSender];
-        
-        shredReport.ACL = messageACL;
-        
-        [shredReport saveInBackground];
-        
+        if([self.reportSent isEqualToNumber:[NSNumber numberWithBool:NO]])
+        {
+            [self sendShredReport];
+            self.reportSent = [NSNumber numberWithBool:YES];
+        }
         
         // Animate Shredding
         
@@ -187,16 +183,8 @@
       
 }
 
--(void)dismissController{
-    [self dismissViewControllerAnimated:NO completion:nil];
-}
-
--(void)goToBackground{
-    
-    // Delete message if app goes to background
-    self.shreddingInProcess = [NSNumber numberWithBool:YES];
-    
-    // Create a shred report message
+-(void)sendShredReport
+{
     PFObject *shredReport = [PFObject objectWithClassName:@"Message"];
     [shredReport setObject:[NSNumber numberWithBool:YES] forKey:@"report"];
     
@@ -216,7 +204,28 @@
     
     shredReport.ACL = messageACL;
     
-    [shredReport saveInBackground];
+    [shredReport saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
+       
+        if(!succeeded)
+        {
+            self.reportSent = [NSNumber numberWithBool:NO];
+        }
+        
+    }];
+}
+
+-(void)dismissController{
+    [self dismissViewControllerAnimated:NO completion:nil];
+}
+
+-(void)goToBackground{
+    
+    // Delete message if app goes to background
+    self.shreddingInProcess = [NSNumber numberWithBool:YES];
+    
+    if([self.reportSent isEqualToNumber:[NSNumber numberWithBool:NO]]){
+        [self sendShredReport];
+    }
     
     // Delete message
     [self.message deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
@@ -272,6 +281,8 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
 
 - (void)viewDidUnload {
     [self setMessageView:nil];

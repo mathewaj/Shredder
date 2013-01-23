@@ -71,41 +71,35 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <view clipsSubviews="YES" contentMode="scaleToFill" id="sSU-Lj-2eC">
-                                <rect key="frame" x="35" y="58" width="250" height="296"/>
+                                <rect key="frame" x="26" y="58" width="264" height="355"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
+                                    <imageView contentMode="scaleToFill" image="YellowMessage.png" id="cLK-qc-vD5">
+                                        <rect key="frame" x="0.0" y="0.0" width="264" height="355"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="VFF-Mj-x8E">
-                                        <rect key="frame" x="8" y="54" width="234" height="180"/>
+                                        <rect key="frame" x="8" y="54" width="248" height="226"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
-                                    <view contentMode="scaleToFill" id="RfY-RO-UiO">
-                                        <rect key="frame" x="-1" y="0.0" width="252" height="50"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                    </view>
-                                    <view contentMode="scaleToFill" id="Nk9-Vh-2RF">
-                                        <rect key="frame" x="1" y="1" width="248" height="48"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                    </view>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="To:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="O7F-Ed-pCH">
-                                        <rect key="frame" x="10" y="16" width="28" height="21"/>
+                                        <rect key="frame" x="21" y="10" width="28" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="14"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Vyr-jh-4wv">
-                                        <rect key="frame" x="37" y="16" width="233" height="21"/>
+                                        <rect key="frame" x="50" y="10" width="166" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="14"/>
-                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView contentMode="scaleToFill" image="PaperClip.png" id="ifb-1C-j82">
-                                        <rect key="frame" x="202" y="10" width="30" height="30"/>
+                                        <rect key="frame" x="216" y="5" width="30" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                         <gestureRecognizers/>
                                         <connections>
@@ -113,7 +107,6 @@
                                         </connections>
                                     </imageView>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="SendBackgroundTrimTop.png" id="19e-EQ-FCy">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="23"/>
@@ -215,7 +208,7 @@
                                                     <color key="textColor" red="0.32156862745098042" green="0.40000000000000002" blue="0.56862745098039214" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Detail" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Lkg-Q7-1C6">
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Lkg-Q7-1C6">
                                                     <rect key="frame" x="83" y="12" width="41" height="19"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -240,7 +233,7 @@
                                                     <color key="textColor" red="0.32156862745098042" green="0.40000000000000002" blue="0.56862745098039214" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Detail" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fkE-QY-Vab">
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fkE-QY-Vab">
                                                     <rect key="frame" x="83" y="12" width="41" height="19"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -283,13 +276,20 @@
                             <outlet property="delegate" destination="sd8-UP-ZIG" id="Rvy-82-Oec"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Contact Info" id="pbX-JW-njT"/>
+                    <navigationItem key="navigationItem" title="Contact Info" id="pbX-JW-njT">
+                        <barButtonItem key="rightBarButtonItem" title="Edit" id="O3C-Em-Xo8">
+                            <connections>
+                                <action selector="editButtonPressed:" destination="sd8-UP-ZIG" id="1HF-7b-fiW"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="contactEmailCell" destination="C6u-lx-7zT" id="B8F-UG-VVO"/>
                         <outlet property="contactEmailLabel" destination="fkE-QY-Vab" id="gvP-ga-0TM"/>
                         <outlet property="contactInviteCell" destination="4qj-KU-oU6" id="xwc-1y-GUB"/>
                         <outlet property="contactInviteLabel" destination="8u5-2v-2gE" id="mho-vP-6WT"/>
                         <outlet property="contactNameLabel" destination="uLK-xM-QRJ" id="QWe-Yd-euI"/>
+                        <outlet property="contactPhoneCell" destination="bK3-9g-ZdS" id="QBL-wd-MqB"/>
                         <outlet property="contactPhoneNumberLabel" destination="Lkg-Q7-1C6" id="K83-e1-M9v"/>
                     </connections>
                 </tableViewController>
@@ -362,7 +362,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Contact Cell" textLabel="tCw-xI-1JB" detailTextLabel="GiI-af-1BT" style="IBUITableViewCellStyleSubtitle" id="uFd-KM-pa2">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Contact Cell" textLabel="tCw-xI-1JB" style="IBUITableViewCellStyleDefault" id="uFd-KM-pa2">
                                 <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -370,15 +370,9 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="tCw-xI-1JB">
-                                            <rect key="frame" x="10" y="2" width="38" height="22"/>
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                            <rect key="frame" x="10" y="0.0" width="280" height="43"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </label>
-                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="GiI-af-1BT">
-                                            <rect key="frame" x="10" y="24" width="47" height="18"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                            <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </label>
                                     </subviews>
@@ -444,20 +438,20 @@
                             </tableViewSection>
                             <tableViewSection id="jhh-FS-3hX">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="CAK-gO-FDg" detailTextLabel="srT-6h-hoO" style="IBUITableViewCellStyleValue2" id="MVe-L1-zdU">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="3AT-hd-pbm" detailTextLabel="oLz-If-pL7" style="IBUITableViewCellStyleValue2" id="oSW-jA-u1F">
                                         <rect key="frame" x="0.0" y="76" width="320" height="46"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="10" y="1" width="300" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Email" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="CAK-gO-FDg">
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Email" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3AT-hd-pbm">
                                                     <rect key="frame" x="10" y="15" width="67" height="15"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
-                                                    <color key="textColor" red="0.32156862745098042" green="0.40000000000000002" blue="0.56862745098039214" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="textColor" red="0.32156862749999998" green="0.40000000000000002" blue="0.56862745100000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="srT-6h-hoO">
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="oLz-If-pL7">
                                                     <rect key="frame" x="83" y="12" width="41" height="19"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -504,8 +498,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="contactEmailCell" destination="MVe-L1-zdU" id="TH0-QZ-XWU"/>
-                        <outlet property="contactEmailLabel" destination="srT-6h-hoO" id="HNU-Fy-ePD"/>
+                        <outlet property="contactEmailCell" destination="oSW-jA-u1F" id="BlG-Ed-vvz"/>
                         <outlet property="contactInviteCell" destination="Tth-gu-9Qs" id="D4l-ur-pwu"/>
                         <outlet property="contactInviteLabel" destination="IUo-Je-TYU" id="2u5-Xt-xW4"/>
                         <outlet property="contactNameCell" destination="uBv-Y6-bta" id="LYw-VV-byy"/>
@@ -910,48 +903,51 @@
                         <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="From" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gP3-uS-v1K">
-                                <rect key="frame" x="140" y="264" width="40" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
-                                <color key="textColor" red="0.32156862749999998" green="0.40000000000000002" blue="0.56862745100000001" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Sent" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="l8W-bs-ZhO">
-                                <rect key="frame" x="142" y="264" width="35" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
-                                <color key="textColor" red="0.32156862749999998" green="0.40000000000000002" blue="0.56862745100000001" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="ShredBottomHalf.png" id="gfy-9l-qta">
-                                <rect key="frame" x="0.0" y="84" width="320" height="464"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
                             <view clipsSubviews="YES" contentMode="scaleToFill" id="emt-KY-Afj" userLabel="Message View">
-                                <rect key="frame" x="30" y="114" width="262" height="414"/>
+                                <rect key="frame" x="30" y="89" width="262" height="414"/>
                                 <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
                                 <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="YellowMessage.png" id="7mt-aM-KVf">
+                                        <rect key="frame" x="0.0" y="0.0" width="264" height="355"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="From:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gP3-uS-v1K">
+                                        <rect key="frame" x="20" y="10" width="40" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" id="mdf-KP-oBI">
-                                        <rect key="frame" x="15" y="0.0" width="233" height="295"/>
+                                        <rect key="frame" x="15" y="50" width="238" height="245"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES"/>
                                     </textView>
                                     <imageView contentMode="scaleToFill" image="PaperClip.png" id="tKK-Jr-8J8" customClass="PFImageView">
-                                        <rect key="frame" x="207" y="338" width="43" height="43"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                        <rect key="frame" x="223" y="5" width="30" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                         <gestureRecognizers/>
                                         <connections>
                                             <outletCollection property="gestureRecognizers" destination="ePo-XE-BNq" appends="YES" id="Ii8-1Y-qmv"/>
                                         </connections>
                                     </imageView>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="4ji-cV-kun">
+                                        <rect key="frame" x="57" y="10" width="158" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="ShredTop.png" id="D6J-Yc-wRd">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                             <imageView contentMode="scaleToFill" image="ButtonBackdrop.png" id="Lww-XZ-uS4">
                                 <rect key="frame" x="108" y="420" width="104" height="104"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -965,17 +961,6 @@
                                     <outletCollection property="gestureRecognizers" destination="BW5-yc-n2b" appends="YES" id="R0U-9u-Kqc"/>
                                 </connections>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="ShredTopHalf.png" id="D6J-Yc-wRd">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="84"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="4ji-cV-kun">
-                                <rect key="frame" x="67" y="35" width="158" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="15"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="adC-7x-WC7">
                                 <rect key="frame" x="30" y="8" width="274" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -983,12 +968,8 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="mr6-HZ-hei">
-                                <rect key="frame" x="25" y="76" width="320" height="15"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
                             <view contentMode="scaleToFill" id="Cgf-Lb-vAF" customClass="ShreddingEffectView">
-                                <rect key="frame" x="30" y="84" width="260" height="464"/>
+                                <rect key="frame" x="30" y="50" width="260" height="464"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
@@ -1088,112 +1069,14 @@
         <image name="SendBackgroundTrimTop.png" width="320" height="23"/>
         <image name="SendButtonBackground.png" width="104" height="104"/>
         <image name="SendEnvelope.png" width="104" height="104"/>
-        <image name="ShredBottomHalf.png" width="320" height="376"/>
-        <image name="ShredTopHalf.png" width="320" height="84"/>
+        <image name="ShredTop.png" width="320" height="50"/>
         <image name="SpinningButton.png" width="104" height="104"/>
+        <image name="YellowMessage.png" width="264" height="355"/>
         <image name="background.png" width="320" height="416"/>
         <image name="disclosure.png" width="20" height="20"/>
         <image name="row.png" width="1" height="44"/>
         <image name="rowselected.png" width="1" height="44"/>
     </resources>
-    <classes>
-        <class className="AllMessagesViewController" superclassName="PFQueryTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/AllMessagesViewController.h"/>
-        </class>
-        <class className="AllReportsViewController" superclassName="PFQueryTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/AllReportsViewController.h"/>
-        </class>
-        <class className="ComposeMessageViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ComposeMessageViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="attachedImageThumbnailView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="messageTextView" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="messageView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="recipientLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="ContactDetailViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ContactDetailViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="contactEmailCell" candidateClass="UITableViewCell"/>
-                <relationship kind="outlet" name="contactEmailLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="contactEmailTextField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="contactInviteCell" candidateClass="UITableViewCell"/>
-                <relationship kind="outlet" name="contactInviteLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="contactNameLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="contactPhoneNumberLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="editButton" candidateClass="UIBarButtonItem"/>
-            </relationships>
-        </class>
-        <class className="ContactsTableViewController" superclassName="CoreDataTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ContactsTableViewController.h"/>
-        </class>
-        <class className="CoreDataTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/CoreDataTableViewController.h"/>
-        </class>
-        <class className="MenuCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/MenuCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="disclosureImage" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="itemDescription" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="MyLogInViewController" superclassName="PFLogInViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/MyLogInViewController.h"/>
-        </class>
-        <class className="NewContactViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NewContactViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="contactEmailCell" candidateClass="UITableViewCell"/>
-                <relationship kind="outlet" name="contactEmailLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="contactInviteCell" candidateClass="UITableViewCell"/>
-                <relationship kind="outlet" name="contactInviteLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="contactNameCell" candidateClass="UITableViewCell"/>
-                <relationship kind="outlet" name="contactNameLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="saveButton" candidateClass="UIBarButtonItem"/>
-            </relationships>
-        </class>
-        <class className="PFImageView" superclassName="UIImageView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PFImageView.h"/>
-        </class>
-        <class className="PFLogInViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PFLogInViewController.h"/>
-        </class>
-        <class className="PFQueryTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PFQueryTableViewController.h"/>
-        </class>
-        <class className="SASlideMenuViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SASlideMenuViewController.h"/>
-        </class>
-        <class className="SettingsViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingsViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="passwordLockSwitch" candidateClass="UISwitch"/>
-                <relationship kind="outlet" name="shreddingGraphicSwitch" candidateClass="UISwitch"/>
-            </relationships>
-        </class>
-        <class className="ShredMessageViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ShredMessageViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="attachmentIcon" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="messageTextView" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="messageView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="senderLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="sentDateLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="shredButton" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="shreddingEffectView" candidateClass="ShreddingEffectView"/>
-            </relationships>
-        </class>
-        <class className="ShredderContactsViewController" superclassName="CoreDataTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ShredderContactsViewController.h"/>
-        </class>
-        <class className="ShredderSlideMenuControllerViewController" superclassName="SASlideMenuViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ShredderSlideMenuControllerViewController.h"/>
-        </class>
-        <class className="ShreddingEffectView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ShreddingEffectView.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
