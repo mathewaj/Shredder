@@ -85,7 +85,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    NSLog([[self.fetchedResultsController fetchedObjects] description]);
+    NSLog([[self.fetchedResultsController sections] description]);
     
     NSLog([NSString stringWithFormat:@"Number of Sections = %i", [[self.fetchedResultsController sections] count]]);
     
@@ -97,12 +97,11 @@
 {
     return [[[self.fetchedResultsController sections] objectAtIndex:section] numberOfObjects];
 }*/
-
+/*
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-	
     return [[[self.fetchedResultsController sections] objectAtIndex:section] name];
-}
+}*/
 /*
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
 {

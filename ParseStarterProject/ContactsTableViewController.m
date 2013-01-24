@@ -42,20 +42,17 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     // Scan Parse everytime contacts is opened
-    [self scanParseForNewContacts];
+    //[self scanParseForNewContacts];
 }
 
 -(void)setupFetchedResultsController{
     
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Contact"];
-    NSSortDescriptor *descriptor1 = [NSSortDescriptor sortDescriptorWithKey:@"nameInitial" ascending:YES];
+    NSSortDescriptor *descriptor1 = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
     //NSSortDescriptor *descriptor2 = [NSSortDescriptor sortDescriptorWithKey:@"nameInitial" ascending:YES selector:@selector(caseInsensitiveCompare:)];
     request.sortDescriptors = [NSArray arrayWithObject: descriptor1];
     
     self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.contactsDatabase.managedObjectContext sectionNameKeyPath:@"nameInitial" cacheName:nil];
-    self.fetchedResultsController.delegate = self;
-    NSLog([[self.fetchedResultsController fetchedObjects] description]);
-    [self.fetchedResultsController performFetch:nil];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

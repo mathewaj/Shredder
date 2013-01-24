@@ -2,7 +2,7 @@
 //  Contact.m
 //  Shredder
 //
-//  Created by Shredder on 16/01/2013.
+//  Created by Shredder on 23/01/2013.
 //
 //
 
@@ -16,8 +16,9 @@
 @dynamic name;
 @dynamic nameInitial;
 @dynamic parseID;
-@dynamic signedUp;
 @dynamic phoneNumber;
+@dynamic signedUp;
+@dynamic nameFirstLetter;
 @dynamic emails;
 
 @end

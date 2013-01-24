@@ -2,17 +2,17 @@
 //  Contact.h
 //  Shredder
 //
-//  Created by Shredder on 16/01/2013.
+//  Created by Shredder on 23/01/2013.
 //
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
+@class Email;
+
 // Typedef a block called ParseReturned which receives a contact and returns a BOOL
 typedef void (^ParseReturned) (BOOL signedUp);
-
-@class Email;
 
 @interface Contact : NSManagedObject
 
@@ -20,8 +20,9 @@ typedef void (^ParseReturned) (BOOL signedUp);
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * nameInitial;
 @property (nonatomic, retain) NSString * parseID;
-@property (nonatomic, retain) NSNumber * signedUp;
 @property (nonatomic, retain) NSString * phoneNumber;
+@property (nonatomic, retain) NSNumber * signedUp;
+@property (nonatomic, retain) NSString * nameFirstLetter;
 @property (nonatomic, retain) NSSet *emails;
 @end
 

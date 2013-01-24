@@ -20,7 +20,6 @@
 		09ABC07F13A1D52D009C3FCF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 09ABC07E13A1D52D009C3FCF /* main.m */; };
 		09ABC08213A1D52D009C3FCF /* ParseStarterProjectAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 09ABC08113A1D52D009C3FCF /* ParseStarterProjectAppDelegate.m */; };
 		09BEF34C13D51C3F001BBCDB /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09BEF34B13D51C3F001BBCDB /* Security.framework */; };
-		0B52462C16A745B900082321 /* Contact.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B52462B16A745B900082321 /* Contact.m */; };
 		0B52463016A759F700082321 /* surferatsunset.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0B52462D16A759F700082321 /* surferatsunset.jpg */; };
 		0B52463116A759F700082321 /* surferatsunset-568h@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0B52462E16A759F700082321 /* surferatsunset-568h@2x.jpg */; };
 		0B52463216A759F700082321 /* surferatsunset@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0B52462F16A759F700082321 /* surferatsunset@2x.jpg */; };
@@ -39,6 +38,7 @@
 		0BB73A6516ADE85600E95403 /* SignUpBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BB73A6416ADE85600E95403 /* SignUpBackground.png */; };
 		0BB9E35516B0578D00BE9850 /* FetchedResultsTableControllerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BB9E35416B0578D00BE9850 /* FetchedResultsTableControllerViewController.m */; };
 		0BB9E35916B05EE100BE9850 /* CoreDataTableViewController2.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BB9E35816B05EE100BE9850 /* CoreDataTableViewController2.m */; };
+		0BB9E35D16B0AC5F00BE9850 /* Contact.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BB9E35C16B0AC5F00BE9850 /* Contact.m */; };
 		0BC6DD1D16AC77DD00BFD791 /* YellowMessage.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BC6DD1B16AC77DD00BFD791 /* YellowMessage.png */; };
 		0BC6DD1E16AC77DD00BFD791 /* YellowMessage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BC6DD1C16AC77DD00BFD791 /* YellowMessage@2x.png */; };
 		2FCDD6B014A573F500295AAC /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FCDD6AF14A573F500295AAC /* QuartzCore.framework */; };
@@ -172,8 +172,6 @@
 		09ABC08113A1D52D009C3FCF /* ParseStarterProjectAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ParseStarterProjectAppDelegate.m; sourceTree = "<group>"; };
 		09BEF34B13D51C3F001BBCDB /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		0B52462916A7458D00082321 /* ContactsDatabase 2.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ContactsDatabase 2.0.xcdatamodel"; sourceTree = "<group>"; };
-		0B52462A16A745B900082321 /* Contact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Contact.h; sourceTree = "<group>"; };
-		0B52462B16A745B900082321 /* Contact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Contact.m; sourceTree = "<group>"; };
 		0B52462D16A759F700082321 /* surferatsunset.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = surferatsunset.jpg; sourceTree = "<group>"; };
 		0B52462E16A759F700082321 /* surferatsunset-568h@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "surferatsunset-568h@2x.jpg"; sourceTree = "<group>"; };
 		0B52462F16A759F700082321 /* surferatsunset@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "surferatsunset@2x.jpg"; sourceTree = "<group>"; };
@@ -194,6 +192,9 @@
 		0BB9E35416B0578D00BE9850 /* FetchedResultsTableControllerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FetchedResultsTableControllerViewController.m; sourceTree = "<group>"; };
 		0BB9E35716B05EE100BE9850 /* CoreDataTableViewController2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataTableViewController2.h; sourceTree = "<group>"; };
 		0BB9E35816B05EE100BE9850 /* CoreDataTableViewController2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataTableViewController2.m; sourceTree = "<group>"; };
+		0BB9E35A16B0AC0600BE9850 /* ContactsDatabase 2. 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ContactsDatabase 2. 2.xcdatamodel"; sourceTree = "<group>"; };
+		0BB9E35B16B0AC5F00BE9850 /* Contact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Contact.h; sourceTree = "<group>"; };
+		0BB9E35C16B0AC5F00BE9850 /* Contact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Contact.m; sourceTree = "<group>"; };
 		0BC6DD1B16AC77DD00BFD791 /* YellowMessage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = YellowMessage.png; sourceTree = "<group>"; };
 		0BC6DD1C16AC77DD00BFD791 /* YellowMessage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "YellowMessage@2x.png"; sourceTree = "<group>"; };
 		2FCDD6AF14A573F500295AAC /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -596,9 +597,9 @@
 		E7B8D7DE165179D900BD89B6 /* Database */ = {
 			isa = PBXGroup;
 			children = (
-				0B52462A16A745B900082321 /* Contact.h */,
-				0B52462B16A745B900082321 /* Contact.m */,
 				E7B8D7D5165178F800BD89B6 /* ContactsDatabase.xcdatamodeld */,
+				0BB9E35B16B0AC5F00BE9850 /* Contact.h */,
+				0BB9E35C16B0AC5F00BE9850 /* Contact.m */,
 				E7F3B53A1656CD3100C99D62 /* Email.h */,
 				E7F3B53B1656CD3100C99D62 /* Email.m */,
 				E7B8D7DF16517A0C00BD89B6 /* Contact+Create.h */,
@@ -809,9 +810,9 @@
 				E78887851664EE72003C5ACB /* AllReportsViewController.m in Sources */,
 				E7015B3C167B7F9000843A73 /* MenuCell.m in Sources */,
 				E7015B5E167F9CD900843A73 /* NSString+InitialHelper.m in Sources */,
-				0B52462C16A745B900082321 /* Contact.m in Sources */,
 				0BB9E35516B0578D00BE9850 /* FetchedResultsTableControllerViewController.m in Sources */,
 				0BB9E35916B05EE100BE9850 /* CoreDataTableViewController2.m in Sources */,
+				0BB9E35D16B0AC5F00BE9850 /* Contact.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -940,6 +941,7 @@
 		E7B8D7D5165178F800BD89B6 /* ContactsDatabase.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				0BB9E35A16B0AC0600BE9850 /* ContactsDatabase 2. 2.xcdatamodel */,
 				0B52462916A7458D00082321 /* ContactsDatabase 2.0.xcdatamodel */,
 				E7B8D7D6165178F800BD89B6 /* ContactsDatabase.xcdatamodel */,
 			);

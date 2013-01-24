@@ -128,6 +128,11 @@ void AddressBookUpdated(ABAddressBookRef addressBook, CFDictionaryRef info, void
             // Create a contact for every phone entry
             Contact *contact = [Contact contactWithName:fullName inContext:document.managedObjectContext];
             
+            // Set name initial
+            NSString *initial = [fullName substringToIndex:1];
+            NSString *capitalisedInitial = [initial capitalizedString];
+            contact.nameInitial = capitalisedInitial;
+            
             // Obtain the phone number for the contact
             ABMultiValueRef phoneNumbers = ABRecordCopyValue(person, kABPersonPhoneProperty);
             NSString* phone = nil;

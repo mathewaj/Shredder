@@ -28,19 +28,18 @@
         
         contact = [NSEntityDescription insertNewObjectForEntityForName:@"Contact" inManagedObjectContext:context];
         contact.name = name;
-        NSString *initial = [name substringToIndex:1];
-        NSString *capitalisedInitial = [initial capitalizedString];
-        contact.nameInitial = capitalisedInitial;        
+                
         
     } else {
         contact = [matches lastObject];
     }
     
-    [context save:nil];
+    //[context save:nil];
     
     return contact;
     
 }
+
 
 // Method to create a contact with certain data
 +(Contact *)contactWithEmail:(NSString *)email inContext:(NSManagedObjectContext *)context
