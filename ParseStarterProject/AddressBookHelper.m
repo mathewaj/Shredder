@@ -51,7 +51,7 @@
     }
 }
 
-// This method receives an array of contacts, and returns an array of contacts which have not been scanned
+// This receives an array of contacts, and returns an array of contacts which have not been scanned
 void AddressBookUpdated(ABAddressBookRef addressBook, CFDictionaryRef info, void *context) {
     AddressBookHelper *helper = (__bridge AddressBookHelper *)context;
     ABAddressBookRevert(addressBook);
@@ -87,13 +87,13 @@ void AddressBookUpdated(ABAddressBookRef addressBook, CFDictionaryRef info, void
     
     [[NSUserDefaults standardUserDefaults] setObject:now forKey:@"lastScanDate"];
     
-    
     [[helper delegate] addressBookHelper:helper finishedLoading:recentlyUpdatedContacts];
 };
 
 // This method takes an array of contacts, and saves them as Contact objects in the DB
 -(void)fetchAddressBookData:(NSArray *)people IntoDocument:(UIManagedDocument *)document
 {
+    
     // Copy any contacts in array to database contacts list
     for(int i=0; i<[people count]; i++){
         
@@ -126,12 +126,13 @@ void AddressBookUpdated(ABAddressBookRef addressBook, CFDictionaryRef info, void
         if(![fullName isEqualToString:@""]){
             
             // Create a contact for every phone entry
-            Contact *contact = [Contact contactWithName:fullName inContext:document.managedObjectContext];
+            Contact *contact = [Contact contactWithName:fullName inContext:self.contactsDatabase.managedObjectContext];
             
-            // Set name initial
+            /* Set name initial
             NSString *initial = [fullName substringToIndex:1];
-            NSString *capitalisedInitial = [initial capitalizedString];
-            contact.nameInitial = capitalisedInitial;
+            //NSString *capitalisedInitial = [initial capitalizedString];
+            
+            contact.nameInitial = initial;*/
             
             // Obtain the phone number for the contact
             ABMultiValueRef phoneNumbers = ABRecordCopyValue(person, kABPersonPhoneProperty);
@@ -153,7 +154,7 @@ void AddressBookUpdated(ABAddressBookRef addressBook, CFDictionaryRef info, void
                 } else {
                     NSString* emailString = (__bridge NSString*)ABMultiValueCopyValueAtIndex(emails, j);
                     
-                    Contact *duplicateContactWithSeparateEmail = [Contact contactWithName:fullName inContext:document.managedObjectContext];
+                    Contact *duplicateContactWithSeparateEmail = [Contact contactWithName:fullName inContext:self.contactsDatabase.managedObjectContext];
                     duplicateContactWithSeparateEmail.email = emailString;
                 }
                 
@@ -166,7 +167,7 @@ void AddressBookUpdated(ABAddressBookRef addressBook, CFDictionaryRef info, void
     }
     
     // Save contacts to Shredder Contacts DB
-    [document.managedObjectContext save:nil];
+    //[self.contactsDatabase.managedObjectContext save:nil];
     
     
     // Check if user has granted permission to Shredder to upload contacts
@@ -178,6 +179,7 @@ void AddressBookUpdated(ABAddressBookRef addressBook, CFDictionaryRef info, void
     } else {
         
         [self checkWhichContactsSignedUp];
+        //[self.delegate finishedMatchingContacts];
     }
     
 }
@@ -196,6 +198,7 @@ void AddressBookUpdated(ABAddressBookRef addressBook, CFDictionaryRef info, void
         
         [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:YES] forKey:@"PermissionToUploadContactsToShredder"];
         [self checkWhichContactsSignedUp];
+        //[self.delegate finishedMatchingContacts];
     }
 }
 
@@ -255,10 +258,12 @@ void AddressBookUpdated(ABAddressBookRef addressBook, CFDictionaryRef info, void
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
         
-        [self.contactsDatabase.managedObjectContext save:nil];
+        //[self.contactsDatabase.managedObjectContext save:nil];
         
         [self.delegate finishedMatchingContacts];
     }];
+    
+    
     
 }
 

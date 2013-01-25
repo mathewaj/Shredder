@@ -2,7 +2,7 @@
 //  Contact.m
 //  Shredder
 //
-//  Created by Shredder on 23/01/2013.
+//  Created by Shredder on 24/01/2013.
 //
 //
 
@@ -14,11 +14,20 @@
 
 @dynamic email;
 @dynamic name;
-@dynamic nameInitial;
 @dynamic parseID;
 @dynamic phoneNumber;
 @dynamic signedUp;
-@dynamic nameFirstLetter;
+@dynamic uppercaseFirstLetterOfName;
+@dynamic nameInitial;
 @dynamic emails;
+
+
+
+- (NSString *) nameInitial {
+    [self willAccessValueForKey:@"nameInitial"];
+    NSString * initial = [[self name] substringToIndex:1];
+    [self didAccessValueForKey:@"nameInitial"];
+    return initial;
+}
 
 @end

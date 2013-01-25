@@ -8,6 +8,7 @@
 
 #import "ContactDetailViewController.h"
 #import <Parse/Parse.h>
+#import "Blocks.h"
 
 @interface ContactDetailViewController ()
 

@@ -64,7 +64,7 @@
         contact = [matches lastObject];
     }
     
-    [context save:nil];
+    //[context save:nil];
 
     return contact;
 
@@ -112,7 +112,7 @@
         email = [matches lastObject];
     }
     
-    [context save:nil];
+    //[context save:nil];
     
     return email;
 }

@@ -6,6 +6,7 @@
 //
 
 #import "CoreDataTableViewController2.h"
+#import "MBProgressHUD.h"
 
 @interface CoreDataTableViewController2()
 @property (nonatomic) BOOL beganUpdates;
@@ -38,8 +39,7 @@
         }
         NSError *error;
         [self.fetchedResultsController performFetch:&error];
-        NSLog([[self.fetchedResultsController fetchedObjects] description]);
-        if (error) NSLog(@"[%@ %@] %@ (%@)", NSStringFromClass([self class]), NSStringFromSelector(_cmd), [error localizedDescription], [error localizedFailureReason]);
+           if (error) NSLog(@"[%@ %@] %@ (%@)", NSStringFromClass([self class]), NSStringFromSelector(_cmd), [error localizedDescription], [error localizedFailureReason]);
     } else {
         if (self.debug) NSLog(@"[%@ %@] no NSFetchedResultsController (yet?)", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
     }
@@ -75,9 +75,12 @@
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
     
-    NSLog([NSString stringWithFormat:@"Section Index Titles %@", [[self.fetchedResultsController sectionIndexTitles] description]]);
+    NSLog([NSString stringWithFormat:@"Section Index Titles: %@",[[self.fetchedResultsController sectionIndexTitles] description]]);
+    TFLog([NSString stringWithFormat:@"Section Index Titles: %@",[[self.fetchedResultsController sectionIndexTitles] description]]);
     return [self.fetchedResultsController sectionIndexTitles];
+
 }
+
 
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index {
     return [self.fetchedResultsController sectionForSectionIndexTitle:title atIndex:index];
@@ -85,10 +88,8 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    NSLog([[self.fetchedResultsController sections] description]);
-    
-    NSLog([NSString stringWithFormat:@"Number of Sections = %i", [[self.fetchedResultsController sections] count]]);
-    
+    NSLog([NSString stringWithFormat:@"Number of Sections: %i",[[self.fetchedResultsController sections] count]]);
+    TFLog([NSString stringWithFormat:@"Number of Sections: %i",[[self.fetchedResultsController sections] count]]);
     return [[self.fetchedResultsController sections] count];
 }
 
@@ -117,6 +118,11 @@
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
 {
+    NSLog(@"Controller Will Change Content");
+    TFLog(@"Controller Will Change Content");
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.tableView animated:YES];
+    hud.labelText = @"Processing Contacts";
+    
     if (!self.suspendAutomaticTrackingOfChangesInManagedObjectContext) {
         [self.tableView beginUpdates];
         self.beganUpdates = YES;
@@ -128,6 +134,8 @@
 		   atIndex:(NSUInteger)sectionIndex
 	 forChangeType:(NSFetchedResultsChangeType)type
 {
+    NSLog(@"Controller Did Change Section");
+    TFLog(@"Controller Did Change Section");
     if (!self.suspendAutomaticTrackingOfChangesInManagedObjectContext)
     {
         switch(type)
@@ -149,7 +157,9 @@
 	   atIndexPath:(NSIndexPath *)indexPath
 	 forChangeType:(NSFetchedResultsChangeType)type
 	  newIndexPath:(NSIndexPath *)newIndexPath
-{		
+{
+    TFLog(@"Controller Did Change Object");
+    NSLog(@"Controller Did Change Object");
     if (!self.suspendAutomaticTrackingOfChangesInManagedObjectContext)
     {
         switch(type)
@@ -176,22 +186,31 @@
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
+    NSLog(@"Controller Did Change Content");
+    TFLog(@"Controller Did Change Content");
+    [MBProgressHUD hideHUDForView:self.tableView animated:YES];
     if (self.beganUpdates) [self.tableView endUpdates];
 }
 
 - (void)endSuspensionOfUpdatesDueToContextChanges
 {
+    NSLog(@"End Suspension of Updates");
+    TFLog(@"End Suspension of Updates");
     _suspendAutomaticTrackingOfChangesInManagedObjectContext = NO;
 }
 
 - (void)setSuspendAutomaticTrackingOfChangesInManagedObjectContext:(BOOL)suspend
 {
+    NSLog(@"Set Suspend Automatic Tracking");
+    TFLog(@"End Suspension of Updates");
     if (suspend) {
         _suspendAutomaticTrackingOfChangesInManagedObjectContext = YES;
     } else {
         [self performSelector:@selector(endSuspensionOfUpdatesDueToContextChanges) withObject:0 afterDelay:0];
     }
 }
+
+
 
 @end
 

@@ -2,6 +2,7 @@
 #import "ParseStarterProjectAppDelegate.h"
 #import "Contact+Create.h"
 #import "Email.h"
+#import "TestFlight.h"
 
 @implementation ParseStarterProjectAppDelegate
 
@@ -9,6 +10,8 @@
 #pragma mark - UIApplicationDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    [TestFlight takeOff:@"8445bc77beaae864a9d988226b4f873a_MTQ4NTAzMjAxMi0xMS0wNiAxMToxMToxNS44NzczNTc"];
 
     // Parse credentials:
      [Parse setApplicationId:@"Le4yrVstjJo9HgPerk0UcGevEYAiQfQpX94R60x5" clientKey:@"QFYKr9rxF0q6gouETgvXWbnxip6lkmWWvPbftT0g"];

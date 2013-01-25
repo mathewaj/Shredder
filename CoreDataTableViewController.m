@@ -94,6 +94,7 @@
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
 {
+
     if (!self.suspendAutomaticTrackingOfChangesInManagedObjectContext) {
         [self.tableView beginUpdates];
         self.beganUpdates = YES;
@@ -106,6 +107,7 @@
 		   atIndex:(NSUInteger)sectionIndex
 	 forChangeType:(NSFetchedResultsChangeType)type
 {
+
     if (!self.suspendAutomaticTrackingOfChangesInManagedObjectContext)
     {
         switch(type)
@@ -127,9 +129,11 @@
 	   atIndexPath:(NSIndexPath *)indexPath
 	 forChangeType:(NSFetchedResultsChangeType)type
 	  newIndexPath:(NSIndexPath *)newIndexPath
-{		
+{
+
     if (!self.suspendAutomaticTrackingOfChangesInManagedObjectContext)
     {
+        
         switch(type)
         {
             case NSFetchedResultsChangeInsert:
@@ -155,15 +159,18 @@
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
     if (self.beganUpdates) [self.tableView endUpdates];
+
 }
 
 - (void)endSuspensionOfUpdatesDueToContextChanges
 {
+
     _suspendAutomaticTrackingOfChangesInManagedObjectContext = NO;
 }
 
 - (void)setSuspendAutomaticTrackingOfChangesInManagedObjectContext:(BOOL)suspend
 {
+
     if (suspend) {
         _suspendAutomaticTrackingOfChangesInManagedObjectContext = YES;
     } else {

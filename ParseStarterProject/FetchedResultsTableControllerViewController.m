@@ -40,7 +40,6 @@
 
 - (NSInteger)tableView:(UITableView *)table numberOfRowsInSection:(NSInteger)section {
     id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:section];
-    NSLog([NSString stringWithFormat:@"Number of Rows in Section %i are %i", section, [sectionInfo numberOfObjects]]);
     return [sectionInfo numberOfObjects];
 }
 
@@ -48,13 +47,11 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:section];
-    NSLog([NSString stringWithFormat:@"Title for header in section %i is %@", section, [sectionInfo name]]);
+
     return [sectionInfo name];
 }
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
-    
-    NSLog([NSString stringWithFormat:@"Last section index title is %@", [[self.fetchedResultsController sectionIndexTitles] description]]);
     
     return [self.fetchedResultsController sectionIndexTitles];
 }
