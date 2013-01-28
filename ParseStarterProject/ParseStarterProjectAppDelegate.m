@@ -32,6 +32,7 @@
     NSDictionary *userDefaultsDefaults = [NSDictionary dictionaryWithObjectsAndKeys:
                                           [NSNumber numberWithBool:YES], @"passwordLockSetting",
                                           [NSNumber numberWithBool:NO], @"PermissionToUploadContactsToShredder",
+                                          [NSNumber numberWithBool:YES], @"firstRunVersion1.1",
                                           nil];
     [[NSUserDefaults standardUserDefaults] registerDefaults:userDefaultsDefaults];
     

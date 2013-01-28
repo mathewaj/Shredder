@@ -20,7 +20,6 @@
 		09ABC07F13A1D52D009C3FCF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 09ABC07E13A1D52D009C3FCF /* main.m */; };
 		09ABC08213A1D52D009C3FCF /* ParseStarterProjectAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 09ABC08113A1D52D009C3FCF /* ParseStarterProjectAppDelegate.m */; };
 		09BEF34C13D51C3F001BBCDB /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09BEF34B13D51C3F001BBCDB /* Security.framework */; };
-		0B0FB0B316B1DCBA00FBEF3F /* Contact.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B0FB0B216B1DCBA00FBEF3F /* Contact.m */; };
 		0B52463016A759F700082321 /* surferatsunset.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0B52462D16A759F700082321 /* surferatsunset.jpg */; };
 		0B52463116A759F700082321 /* surferatsunset-568h@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0B52462E16A759F700082321 /* surferatsunset-568h@2x.jpg */; };
 		0B52463216A759F700082321 /* surferatsunset@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0B52462F16A759F700082321 /* surferatsunset@2x.jpg */; };
@@ -31,6 +30,7 @@
 		0B64967416B3141C00A875ED /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = 0B64967016B3141C00A875ED /* release_notes.md */; };
 		0B64967616B3146500A875ED /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B64967516B3146500A875ED /* libz.dylib */; };
 		0B64967916B322D300A875ED /* Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B64967816B322D300A875ED /* Blocks.m */; };
+		0B64968416B3F5E300A875ED /* Contact.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B64968316B3F5E300A875ED /* Contact.m */; };
 		0BADE87716AF1B47004C73B5 /* ShredBackground-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BADE87416AF1B47004C73B5 /* ShredBackground-568h@2x.png */; };
 		0BADE87D16AF1B74004C73B5 /* ShredTop.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BADE87B16AF1B74004C73B5 /* ShredTop.png */; };
 		0BADE87E16AF1B74004C73B5 /* ShredTop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BADE87C16AF1B74004C73B5 /* ShredTop@2x.png */; };
@@ -176,8 +176,6 @@
 		09ABC08013A1D52D009C3FCF /* ParseStarterProjectAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParseStarterProjectAppDelegate.h; sourceTree = "<group>"; };
 		09ABC08113A1D52D009C3FCF /* ParseStarterProjectAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ParseStarterProjectAppDelegate.m; sourceTree = "<group>"; };
 		09BEF34B13D51C3F001BBCDB /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		0B0FB0B116B1DCBA00FBEF3F /* Contact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Contact.h; sourceTree = "<group>"; };
-		0B0FB0B216B1DCBA00FBEF3F /* Contact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Contact.m; sourceTree = "<group>"; };
 		0B52462916A7458D00082321 /* ContactsDatabase 2.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ContactsDatabase 2.0.xcdatamodel"; sourceTree = "<group>"; };
 		0B52462D16A759F700082321 /* surferatsunset.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = surferatsunset.jpg; sourceTree = "<group>"; };
 		0B52462E16A759F700082321 /* surferatsunset-568h@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "surferatsunset-568h@2x.jpg"; sourceTree = "<group>"; };
@@ -191,6 +189,10 @@
 		0B64967516B3146500A875ED /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		0B64967716B322D300A875ED /* Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Blocks.h; sourceTree = "<group>"; };
 		0B64967816B322D300A875ED /* Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Blocks.m; sourceTree = "<group>"; };
+		0B64967D16B3F42B00A875ED /* ContactsDatabase 2. 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ContactsDatabase 2. 3.xcdatamodel"; sourceTree = "<group>"; };
+		0B64967E16B3F4BB00A875ED /* ContactsDatabase 2. 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ContactsDatabase 2. 4.xcdatamodel"; sourceTree = "<group>"; };
+		0B64968216B3F5E300A875ED /* Contact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Contact.h; sourceTree = "<group>"; };
+		0B64968316B3F5E300A875ED /* Contact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Contact.m; sourceTree = "<group>"; };
 		0BADE87416AF1B47004C73B5 /* ShredBackground-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ShredBackground-568h@2x.png"; sourceTree = "<group>"; };
 		0BADE87B16AF1B74004C73B5 /* ShredTop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ShredTop.png; sourceTree = "<group>"; };
 		0BADE87C16AF1B74004C73B5 /* ShredTop@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ShredTop@2x.png"; sourceTree = "<group>"; };
@@ -624,9 +626,9 @@
 		E7B8D7DE165179D900BD89B6 /* Database */ = {
 			isa = PBXGroup;
 			children = (
+				0B64968216B3F5E300A875ED /* Contact.h */,
+				0B64968316B3F5E300A875ED /* Contact.m */,
 				E7B8D7D5165178F800BD89B6 /* ContactsDatabase.xcdatamodeld */,
-				0B0FB0B116B1DCBA00FBEF3F /* Contact.h */,
-				0B0FB0B216B1DCBA00FBEF3F /* Contact.m */,
 				E7F3B53A1656CD3100C99D62 /* Email.h */,
 				E7F3B53B1656CD3100C99D62 /* Email.m */,
 				E7B8D7DF16517A0C00BD89B6 /* Contact+Create.h */,
@@ -843,8 +845,8 @@
 				E7015B5E167F9CD900843A73 /* NSString+InitialHelper.m in Sources */,
 				0BB9E35516B0578D00BE9850 /* FetchedResultsTableControllerViewController.m in Sources */,
 				0BB9E35916B05EE100BE9850 /* CoreDataTableViewController2.m in Sources */,
-				0B0FB0B316B1DCBA00FBEF3F /* Contact.m in Sources */,
 				0B64967916B322D300A875ED /* Blocks.m in Sources */,
+				0B64968416B3F5E300A875ED /* Contact.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -981,11 +983,13 @@
 		E7B8D7D5165178F800BD89B6 /* ContactsDatabase.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				0B64967D16B3F42B00A875ED /* ContactsDatabase 2. 3.xcdatamodel */,
+				0B64967E16B3F4BB00A875ED /* ContactsDatabase 2. 4.xcdatamodel */,
 				0BB9E35A16B0AC0600BE9850 /* ContactsDatabase 2. 2.xcdatamodel */,
 				0B52462916A7458D00082321 /* ContactsDatabase 2.0.xcdatamodel */,
 				E7B8D7D6165178F800BD89B6 /* ContactsDatabase.xcdatamodel */,
 			);
-			currentVersion = 0BB9E35A16B0AC0600BE9850 /* ContactsDatabase 2. 2.xcdatamodel */;
+			currentVersion = 0B64967E16B3F4BB00A875ED /* ContactsDatabase 2. 4.xcdatamodel */;
 			name = ContactsDatabase.xcdatamodeld;
 			path = ParseStarterProject/ContactsDatabase.xcdatamodeld;
 			sourceTree = "<group>";

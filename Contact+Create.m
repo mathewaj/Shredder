@@ -34,8 +34,6 @@
         contact = [matches lastObject];
     }
     
-    //[context save:nil];
-    
     return contact;
     
 }

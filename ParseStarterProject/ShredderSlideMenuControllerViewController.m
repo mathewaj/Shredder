@@ -39,38 +39,11 @@
         // Method called may log user out if settings require it
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
         
-        // DEBUGGING
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(managedObjectContextDidSave:) name:NSManagedObjectContextDidSaveNotification object:nil];
         
     }
     return self;
 }
 
--(void)managedObjectContextDidSave:(NSNotification *)notification
-{
-    NSSet *contacts1 = [notification.userInfo objectForKey:NSInsertedObjectsKey];
-    NSSet *contacts2 = [notification.userInfo objectForKey:NSUpdatedObjectsKey];
-    NSSet *contacts3 = [notification.userInfo objectForKey:NSDeletedObjectsKey];
-    NSLog([NSString stringWithFormat:@"Contacts Inserted:%i", [contacts1 count]]);
-    Contact *contact2 = [notification.userInfo objectForKey:NSUpdatedObjectsKey];
-    NSLog([NSString stringWithFormat:@"Contact Updated:%i", [contacts2 count]]);
-    Contact *contact3 = [notification.userInfo objectForKey:NSDeletedObjectsKey];
-    NSLog([NSString stringWithFormat:@"Contact Deleted:%i", [contacts3 count]]);
-    
-    if(self.contactsDatabase.managedObjectContext == [notification object]){
-        NSLog(@"Managed Object Contexts are the same");
-    } else {
-        if(self.contactsDatabase.managedObjectContext.parentContext == [notification object])
-        {
-            NSLog(@"Parent Managed Object Context is the same");
-        } else {
-            NSLog(@"Managed Object Contexts are not the same");
-        }
-        
-        
-    }
-    
-}
 
 #pragma mark - SASlideMenuDataSource
 // The SASlideMenuDataSource is used to provide the initial segueid that represents the initial visibile view controller and to provide eventual additional configuration to the menu button
@@ -270,6 +243,8 @@
     
     // Send welcome message!
     [self sendWelcomeMessage];
+    
+    [self.contactsDatabase.managedObjectContext save:nil];
 }
 
 - (void)signUpViewControllerDidCancelSignUp:(PFSignUpViewController *)signUpController {
@@ -282,7 +257,7 @@
     
     // Create UIManagedDocument to access database
     NSURL *url = [[[NSFileManager defaultManager] URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask] lastObject];
-    url = [url URLByAppendingPathComponent:@"MyDocument.md"];
+    url = [url URLByAppendingPathComponent:@"ContactsDatabase"];
     
     self.contactsDatabase = [[UIManagedDocument alloc] initWithFileURL:url];
     
@@ -322,6 +297,7 @@
     // Scan for new contacts, this will return with delegate method below when complete
     self.addressBookHelper.contactsDatabase = self.contactsDatabase;
     [self.addressBookHelper retrieveAddressBookContacts];
+    [self.contactsDatabase.managedObjectContext save:nil];
 }
 
 // When Address Book Helper object returns with array of contacts, fire method to extract new contacts to database
@@ -349,6 +325,8 @@
     [self dismissViewControllerAnimated:YES completion:^{
         
     }];
+    
+    
 }
 
 -(void)addressBookHelperDeniedAccess:(AddressBookHelper *)addressBookHelper{
@@ -375,6 +353,8 @@
         [self dismissModalViewControllerAnimated:NO];
         [self presentLoginScreen:self];
     }
+    
+    [self.contactsDatabase.managedObjectContext save:nil];
     
 }
 

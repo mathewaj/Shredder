@@ -25,9 +25,6 @@
 {
     [super viewDidLoad];
     
-    TFLog([NSString stringWithFormat:@"Contacts Table View Controller Did Load"]);
-    
-    self.debug = YES;
     //self.suspendAutomaticTrackingOfChangesInManagedObjectContext = YES;
 
     // Uncomment the following line to preserve selection between presentations.
@@ -36,8 +33,6 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshData:) name:NSManagedObjectContextDidSaveNotification object:nil];
     
     self.title = @"Contacts";
     [self setupFetchedResultsController];
@@ -55,17 +50,12 @@
 
 -(void)setupFetchedResultsController{
     
-    TFLog([NSString stringWithFormat:@"Set Up Fetched Results Controller Called"]);
     [self.contactsDatabase.managedObjectContext setStalenessInterval:0];
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Contact"];
-    //NSSortDescriptor *descriptor1 = [NSSortDescriptor sortDescriptorWithKey:@"nameInitial" ascending:YES];
     NSSortDescriptor *descriptor2 = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(caseInsensitiveCompare:)];
     request.sortDescriptors = [NSArray arrayWithObjects: descriptor2, nil];
     
     self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.contactsDatabase.managedObjectContext sectionNameKeyPath:@"nameInitial" cacheName:nil];
-    
-    TFLog([NSString stringWithFormat:@"Fetched Results Controller contents: %@",[[self.fetchedResultsController fetchedObjects] description]]);
-    
     
 }
 
@@ -181,29 +171,6 @@
 }
 
 
-- (void)refreshData:(NSNotification *)notification {
-
-    
-    NSSet *contacts1 = [notification.userInfo objectForKey:NSInsertedObjectsKey];
-    NSSet *contacts2 = [notification.userInfo objectForKey:NSUpdatedObjectsKey];
-    NSSet *contacts3 = [notification.userInfo objectForKey:NSDeletedObjectsKey];
-    NSLog([NSString stringWithFormat:@"Contacts Inserted:%i", [contacts1 count]]);
-    TFLog([NSString stringWithFormat:@"Contacts Inserted:%i", [contacts1 count]]);
-    Contact *contact2 = [notification.userInfo objectForKey:NSUpdatedObjectsKey];
-    NSLog([NSString stringWithFormat:@"Contact Updated:%i", [contacts2 count]]);
-    TFLog([NSString stringWithFormat:@"Contact Updated:%i", [contacts2 count]]);
-    Contact *contact3 = [notification.userInfo objectForKey:NSDeletedObjectsKey];
-    NSLog([NSString stringWithFormat:@"Contact Deleted:%i", [contacts3 count]]);
-    TFLog([NSString stringWithFormat:@"Contact Deleted:%i", [contacts2 count]]);
-    
-    if(self.fetchedResultsController.managedObjectContext == [notification object]){
-        NSLog(@"Managed Object Contexts are the same");
-    } else {
-         NSLog(@"Managed Object Contexts are not the same");
-    }
-    //[[[self fetchedResultsController] managedObjectContext] mergeChangesFromContextDidSaveNotification:notification];
-    
-}
 
 
 

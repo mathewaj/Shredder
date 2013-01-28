@@ -75,8 +75,6 @@
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
     
-    NSLog([NSString stringWithFormat:@"Section Index Titles: %@",[[self.fetchedResultsController sectionIndexTitles] description]]);
-    TFLog([NSString stringWithFormat:@"Section Index Titles: %@",[[self.fetchedResultsController sectionIndexTitles] description]]);
     return [self.fetchedResultsController sectionIndexTitles];
 
 }
@@ -88,8 +86,6 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    NSLog([NSString stringWithFormat:@"Number of Sections: %i",[[self.fetchedResultsController sections] count]]);
-    TFLog([NSString stringWithFormat:@"Number of Sections: %i",[[self.fetchedResultsController sections] count]]);
     return [[self.fetchedResultsController sections] count];
 }
 
@@ -134,8 +130,6 @@
 		   atIndex:(NSUInteger)sectionIndex
 	 forChangeType:(NSFetchedResultsChangeType)type
 {
-    NSLog(@"Controller Did Change Section");
-    TFLog(@"Controller Did Change Section");
     if (!self.suspendAutomaticTrackingOfChangesInManagedObjectContext)
     {
         switch(type)
@@ -158,8 +152,6 @@
 	 forChangeType:(NSFetchedResultsChangeType)type
 	  newIndexPath:(NSIndexPath *)newIndexPath
 {
-    TFLog(@"Controller Did Change Object");
-    NSLog(@"Controller Did Change Object");
     if (!self.suspendAutomaticTrackingOfChangesInManagedObjectContext)
     {
         switch(type)
@@ -186,23 +178,20 @@
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
-    NSLog(@"Controller Did Change Content");
-    TFLog(@"Controller Did Change Content");
+
     [MBProgressHUD hideHUDForView:self.tableView animated:YES];
     if (self.beganUpdates) [self.tableView endUpdates];
 }
 
 - (void)endSuspensionOfUpdatesDueToContextChanges
 {
-    NSLog(@"End Suspension of Updates");
-    TFLog(@"End Suspension of Updates");
+
     _suspendAutomaticTrackingOfChangesInManagedObjectContext = NO;
 }
 
 - (void)setSuspendAutomaticTrackingOfChangesInManagedObjectContext:(BOOL)suspend
 {
-    NSLog(@"Set Suspend Automatic Tracking");
-    TFLog(@"End Suspension of Updates");
+
     if (suspend) {
         _suspendAutomaticTrackingOfChangesInManagedObjectContext = YES;
     } else {

@@ -9,6 +9,7 @@
 #import "NewContactViewController.h"
 #import <Parse/Parse.h>
 #import "MBProgressHUD.h"
+#import "Blocks.h"
 
 @interface NewContactViewController ()
 

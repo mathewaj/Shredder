@@ -60,7 +60,9 @@ void AddressBookUpdated(ABAddressBookRef addressBook, CFDictionaryRef info, void
     NSMutableArray *recentlyUpdatedContacts = [[NSMutableArray alloc] init];
     
     // Retrieve date last checked
+    
     NSDate *lastScanDate = [[NSUserDefaults standardUserDefaults] objectForKey:@"lastScanDate"];
+    NSNumber *firstRunVersion = [[NSUserDefaults standardUserDefaults] objectForKey:@"firstRunVersion1.1"];
     
     // Iterate through all people in address book
     for (CFIndex i = 0; i < CFArrayGetCount(addressBookArray); i++) {
@@ -70,8 +72,10 @@ void AddressBookUpdated(ABAddressBookRef addressBook, CFDictionaryRef info, void
         CFDateRef modifyDate = ABRecordCopyValue(person, kABPersonModificationDateProperty);
         NSDate *modifiedDate = (__bridge NSDate *)modifyDate;
         
-        if (!lastScanDate || [modifiedDate compare:lastScanDate] == NSOrderedDescending) {
-            // Modified date is later than scan date so add to array
+        // If new contact or first time running version 1.1
+        if (!lastScanDate || [modifiedDate compare:lastScanDate] == NSOrderedDescending || [firstRunVersion isEqualToNumber:[NSNumber numberWithBool:YES]]) {
+            
+            // Add to array
             [recentlyUpdatedContacts addObject:(__bridge id)(person)];
             
         } else if ([modifiedDate compare:lastScanDate] == NSOrderedAscending) {
@@ -83,9 +87,12 @@ void AddressBookUpdated(ABAddressBookRef addressBook, CFDictionaryRef info, void
         
     }
     
+    
+    
     NSDate* now = [NSDate date];
     
     [[NSUserDefaults standardUserDefaults] setObject:now forKey:@"lastScanDate"];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:NO] forKey:@"firstRunVersion1.1"];
     
     [[helper delegate] addressBookHelper:helper finishedLoading:recentlyUpdatedContacts];
 };
@@ -100,6 +107,7 @@ void AddressBookUpdated(ABAddressBookRef addressBook, CFDictionaryRef info, void
         // Obtain current record reference from array
         //ABRecordRef person = CFArrayGetValueAtIndex(people, i);
         ABRecordRef person = (__bridge ABRecordRef)([people objectAtIndex:i]);
+        int personID = ABRecordGetRecordID(person);
         
         // Obtain name information
         NSString *firstName = (__bridge NSString *)ABRecordCopyValue(person, kABPersonFirstNameProperty);
@@ -128,11 +136,14 @@ void AddressBookUpdated(ABAddressBookRef addressBook, CFDictionaryRef info, void
             // Create a contact for every phone entry
             Contact *contact = [Contact contactWithName:fullName inContext:self.contactsDatabase.managedObjectContext];
             
-            /* Set name initial
-            NSString *initial = [fullName substringToIndex:1];
-            //NSString *capitalisedInitial = [initial capitalizedString];
+            // Set ID
+            contact.addressBookID = [NSNumber numberWithInt:personID];
             
-            contact.nameInitial = initial;*/
+            //Set name initial
+            NSString *initial = [fullName substringToIndex:1];
+            NSString *capitalisedInitial = [initial capitalizedString];
+            
+            contact.nameInitial = capitalisedInitial;
             
             // Obtain the phone number for the contact
             ABMultiValueRef phoneNumbers = ABRecordCopyValue(person, kABPersonPhoneProperty);
@@ -166,8 +177,7 @@ void AddressBookUpdated(ABAddressBookRef addressBook, CFDictionaryRef info, void
         
     }
     
-    // Save contacts to Shredder Contacts DB
-    //[self.contactsDatabase.managedObjectContext save:nil];
+
     
     
     // Check if user has granted permission to Shredder to upload contacts
@@ -205,7 +215,6 @@ void AddressBookUpdated(ABAddressBookRef addressBook, CFDictionaryRef info, void
 // This method uploads the new contacts to Parse and tags all signed up users
 -(void)checkWhichContactsSignedUp
 {
-    
     // Retrieve all contacts
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Contact"];
     request.sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
@@ -258,12 +267,10 @@ void AddressBookUpdated(ABAddressBookRef addressBook, CFDictionaryRef info, void
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
         
-        //[self.contactsDatabase.managedObjectContext save:nil];
+
         
         [self.delegate finishedMatchingContacts];
     }];
-    
-    
     
 }
 
