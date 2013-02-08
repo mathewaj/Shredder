@@ -125,7 +125,7 @@
     if (!imageData || !thumbnailImageData) {
         return NO;
     }
-    
+    // 
     // Create the PFFiles and store them in properties since we'll need them later
     self.photoFile = [PFFile fileWithData:imageData];
     //self.thumbnailFile = [PFFile fileWithData:thumbnailImageData];
