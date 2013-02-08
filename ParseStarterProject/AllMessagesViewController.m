@@ -11,6 +11,7 @@
 #import "ComposeMessageViewController.h"
 #import "ShredMessageViewController.h"
 #import "MBProgressHUD.h"
+#import "ContactsDatabaseManager.h"
 
 @interface AllMessagesViewController ()
 
@@ -91,16 +92,13 @@
     cell.contentView.backgroundColor = [UIColor whiteColor];
 
     // Retrieve database contact for this person
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Contact"];
-    request.predicate = [NSPredicate predicateWithFormat:@"parseID = %@", sender.objectId];
-    NSArray *contacts = [self.contactsDatabase.managedObjectContext executeFetchRequest:request error:nil];
-    Contact *contact = [contacts lastObject];
+    ContactsDatabaseManager *contactsDatabaseManager = [[ContactsDatabaseManager alloc] init];
     
-    // If contact is available, use your contact name
-    // Else use their provided email
+    Contact *contact = [contactsDatabaseManager retrieveContactwithParseID:sender.objectId inManagedObjectContext:self.contactsDatabase];
+    
+    // If contact is available, use contact name, else email
     if(contact)
     {
-        // Configure the cell to show the Sender Name
         cell.textLabel.text = contact.name;
         
     } else if (sender.username)
@@ -110,7 +108,6 @@
     
     // Configure the cell to show the date created in the subtitle
     NSDate *dateCreated = object.createdAt;
-    
     
     // Calculate dates for today, this week and previous
     NSCalendar *cal = [NSCalendar currentCalendar];
@@ -143,15 +140,7 @@
         // Set date to yesterday
         cell.detailTextLabel.text = @"Yesterday";
         
-    } /*else if ([dateCreated compare:thisWeek] == NSOrderedDescending)
-    {
-        // Set date to day
-        NSDateComponents *components = [[NSCalendar currentCalendar] components:NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit fromDate:[NSDate date]];
-        NSInteger day = [components day];
-        NSArray *days = [NSArray arrayWithObjects:@"Sunday", @"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", nil];
-        cell.detailTextLabel.text = [days objectAtIndex:day];
-        
-    } */else {
+    } else {
         
         // Set date to date
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -159,7 +148,6 @@
         NSString *string = [dateFormatter stringFromDate:dateCreated];
         cell.detailTextLabel.text = string;
     }
-
     
     return cell;
 }

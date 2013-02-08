@@ -36,6 +36,7 @@
 		0BADE87E16AF1B74004C73B5 /* ShredTop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BADE87C16AF1B74004C73B5 /* ShredTop@2x.png */; };
 		0BADE88116AF1D2F004C73B5 /* ShredBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BADE87F16AF1D2F004C73B5 /* ShredBackground.png */; };
 		0BADE88216AF1D2F004C73B5 /* ShredBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BADE88016AF1D2F004C73B5 /* ShredBackground@2x.png */; };
+		0BAE4FBB16C5BBE000245288 /* ContactsDatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BAE4FBA16C5BBE000245288 /* ContactsDatabaseManager.m */; };
 		0BB73A5116ADE67700E95403 /* LoginBackground-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BB73A4E16ADE67700E95403 /* LoginBackground-568h@2x.png */; };
 		0BB73A5216ADE67700E95403 /* LoginBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BB73A4F16ADE67700E95403 /* LoginBackground.png */; };
 		0BB73A5316ADE67700E95403 /* LoginBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BB73A5016ADE67700E95403 /* LoginBackground@2x.png */; };
@@ -198,6 +199,8 @@
 		0BADE87C16AF1B74004C73B5 /* ShredTop@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ShredTop@2x.png"; sourceTree = "<group>"; };
 		0BADE87F16AF1D2F004C73B5 /* ShredBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ShredBackground.png; sourceTree = "<group>"; };
 		0BADE88016AF1D2F004C73B5 /* ShredBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ShredBackground@2x.png"; sourceTree = "<group>"; };
+		0BAE4FB916C5BBE000245288 /* ContactsDatabaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactsDatabaseManager.h; sourceTree = "<group>"; };
+		0BAE4FBA16C5BBE000245288 /* ContactsDatabaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactsDatabaseManager.m; sourceTree = "<group>"; };
 		0BB73A4E16ADE67700E95403 /* LoginBackground-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LoginBackground-568h@2x.png"; sourceTree = "<group>"; };
 		0BB73A4F16ADE67700E95403 /* LoginBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LoginBackground.png; sourceTree = "<group>"; };
 		0BB73A5016ADE67700E95403 /* LoginBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LoginBackground@2x.png"; sourceTree = "<group>"; };
@@ -447,6 +450,8 @@
 				E7A0175B165BB0A1003F1817 /* ShredderSlideMenuControllerViewController.m */,
 				E7F3B518165440A700C99D62 /* AddressBookHelper.h */,
 				E7F3B519165440A700C99D62 /* AddressBookHelper.m */,
+				0BAE4FB916C5BBE000245288 /* ContactsDatabaseManager.h */,
+				0BAE4FBA16C5BBE000245288 /* ContactsDatabaseManager.m */,
 				E7F3B53F165833A700C99D62 /* AllMessagesViewController.h */,
 				E7F3B540165833A700C99D62 /* AllMessagesViewController.m */,
 				E78887831664EE72003C5ACB /* AllReportsViewController.h */,
@@ -847,6 +852,7 @@
 				0BB9E35916B05EE100BE9850 /* CoreDataTableViewController2.m in Sources */,
 				0B64967916B322D300A875ED /* Blocks.m in Sources */,
 				0B64968416B3F5E300A875ED /* Contact.m in Sources */,
+				0BAE4FBB16C5BBE000245288 /* ContactsDatabaseManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
