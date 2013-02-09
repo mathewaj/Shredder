@@ -30,6 +30,8 @@
         ABAddressBookRequestAccessWithCompletion(addressBook, ^(bool granted, CFErrorRef error) {
             // callback can occur in background, address book must be accessed on thread it was created on
             dispatch_async(dispatch_get_main_queue(), ^{
+                
+                [self.delegate addressBookHelperError:self];
                 if (error) {
                     [self.delegate addressBookHelperError:self];
                 } else if (!granted) {
@@ -74,8 +76,7 @@ void AddressBookUpdated(ABAddressBookRef addressBook, CFDictionaryRef info, void
         if (!lastScanDate || [modifiedDate compare:lastScanDate] == NSOrderedDescending) {
             
             // Create contact and add to array
-            Contact *contact = [helper createContactwithAddressRecord:person];
-            [recentlyUpdatedAddressBookRecords addObject:contact];
+            [recentlyUpdatedAddressBookRecords addObject:(__bridge id)(person)];
             
         } else if ([modifiedDate compare:lastScanDate] == NSOrderedAscending) {
             // Ignore
@@ -93,10 +94,11 @@ void AddressBookUpdated(ABAddressBookRef addressBook, CFDictionaryRef info, void
     
     // Pass array of new address book records back to contacts database manager
     [[helper delegate] addressBookHelper:helper retrieved:recentlyUpdatedAddressBookRecords];
+    
 };
 
 
-
+/*
 -(Contact *)createContactwithAddressRecord:(ABRecordRef)person{
     
     int personID = ABRecordGetRecordID(person);
@@ -169,7 +171,7 @@ void AddressBookUpdated(ABAddressBookRef addressBook, CFDictionaryRef info, void
 
 
 
-/*
+
 // Check if user has granted permission to Shredder to upload contacts
 if([[[NSUserDefaults standardUserDefaults] objectForKey:@"PermissionToUploadContactsToShredder"] isEqualToNumber:[NSNumber numberWithBool:NO]])
 {
@@ -185,7 +187,7 @@ if([[[NSUserDefaults standardUserDefaults] objectForKey:@"PermissionToUploadCont
 
 
 
-}*/
+}
 
 // This method takes an array of contacts, and saves them as Contact objects in the DB
 -(void)fetchAddressBookData:(NSArray *)people IntoDocument:(UIManagedDocument *)document
@@ -362,6 +364,10 @@ if([[[NSUserDefaults standardUserDefaults] objectForKey:@"PermissionToUploadCont
         [self.delegate finishedMatchingContacts];
     }];
     
+ 
+    
 }
+ 
+ */
 
 @end

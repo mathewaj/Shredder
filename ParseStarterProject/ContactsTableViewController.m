@@ -55,7 +55,7 @@
     NSSortDescriptor *descriptor2 = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(caseInsensitiveCompare:)];
     request.sortDescriptors = [NSArray arrayWithObjects: descriptor2, nil];
     
-    self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.contactsDatabase.managedObjectContext sectionNameKeyPath:@"nameInitial" cacheName:nil];
+    self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.contactsDatabase.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
     
 }
 
@@ -106,7 +106,7 @@
     AddressBookHelper *addressBookHelper = [[AddressBookHelper alloc] init];
     addressBookHelper.contactsDatabase = self.contactsDatabase;
     addressBookHelper.delegate = self;
-    [addressBookHelper checkWhichContactsSignedUp];
+    //[addressBookHelper checkWhichContactsSignedUp];
 }
 
 -(void)finishedMatchingContacts

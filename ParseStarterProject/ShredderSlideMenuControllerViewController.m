@@ -40,6 +40,9 @@
         // Method called may log user out if settings require it
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
         
+        self.contactsDatabaseManager = [[ContactsDatabaseManager alloc] init];
+        self.contactsDatabaseManager.delegate = self;
+        
         
     }
     return self;
@@ -103,13 +106,8 @@
         UINavigationController *navController = (UINavigationController *)segue.destinationViewController;
         
         ContactsTableViewController *controller = [navController.viewControllers lastObject];
-        
+        //[self.contactsDatabase.managedObjectContext save:nil];
         controller.contactsDatabase = self.contactsDatabase;
-        
-        UIManagedDocument *document1 = controller.contactsDatabase;
-        
-        UIManagedDocument *document2 = self.contactsDatabase;
-        
         
     } else if([segue.identifier isEqualToString:@"Reports"])
     {
@@ -161,13 +159,12 @@
     
     // Get access to the database
     if (!self.contactsDatabase) {
-        ContactsDatabaseManager *contactsDatabaseManager = [[ContactsDatabaseManager alloc] init];
-        contactsDatabaseManager.delegate = self;
-        [contactsDatabaseManager createContactsDatabase];
-        [self finishedMatchingContacts];
+        
+        [self.contactsDatabaseManager createContactsDatabase];
+        
         //[self createDatabase];
     } else {
-        //[self databaseIsReady];
+        
         [self finishedMatchingContacts];
         
     }
@@ -245,18 +242,18 @@
     if (!self.contactsDatabase) {
         
         // Get access to the database
-        [self createDatabase];
+        //[self createDatabase];
         
     } else {
         
         // Database is ready so scan address book for new contacts
-        [self databaseIsReady];
+        //[self databaseIsReady];
     }
     
     // Send welcome message!
     [self sendWelcomeMessage];
     
-    [self.contactsDatabase.managedObjectContext save:nil];
+    //[self.contactsDatabase.managedObjectContext save:nil];
 }
 
 - (void)signUpViewControllerDidCancelSignUp:(PFSignUpViewController *)signUpController {
@@ -268,9 +265,12 @@
 -(void)databaseIsReady:(UIManagedDocument *)contactsDatabase{
 
     self.contactsDatabase = contactsDatabase;
+    [self.contactsDatabase.managedObjectContext save:nil];
+    //[self.contactsDatabaseManager importAddressBookContacts];
+    [self finishedMatchingContacts];
     
 }
-
+/*
 -(void)createDatabase{
     
     // Create UIManagedDocument to access database
@@ -334,20 +334,7 @@
     
 }
 
--(void)finishedMatchingContacts
-{
-    UIManagedDocument *document2 = self.contactsDatabase;
-    
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-    
-    [self performSegueWithIdentifier:@"Messages" sender:self];
-    
-    [self dismissViewControllerAnimated:YES completion:^{
-        
-    }];
-    
-    
-}
+
 
 -(void)addressBookHelperDeniedAccess:(AddressBookHelper *)addressBookHelper{
     
@@ -359,7 +346,7 @@
 -(void)addressBookHelperError:(AddressBookHelper *)addressBookHelper{
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"There was an error accessing your contacts" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alert show];
-}
+}*/
 
 #pragma mark - Handle App Backgrounding
 // This is used if the application is sent to the background
@@ -395,6 +382,19 @@
     logInViewController.signUpController.fields = PFSignUpFieldsUsernameAndPassword | PFSignUpFieldsSignUpButton | PFSignUpFieldsDismissButton;
     
     [controller presentModalViewController:logInViewController animated:NO];
+}
+
+-(void)finishedMatchingContacts
+{
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    
+    [self performSegueWithIdentifier:@"Messages" sender:self];
+    
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+    }];
+    
+    
 }
 
 -(void)sendWelcomeMessage

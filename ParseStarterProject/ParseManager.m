@@ -24,8 +24,8 @@
     
     self.contactsForUserCheck = newlyUpdatedContacts;
     
-    [self promptUserForPermissionToUploadContacts];
-    
+    //[self promptUserForPermissionToUploadContacts];
+    [self uploadAndCheckContacts];
 }
 
 -(void)promptUserForPermissionToUploadContacts
@@ -64,15 +64,15 @@
 
 -(void)uploadAndCheckContacts{
     
-    // Retrieve all contacts
+    /* Retrieve all contacts
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Contact"];
     request.sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
-    NSArray *allContacts = [self.contactsDatabase.managedObjectContext executeFetchRequest:request error:nil];
+    NSArray *allContacts = [self.contactsDatabase.managedObjectContext executeFetchRequest:request error:nil];*/
     
     // Array of email addresses
     NSMutableArray *emailArray = [[NSMutableArray alloc] init];
     
-    for(Contact *contact in allContacts)
+    for(Contact *contact in self.contactsForUserCheck)
     {
         if(contact.email)
         {

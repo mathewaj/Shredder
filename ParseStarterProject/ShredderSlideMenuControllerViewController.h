@@ -23,6 +23,8 @@
 // Model is the contacts database
 @property (nonatomic, strong) UIManagedDocument *contactsDatabase;
 
+@property (nonatomic, strong) ContactsDatabaseManager *contactsDatabaseManager;
+
 // Helper object to manage contacts
 @property (nonatomic, strong) AddressBookHelper *addressBookHelper;
 

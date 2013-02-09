@@ -32,6 +32,7 @@
 		0B64967916B322D300A875ED /* Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B64967816B322D300A875ED /* Blocks.m */; };
 		0B64968416B3F5E300A875ED /* Contact.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B64968316B3F5E300A875ED /* Contact.m */; };
 		0B663AD816C5C1A2007B8C10 /* ParseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B663AD716C5C1A2007B8C10 /* ParseManager.m */; };
+		0B663AE416C69BA5007B8C10 /* PhoneNumberManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B663AE316C69BA4007B8C10 /* PhoneNumberManager.m */; };
 		0BADE87716AF1B47004C73B5 /* ShredBackground-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BADE87416AF1B47004C73B5 /* ShredBackground-568h@2x.png */; };
 		0BADE87D16AF1B74004C73B5 /* ShredTop.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BADE87B16AF1B74004C73B5 /* ShredTop.png */; };
 		0BADE87E16AF1B74004C73B5 /* ShredTop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BADE87C16AF1B74004C73B5 /* ShredTop@2x.png */; };
@@ -197,6 +198,9 @@
 		0B64968316B3F5E300A875ED /* Contact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Contact.m; sourceTree = "<group>"; };
 		0B663AD616C5C1A2007B8C10 /* ParseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParseManager.h; sourceTree = "<group>"; };
 		0B663AD716C5C1A2007B8C10 /* ParseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParseManager.m; sourceTree = "<group>"; };
+		0B663AE216C69BA4007B8C10 /* PhoneNumberManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhoneNumberManager.h; sourceTree = "<group>"; };
+		0B663AE316C69BA4007B8C10 /* PhoneNumberManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhoneNumberManager.m; sourceTree = "<group>"; };
+		0B663AE616C69F80007B8C10 /* ContactsDatabase 2. 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ContactsDatabase 2. 5.xcdatamodel"; sourceTree = "<group>"; };
 		0BADE87416AF1B47004C73B5 /* ShredBackground-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ShredBackground-568h@2x.png"; sourceTree = "<group>"; };
 		0BADE87B16AF1B74004C73B5 /* ShredTop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ShredTop.png; sourceTree = "<group>"; };
 		0BADE87C16AF1B74004C73B5 /* ShredTop@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ShredTop@2x.png"; sourceTree = "<group>"; };
@@ -455,6 +459,8 @@
 				E7F3B519165440A700C99D62 /* AddressBookHelper.m */,
 				0BAE4FB916C5BBE000245288 /* ContactsDatabaseManager.h */,
 				0BAE4FBA16C5BBE000245288 /* ContactsDatabaseManager.m */,
+				0B663AE216C69BA4007B8C10 /* PhoneNumberManager.h */,
+				0B663AE316C69BA4007B8C10 /* PhoneNumberManager.m */,
 				0B663AD616C5C1A2007B8C10 /* ParseManager.h */,
 				0B663AD716C5C1A2007B8C10 /* ParseManager.m */,
 				E7F3B53F165833A700C99D62 /* AllMessagesViewController.h */,
@@ -859,6 +865,7 @@
 				0B64968416B3F5E300A875ED /* Contact.m in Sources */,
 				0BAE4FBB16C5BBE000245288 /* ContactsDatabaseManager.m in Sources */,
 				0B663AD816C5C1A2007B8C10 /* ParseManager.m in Sources */,
+				0B663AE416C69BA5007B8C10 /* PhoneNumberManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -997,6 +1004,7 @@
 			children = (
 				0B64967D16B3F42B00A875ED /* ContactsDatabase 2. 3.xcdatamodel */,
 				0B64967E16B3F4BB00A875ED /* ContactsDatabase 2. 4.xcdatamodel */,
+				0B663AE616C69F80007B8C10 /* ContactsDatabase 2. 5.xcdatamodel */,
 				0BB9E35A16B0AC0600BE9850 /* ContactsDatabase 2. 2.xcdatamodel */,
 				0B52462916A7458D00082321 /* ContactsDatabase 2.0.xcdatamodel */,
 				E7B8D7D6165178F800BD89B6 /* ContactsDatabase.xcdatamodel */,

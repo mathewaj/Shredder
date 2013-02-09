@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ParseManager : NSObject
+@interface ParseManager : NSObject <UIAlertViewDelegate>
 
 @property (nonatomic, strong) UIManagedDocument *contactsDatabase;
 

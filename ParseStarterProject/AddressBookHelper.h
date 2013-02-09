@@ -19,25 +19,17 @@
 -(void)addressBookHelperError:(AddressBookHelper *)addressBookHelper;
 -(void)addressBookHelperDeniedAccess:(AddressBookHelper *)addressBookHelper;
 -(void)addressBookHelper:(AddressBookHelper *)addressBookHelper retrieved:(NSArray *)recentlyUpdatedAddressBookRecords;
--(void)finishedMatchingContacts;
 
 @end
 
 @interface AddressBookHelper : NSObject
 
+@property (nonatomic, strong) UIManagedDocument *contactsDatabase;
 @property (weak, nonatomic) id <AddressBookHelperDelegate> delegate;
 
 -(void)retrieveAddressBookContacts;
 
--(void)fetchAddressBookData:(NSArray *)people IntoDocument:(UIManagedDocument *)document;
 
--(void)checkWhichContactsSignedUp;
-
--(void)convertAddressBookRecordsToContacts:(NSArray *)addressBookRecords;
-
--(Contact *)createContactwithAddressRecord:(ABRecordRef)person;
-
-@property (nonatomic, strong) UIManagedDocument *contactsDatabase;
 
 
 @end

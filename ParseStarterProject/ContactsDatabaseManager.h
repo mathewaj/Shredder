@@ -30,7 +30,7 @@
 @property (nonatomic, strong) AddressBookHelper *addressBookHelper;
 
 -(void)createContactsDatabase;
-
+-(void)importAddressBookContacts;
 -(Contact *)retrieveContactwithParseID:(NSString *)parseID inManagedObjectContext:(UIManagedDocument *)document;
 
 -(void)updateContacts:(NSArray *)updatedContacts;

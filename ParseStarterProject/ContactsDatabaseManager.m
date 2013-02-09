@@ -44,7 +44,7 @@
             
             if (success) {
                 
-                [self databaseIsReady];
+                [self databaseIsOpen];
                 
             } else {
                 NSLog(@"couldn’t open document at %@", url);
@@ -60,7 +60,7 @@
                            
                            if (success) {
                                
-                               [self databaseIsReady];
+                               [self databaseIsOpen];
                                
                            } else {
                                NSLog(@"couldn’t create document at %@", url);
@@ -70,13 +70,22 @@
     
 }
 
+-(void)databaseIsOpen{
+    
+    [self importAddressBookContactsToContactsDatabase];
+    
+}
+
 // Every time database is opened, scan for new contacts
 -(void)databaseIsReady{
     
     [self.delegate databaseIsReady:self.contactsDatabase];
+
+}
+
+-(void)importAddressBookContactsToContactsDatabase{
     [self initialiseAddressBookHelper];
     [self scanAddressBookForNewContactDetails];
-    
 }
 
 #pragma mark - Address Book Import
@@ -98,12 +107,13 @@
     
     [self saveAddressBookRecordsToDatabase:recentlyUpdatedAddressBookRecords];
     [self checkIfNewContactsAreOnShredder];
+    [self databaseIsReady];
 }
 
 -(void)saveAddressBookRecordsToDatabase:(NSArray *)recentlyUpdatedAddressBookRecords{
     
     [self createContactsWithAddressBookRecords:recentlyUpdatedAddressBookRecords];
-    [self.contactsDatabase.managedObjectContext save:nil];
+    //[self.contactsDatabase.managedObjectContext save:nil];
 }
 
 -(void)createContactsWithAddressBookRecords:(NSArray *)recentlyUpdatedAddressBookRecords{
@@ -115,9 +125,14 @@
         
         // Obtain current record reference from array
         ABRecordRef person = (__bridge ABRecordRef)([recentlyUpdatedAddressBookRecords objectAtIndex:i]);
-        int personID = ABRecordGetRecordID(person);
         
-        // Obtain name information
+        Contact *contact = [Contact contactWithAddressBookInfo:person inContext:self.contactsDatabase.managedObjectContext];
+        
+        [contacts addObject:contact];
+        
+        /* Obtain name information
+         
+        int personID = ABRecordGetRecordID(person);
         NSString *firstName = (__bridge NSString *)ABRecordCopyValue(person, kABPersonFirstNameProperty);
         NSString *surname = (__bridge NSString *)ABRecordCopyValue(person, kABPersonLastNameProperty);
         
@@ -140,6 +155,8 @@
         
         
         if(![fullName isEqualToString:@""]){
+            
+            NSLog(@"Full name: %@", fullName);
             
             // Create a contact for every phone entry
             Contact *contact = [Contact contactWithName:fullName inContext:self.contactsDatabase.managedObjectContext];
@@ -180,11 +197,13 @@
                 
             }
             
+            [self.contactsDatabase.managedObjectContext save:nil];
             [contacts addObject:contact];
             
-        }
+            
+        }*/
     }
-
+    
     self.newlyUpdatedContacts = contacts;
 }
 
@@ -192,11 +211,12 @@
     
     // Send the new contact details to Parse Manager to process
     ParseManager *parseManager = [[ParseManager alloc] init];
+    parseManager.contactsDatabase = self.contactsDatabase;
     [parseManager checkIfNewContactsAreOnShredder:self.newlyUpdatedContacts];
-    [self.contactsDatabase.managedObjectContext save:nil];
+    //[self.contactsDatabase.managedObjectContext save:nil];
     
 }
-
+/*
 -(void)promptUserForPermissionToUploadContacts
 {
     // Check if user has granted permission to Shredder to upload contacts
@@ -249,7 +269,7 @@
         
         // Otherwise return
     } else {
-        [self finishedMatchingContacts];
+        //[self finishedMatchingContacts];
     }
     
 }
@@ -347,6 +367,13 @@
         //[self checkWhichContactsSignedUp];
         //[self.delegate finishedMatchingContacts];
     }
+    
+}*/
+
+-(void)addressBookHelperError:(AddressBookHelper *)addressBookHelper{
+    
+}
+-(void)addressBookHelperDeniedAccess:(AddressBookHelper *)addressBookHelper{
     
 }
 

@@ -8,6 +8,7 @@
 
 #import "Contact.h"
 #import "Email.h"
+#import <AddressBook/AddressBook.h>
 
 // Category to help create Contact objects
 
@@ -16,6 +17,8 @@
 +(Contact *)contactWithEmail:(NSString *)email inContext:(NSManagedObjectContext *)context;
 
 +(Contact *)contactWithName:(NSString *)name inContext:(NSManagedObjectContext *)context;
+
++(Contact *)contactWithAddressBookInfo:(ABRecordRef)person inContext:(NSManagedObjectContext *)context;
 
 +(BOOL)checkIfContactExists:(NSString *)email inContext:(NSManagedObjectContext *)context;
 
