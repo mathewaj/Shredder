@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Contact+Create.h"
+#import <AddressBook/AddressBook.h>
 
 @class AddressBookHelper;
 
@@ -16,7 +18,7 @@
 
 -(void)addressBookHelperError:(AddressBookHelper *)addressBookHelper;
 -(void)addressBookHelperDeniedAccess:(AddressBookHelper *)addressBookHelper;
--(void)addressBookHelper:(AddressBookHelper *)addressBookHelper finishedLoading:(NSArray *)people;
+-(void)addressBookHelper:(AddressBookHelper *)addressBookHelper retrieved:(NSArray *)recentlyUpdatedAddressBookRecords;
 -(void)finishedMatchingContacts;
 
 @end
@@ -30,6 +32,10 @@
 -(void)fetchAddressBookData:(NSArray *)people IntoDocument:(UIManagedDocument *)document;
 
 -(void)checkWhichContactsSignedUp;
+
+-(void)convertAddressBookRecordsToContacts:(NSArray *)addressBookRecords;
+
+-(Contact *)createContactwithAddressRecord:(ABRecordRef)person;
 
 @property (nonatomic, strong) UIManagedDocument *contactsDatabase;
 

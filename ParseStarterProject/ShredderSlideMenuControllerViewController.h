@@ -9,8 +9,9 @@
 #import "SASlideMenuViewController.h"
 #import <Parse/Parse.h>
 #import "AddressBookHelper.h"
+#import "ContactsDatabaseManager.h"
 
-@interface ShredderSlideMenuControllerViewController : SASlideMenuViewController <SASlideMenuDataSource, PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate, AddressBookHelperDelegate>
+@interface ShredderSlideMenuControllerViewController : SASlideMenuViewController <SASlideMenuDataSource, PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate, AddressBookHelperDelegate, ContactsDatabaseManagerDelegate>
 
 // This controller handles the delegate calls from the Login and Sign Up view controllers
 

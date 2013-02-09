@@ -8,7 +8,6 @@
 
 #import "AddressBookHelper.h"
 #import <AddressBook/AddressBook.h>
-#import "Contact+Create.h"
 #import <Parse/Parse.h>
 
 
@@ -51,18 +50,17 @@
     }
 }
 
-// This receives an array of contacts, and returns an array of contacts which have not been scanned
+// This receives all address book records, and returns an array of updated address book records
 void AddressBookUpdated(ABAddressBookRef addressBook, CFDictionaryRef info, void *context) {
     AddressBookHelper *helper = (__bridge AddressBookHelper *)context;
+    
     ABAddressBookRevert(addressBook);
     CFArrayRef addressBookArray = ABAddressBookCopyArrayOfAllPeople(addressBook);
     
-    NSMutableArray *recentlyUpdatedContacts = [[NSMutableArray alloc] init];
+    NSMutableArray *recentlyUpdatedAddressBookRecords = [[NSMutableArray alloc] init];
     
     // Retrieve date last checked
-    
     NSDate *lastScanDate = [[NSUserDefaults standardUserDefaults] objectForKey:@"lastScanDate"];
-    NSNumber *firstRunVersion = [[NSUserDefaults standardUserDefaults] objectForKey:@"firstRunVersion1.1"];
     
     // Iterate through all people in address book
     for (CFIndex i = 0; i < CFArrayGetCount(addressBookArray); i++) {
@@ -73,10 +71,11 @@ void AddressBookUpdated(ABAddressBookRef addressBook, CFDictionaryRef info, void
         NSDate *modifiedDate = (__bridge NSDate *)modifyDate;
         
         // If new contact or first time running version 1.1
-        if (!lastScanDate || [modifiedDate compare:lastScanDate] == NSOrderedDescending || [firstRunVersion isEqualToNumber:[NSNumber numberWithBool:YES]]) {
+        if (!lastScanDate || [modifiedDate compare:lastScanDate] == NSOrderedDescending) {
             
-            // Add to array
-            [recentlyUpdatedContacts addObject:(__bridge id)(person)];
+            // Create contact and add to array
+            Contact *contact = [helper createContactwithAddressRecord:person];
+            [recentlyUpdatedAddressBookRecords addObject:contact];
             
         } else if ([modifiedDate compare:lastScanDate] == NSOrderedAscending) {
             // Ignore
@@ -87,15 +86,106 @@ void AddressBookUpdated(ABAddressBookRef addressBook, CFDictionaryRef info, void
         
     }
     
-    
-    
     NSDate* now = [NSDate date];
     
     [[NSUserDefaults standardUserDefaults] setObject:now forKey:@"lastScanDate"];
     [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:NO] forKey:@"firstRunVersion1.1"];
     
-    [[helper delegate] addressBookHelper:helper finishedLoading:recentlyUpdatedContacts];
+    // Pass array of new address book records back to contacts database manager
+    [[helper delegate] addressBookHelper:helper retrieved:recentlyUpdatedAddressBookRecords];
 };
+
+
+
+-(Contact *)createContactwithAddressRecord:(ABRecordRef)person{
+    
+    int personID = ABRecordGetRecordID(person);
+    
+    // Obtain name information
+    NSString *firstName = (__bridge NSString *)ABRecordCopyValue(person, kABPersonFirstNameProperty);
+    NSString *surname = (__bridge NSString *)ABRecordCopyValue(person, kABPersonLastNameProperty);
+    
+    NSString *fullName = @"";
+    
+    if(firstName){
+        
+        fullName = [fullName stringByAppendingString:firstName];
+        
+        if(surname)
+        {
+            fullName = [fullName stringByAppendingString:@" "];
+            fullName = [fullName stringByAppendingString:surname];
+        }
+        
+    } else if(surname)
+    {
+        fullName = [fullName stringByAppendingString:surname];
+    }
+    
+    
+    if(![fullName isEqualToString:@""]){
+        
+        // Create a contact for every phone entry
+        Contact *contact = [Contact contactWithName:fullName inContext:self.contactsDatabase.managedObjectContext];
+        
+        // Set ID
+        contact.addressBookID = [NSNumber numberWithInt:personID];
+        
+        //Set name initial
+        NSString *initial = [fullName substringToIndex:1];
+        NSString *capitalisedInitial = [initial capitalizedString];
+        
+        contact.nameInitial = capitalisedInitial;
+        
+        // Obtain the phone number for the contact
+        ABMultiValueRef phoneNumbers = ABRecordCopyValue(person, kABPersonPhoneProperty);
+        NSString* phone = nil;
+        if (ABMultiValueGetCount(phoneNumbers) > 0) {
+            
+            phone = (__bridge NSString *)(ABMultiValueCopyValueAtIndex(phoneNumbers, 0));
+            contact.phoneNumber = phone;
+        }
+        
+        // Obtain email information from record and then iterate through
+        ABMultiValueRef emails = ABRecordCopyValue(person, kABPersonEmailProperty);
+        
+        for (CFIndex j=0; j < ABMultiValueGetCount(emails); j++) {
+            
+            // For first email, add to existing contact
+            if(j==0){
+                contact.email = (__bridge NSString*)ABMultiValueCopyValueAtIndex(emails, j);
+            } else {
+                NSString* emailString = (__bridge NSString*)ABMultiValueCopyValueAtIndex(emails, j);
+                
+                Contact *duplicateContactWithSeparateEmail = [Contact contactWithName:fullName inContext:self.contactsDatabase.managedObjectContext];
+                duplicateContactWithSeparateEmail.email = emailString;
+            }
+            
+        }
+        
+    }
+    
+}
+
+
+
+/*
+// Check if user has granted permission to Shredder to upload contacts
+if([[[NSUserDefaults standardUserDefaults] objectForKey:@"PermissionToUploadContactsToShredder"] isEqualToNumber:[NSNumber numberWithBool:NO]])
+{
+    // Prompt user to allow cross-check with server
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Alert" message:@"Shredder would like to upload your contacts to check which of your contacts are on Shredder. \n Your contacts will not be saved on our server." delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+    [alert show];
+} else {
+    
+    [self checkWhichContactsSignedUp];
+    //[self.delegate finishedMatchingContacts];
+}
+
+
+
+
+}*/
 
 // This method takes an array of contacts, and saves them as Contact objects in the DB
 -(void)fetchAddressBookData:(NSArray *)people IntoDocument:(UIManagedDocument *)document

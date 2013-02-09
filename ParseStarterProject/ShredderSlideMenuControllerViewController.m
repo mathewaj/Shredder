@@ -18,6 +18,7 @@
 #import "UIImage+ResizeAdditions.h"
 
 
+
 @interface ShredderSlideMenuControllerViewController ()
 
 @property (nonatomic, assign) UIBackgroundTaskIdentifier fileUploadBackgroundTaskId;
@@ -105,6 +106,11 @@
         
         controller.contactsDatabase = self.contactsDatabase;
         
+        UIManagedDocument *document1 = controller.contactsDatabase;
+        
+        UIManagedDocument *document2 = self.contactsDatabase;
+        
+        
     } else if([segue.identifier isEqualToString:@"Reports"])
     {
         UINavigationController *navController = (UINavigationController *)segue.destinationViewController;
@@ -155,9 +161,15 @@
     
     // Get access to the database
     if (!self.contactsDatabase) {
-        [self createDatabase];
+        ContactsDatabaseManager *contactsDatabaseManager = [[ContactsDatabaseManager alloc] init];
+        contactsDatabaseManager.delegate = self;
+        [contactsDatabaseManager createContactsDatabase];
+        [self finishedMatchingContacts];
+        //[self createDatabase];
     } else {
-        [self databaseIsReady];
+        //[self databaseIsReady];
+        [self finishedMatchingContacts];
+        
     }
     
 }
@@ -253,6 +265,12 @@
 
 #pragma mark - Database Creation and Address Book Import
 
+-(void)databaseIsReady:(UIManagedDocument *)contactsDatabase{
+
+    self.contactsDatabase = contactsDatabase;
+    
+}
+
 -(void)createDatabase{
     
     // Create UIManagedDocument to access database
@@ -318,6 +336,8 @@
 
 -(void)finishedMatchingContacts
 {
+    UIManagedDocument *document2 = self.contactsDatabase;
+    
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     
     [self performSegueWithIdentifier:@"Messages" sender:self];
