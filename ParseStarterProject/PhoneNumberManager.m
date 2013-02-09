@@ -28,12 +28,14 @@
         
     } else if([phoneNumber hasPrefix:@"0"]){
         // Local number
-        normalisedPhoneNumber = @"+";
+        normalisedPhoneNumber = [@"+" stringByAppendingString:countryCode];
         phoneNumber = [phoneNumber substringFromIndex:1];
         normalisedPhoneNumber = [normalisedPhoneNumber stringByAppendingString:phoneNumber];
-    } 
+    } else {
+        normalisedPhoneNumber = phoneNumber;
+    }
     
-    return 
+    return normalisedPhoneNumber;
     
 }
 

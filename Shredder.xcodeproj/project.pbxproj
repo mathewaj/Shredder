@@ -30,9 +30,9 @@
 		0B64967416B3141C00A875ED /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = 0B64967016B3141C00A875ED /* release_notes.md */; };
 		0B64967616B3146500A875ED /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B64967516B3146500A875ED /* libz.dylib */; };
 		0B64967916B322D300A875ED /* Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B64967816B322D300A875ED /* Blocks.m */; };
-		0B64968416B3F5E300A875ED /* Contact.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B64968316B3F5E300A875ED /* Contact.m */; };
 		0B663AD816C5C1A2007B8C10 /* ParseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B663AD716C5C1A2007B8C10 /* ParseManager.m */; };
 		0B663AE416C69BA5007B8C10 /* PhoneNumberManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B663AE316C69BA4007B8C10 /* PhoneNumberManager.m */; };
+		0B663AE916C69FF4007B8C10 /* Contact.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B663AE816C69FF4007B8C10 /* Contact.m */; };
 		0BADE87716AF1B47004C73B5 /* ShredBackground-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BADE87416AF1B47004C73B5 /* ShredBackground-568h@2x.png */; };
 		0BADE87D16AF1B74004C73B5 /* ShredTop.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BADE87B16AF1B74004C73B5 /* ShredTop.png */; };
 		0BADE87E16AF1B74004C73B5 /* ShredTop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BADE87C16AF1B74004C73B5 /* ShredTop@2x.png */; };
@@ -194,13 +194,13 @@
 		0B64967816B322D300A875ED /* Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Blocks.m; sourceTree = "<group>"; };
 		0B64967D16B3F42B00A875ED /* ContactsDatabase 2. 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ContactsDatabase 2. 3.xcdatamodel"; sourceTree = "<group>"; };
 		0B64967E16B3F4BB00A875ED /* ContactsDatabase 2. 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ContactsDatabase 2. 4.xcdatamodel"; sourceTree = "<group>"; };
-		0B64968216B3F5E300A875ED /* Contact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Contact.h; sourceTree = "<group>"; };
-		0B64968316B3F5E300A875ED /* Contact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Contact.m; sourceTree = "<group>"; };
 		0B663AD616C5C1A2007B8C10 /* ParseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParseManager.h; sourceTree = "<group>"; };
 		0B663AD716C5C1A2007B8C10 /* ParseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParseManager.m; sourceTree = "<group>"; };
 		0B663AE216C69BA4007B8C10 /* PhoneNumberManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhoneNumberManager.h; sourceTree = "<group>"; };
 		0B663AE316C69BA4007B8C10 /* PhoneNumberManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhoneNumberManager.m; sourceTree = "<group>"; };
 		0B663AE616C69F80007B8C10 /* ContactsDatabase 2. 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ContactsDatabase 2. 5.xcdatamodel"; sourceTree = "<group>"; };
+		0B663AE716C69FF4007B8C10 /* Contact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Contact.h; sourceTree = "<group>"; };
+		0B663AE816C69FF4007B8C10 /* Contact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Contact.m; sourceTree = "<group>"; };
 		0BADE87416AF1B47004C73B5 /* ShredBackground-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ShredBackground-568h@2x.png"; sourceTree = "<group>"; };
 		0BADE87B16AF1B74004C73B5 /* ShredTop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ShredTop.png; sourceTree = "<group>"; };
 		0BADE87C16AF1B74004C73B5 /* ShredTop@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ShredTop@2x.png"; sourceTree = "<group>"; };
@@ -642,9 +642,9 @@
 		E7B8D7DE165179D900BD89B6 /* Database */ = {
 			isa = PBXGroup;
 			children = (
-				0B64968216B3F5E300A875ED /* Contact.h */,
-				0B64968316B3F5E300A875ED /* Contact.m */,
 				E7B8D7D5165178F800BD89B6 /* ContactsDatabase.xcdatamodeld */,
+				0B663AE716C69FF4007B8C10 /* Contact.h */,
+				0B663AE816C69FF4007B8C10 /* Contact.m */,
 				E7F3B53A1656CD3100C99D62 /* Email.h */,
 				E7F3B53B1656CD3100C99D62 /* Email.m */,
 				E7B8D7DF16517A0C00BD89B6 /* Contact+Create.h */,
@@ -862,10 +862,10 @@
 				0BB9E35516B0578D00BE9850 /* FetchedResultsTableControllerViewController.m in Sources */,
 				0BB9E35916B05EE100BE9850 /* CoreDataTableViewController2.m in Sources */,
 				0B64967916B322D300A875ED /* Blocks.m in Sources */,
-				0B64968416B3F5E300A875ED /* Contact.m in Sources */,
 				0BAE4FBB16C5BBE000245288 /* ContactsDatabaseManager.m in Sources */,
 				0B663AD816C5C1A2007B8C10 /* ParseManager.m in Sources */,
 				0B663AE416C69BA5007B8C10 /* PhoneNumberManager.m in Sources */,
+				0B663AE916C69FF4007B8C10 /* Contact.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1009,7 +1009,7 @@
 				0B52462916A7458D00082321 /* ContactsDatabase 2.0.xcdatamodel */,
 				E7B8D7D6165178F800BD89B6 /* ContactsDatabase.xcdatamodel */,
 			);
-			currentVersion = 0B64967E16B3F4BB00A875ED /* ContactsDatabase 2. 4.xcdatamodel */;
+			currentVersion = 0B663AE616C69F80007B8C10 /* ContactsDatabase 2. 5.xcdatamodel */;
 			name = ContactsDatabase.xcdatamodeld;
 			path = ParseStarterProject/ContactsDatabase.xcdatamodeld;
 			sourceTree = "<group>";

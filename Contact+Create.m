@@ -154,9 +154,12 @@
             
             phone = (__bridge NSString *)(ABMultiValueCopyValueAtIndex(phoneNumbers, 0));
             
-            phone = [PhoneNumberManager normalisedPhoneNumberWithContactNumber:phone countryCode:@"+353"];
-            
             contact.phoneNumber = phone;
+            
+            contact.normalisedPhoneNumber = [PhoneNumberManager normalisedPhoneNumberWithContactNumber:phone countryCode:@"353"];
+            
+             NSLog(@"Normalised Number: %@", contact.normalisedPhoneNumber);
+            
         }
         
         // Obtain email information from record and then iterate through

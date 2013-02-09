@@ -5,12 +5,11 @@
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="nameInitial" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="normalisedPhoneNumber" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="parseID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="phoneNumber" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="signedUp" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Contact" positionX="-5103" positionY="-90" width="128" height="165"/>
+        <element name="Contact" positionX="-5103" positionY="-90" width="128" height="150"/>
     </elements>
 </model>
