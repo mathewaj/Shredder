@@ -128,7 +128,11 @@
         
         Contact *contact = [Contact contactWithAddressBookInfo:person inContext:self.contactsDatabase.managedObjectContext];
         
-        [contacts addObject:contact];
+        if(contact){
+            [contacts addObject:contact];
+        }
+        
+        
         
         /* Obtain name information
          

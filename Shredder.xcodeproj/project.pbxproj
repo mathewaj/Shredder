@@ -49,6 +49,17 @@
 		0BB9E35916B05EE100BE9850 /* CoreDataTableViewController2.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BB9E35816B05EE100BE9850 /* CoreDataTableViewController2.m */; };
 		0BC6DD1D16AC77DD00BFD791 /* YellowMessage.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BC6DD1B16AC77DD00BFD791 /* YellowMessage.png */; };
 		0BC6DD1E16AC77DD00BFD791 /* YellowMessage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BC6DD1C16AC77DD00BFD791 /* YellowMessage@2x.png */; };
+		0BCB90D316CAE14600468B57 /* InitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BCB90D216CAE14600468B57 /* InitialViewController.m */; };
+		0BCB90D616CAE2AC00468B57 /* BackgroundImageHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BCB90D516CAE2AC00468B57 /* BackgroundImageHelper.m */; };
+		0BEB004416C6CD7D0068ECDB /* NBNumberFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BEB003A16C6CD7D0068ECDB /* NBNumberFormat.m */; };
+		0BEB004516C6CD7D0068ECDB /* NBPhoneMetaData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BEB003C16C6CD7D0068ECDB /* NBPhoneMetaData.m */; };
+		0BEB004616C6CD7D0068ECDB /* NBPhoneNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BEB003E16C6CD7D0068ECDB /* NBPhoneNumber.m */; };
+		0BEB004716C6CD7D0068ECDB /* NBPhoneNumberDesc.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BEB004116C6CD7D0068ECDB /* NBPhoneNumberDesc.m */; };
+		0BEB004816C6CD7D0068ECDB /* NBPhoneNumberUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BEB004316C6CD7D0068ECDB /* NBPhoneNumberUtil.m */; };
+		0BEB004E16C6EB4A0068ECDB /* PhoneNumberMetaData.json in Resources */ = {isa = PBXBuildFile; fileRef = 0BEB004A16C6EB4A0068ECDB /* PhoneNumberMetaData.json */; };
+		0BEB004F16C6EB4A0068ECDB /* PhoneNumberMetaDataForTesting.json in Resources */ = {isa = PBXBuildFile; fileRef = 0BEB004B16C6EB4A0068ECDB /* PhoneNumberMetaDataForTesting.json */; };
+		0BEB005016C6EB4A0068ECDB /* NBPhoneNumberMetadata.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0BEB004C16C6EB4A0068ECDB /* NBPhoneNumberMetadata.plist */; };
+		0BEB005116C6EB4A0068ECDB /* NBPhoneNumberMetadataForTesting.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0BEB004D16C6EB4A0068ECDB /* NBPhoneNumberMetadataForTesting.plist */; };
 		2FCDD6B014A573F500295AAC /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FCDD6AF14A573F500295AAC /* QuartzCore.framework */; };
 		4998650515BF305000803E05 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4998650415BF305000803E05 /* StoreKit.framework */; };
 		6332375415E438E900AE2736 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6332375315E438E900AE2736 /* libsqlite3.dylib */; };
@@ -194,11 +205,11 @@
 		0B64967816B322D300A875ED /* Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Blocks.m; sourceTree = "<group>"; };
 		0B64967D16B3F42B00A875ED /* ContactsDatabase 2. 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ContactsDatabase 2. 3.xcdatamodel"; sourceTree = "<group>"; };
 		0B64967E16B3F4BB00A875ED /* ContactsDatabase 2. 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ContactsDatabase 2. 4.xcdatamodel"; sourceTree = "<group>"; };
-		0B663AD616C5C1A2007B8C10 /* ParseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParseManager.h; sourceTree = "<group>"; };
-		0B663AD716C5C1A2007B8C10 /* ParseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParseManager.m; sourceTree = "<group>"; };
-		0B663AE216C69BA4007B8C10 /* PhoneNumberManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhoneNumberManager.h; sourceTree = "<group>"; };
-		0B663AE316C69BA4007B8C10 /* PhoneNumberManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhoneNumberManager.m; sourceTree = "<group>"; };
-		0B663AE616C69F80007B8C10 /* ContactsDatabase 2. 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ContactsDatabase 2. 5.xcdatamodel"; sourceTree = "<group>"; };
+		0B663AD616C5C1A2007B8C10 /* ParseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ParseManager.h; path = ParseStarterProject/ParseManager.h; sourceTree = "<group>"; };
+		0B663AD716C5C1A2007B8C10 /* ParseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ParseManager.m; path = ParseStarterProject/ParseManager.m; sourceTree = "<group>"; };
+		0B663AE216C69BA4007B8C10 /* PhoneNumberManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhoneNumberManager.h; path = ParseStarterProject/PhoneNumberManager.h; sourceTree = "<group>"; };
+		0B663AE316C69BA4007B8C10 /* PhoneNumberManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PhoneNumberManager.m; path = ParseStarterProject/PhoneNumberManager.m; sourceTree = "<group>"; };
+		0B663AE616C69F80007B8C10 /* ContactsDatabase 2. 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ContactsDatabase 2. 5.xcdatamodel"; sourceTree = "<group>"; };
 		0B663AE716C69FF4007B8C10 /* Contact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Contact.h; sourceTree = "<group>"; };
 		0B663AE816C69FF4007B8C10 /* Contact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Contact.m; sourceTree = "<group>"; };
 		0BADE87416AF1B47004C73B5 /* ShredBackground-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ShredBackground-568h@2x.png"; sourceTree = "<group>"; };
@@ -206,8 +217,8 @@
 		0BADE87C16AF1B74004C73B5 /* ShredTop@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ShredTop@2x.png"; sourceTree = "<group>"; };
 		0BADE87F16AF1D2F004C73B5 /* ShredBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ShredBackground.png; sourceTree = "<group>"; };
 		0BADE88016AF1D2F004C73B5 /* ShredBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ShredBackground@2x.png"; sourceTree = "<group>"; };
-		0BAE4FB916C5BBE000245288 /* ContactsDatabaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactsDatabaseManager.h; sourceTree = "<group>"; };
-		0BAE4FBA16C5BBE000245288 /* ContactsDatabaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactsDatabaseManager.m; sourceTree = "<group>"; };
+		0BAE4FB916C5BBE000245288 /* ContactsDatabaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContactsDatabaseManager.h; path = ParseStarterProject/ContactsDatabaseManager.h; sourceTree = "<group>"; };
+		0BAE4FBA16C5BBE000245288 /* ContactsDatabaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ContactsDatabaseManager.m; path = ParseStarterProject/ContactsDatabaseManager.m; sourceTree = "<group>"; };
 		0BB73A4E16ADE67700E95403 /* LoginBackground-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LoginBackground-568h@2x.png"; sourceTree = "<group>"; };
 		0BB73A4F16ADE67700E95403 /* LoginBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LoginBackground.png; sourceTree = "<group>"; };
 		0BB73A5016ADE67700E95403 /* LoginBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LoginBackground@2x.png"; sourceTree = "<group>"; };
@@ -221,6 +232,25 @@
 		0BB9E35A16B0AC0600BE9850 /* ContactsDatabase 2. 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ContactsDatabase 2. 2.xcdatamodel"; sourceTree = "<group>"; };
 		0BC6DD1B16AC77DD00BFD791 /* YellowMessage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = YellowMessage.png; sourceTree = "<group>"; };
 		0BC6DD1C16AC77DD00BFD791 /* YellowMessage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "YellowMessage@2x.png"; sourceTree = "<group>"; };
+		0BCB90D116CAE14600468B57 /* InitialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InitialViewController.h; sourceTree = "<group>"; };
+		0BCB90D216CAE14600468B57 /* InitialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InitialViewController.m; sourceTree = "<group>"; };
+		0BCB90D416CAE2AC00468B57 /* BackgroundImageHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackgroundImageHelper.h; sourceTree = "<group>"; };
+		0BCB90D516CAE2AC00468B57 /* BackgroundImageHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackgroundImageHelper.m; sourceTree = "<group>"; };
+		0BEB003916C6CD7D0068ECDB /* NBNumberFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBNumberFormat.h; sourceTree = "<group>"; };
+		0BEB003A16C6CD7D0068ECDB /* NBNumberFormat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBNumberFormat.m; sourceTree = "<group>"; };
+		0BEB003B16C6CD7D0068ECDB /* NBPhoneMetaData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBPhoneMetaData.h; sourceTree = "<group>"; };
+		0BEB003C16C6CD7D0068ECDB /* NBPhoneMetaData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBPhoneMetaData.m; sourceTree = "<group>"; };
+		0BEB003D16C6CD7D0068ECDB /* NBPhoneNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBPhoneNumber.h; sourceTree = "<group>"; };
+		0BEB003E16C6CD7D0068ECDB /* NBPhoneNumber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBPhoneNumber.m; sourceTree = "<group>"; };
+		0BEB003F16C6CD7D0068ECDB /* NBPhoneNumberDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBPhoneNumberDefines.h; sourceTree = "<group>"; };
+		0BEB004016C6CD7D0068ECDB /* NBPhoneNumberDesc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBPhoneNumberDesc.h; sourceTree = "<group>"; };
+		0BEB004116C6CD7D0068ECDB /* NBPhoneNumberDesc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBPhoneNumberDesc.m; sourceTree = "<group>"; };
+		0BEB004216C6CD7D0068ECDB /* NBPhoneNumberUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBPhoneNumberUtil.h; sourceTree = "<group>"; };
+		0BEB004316C6CD7D0068ECDB /* NBPhoneNumberUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBPhoneNumberUtil.m; sourceTree = "<group>"; };
+		0BEB004A16C6EB4A0068ECDB /* PhoneNumberMetaData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = PhoneNumberMetaData.json; sourceTree = "<group>"; };
+		0BEB004B16C6EB4A0068ECDB /* PhoneNumberMetaDataForTesting.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = PhoneNumberMetaDataForTesting.json; sourceTree = "<group>"; };
+		0BEB004C16C6EB4A0068ECDB /* NBPhoneNumberMetadata.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = NBPhoneNumberMetadata.plist; sourceTree = "<group>"; };
+		0BEB004D16C6EB4A0068ECDB /* NBPhoneNumberMetadataForTesting.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = NBPhoneNumberMetadataForTesting.plist; sourceTree = "<group>"; };
 		2FCDD6AF14A573F500295AAC /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		4998650415BF305000803E05 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		6332375315E438E900AE2736 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
@@ -231,8 +261,8 @@
 		E7015B3A167B7F8F00843A73 /* MenuCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuCell.h; sourceTree = "<group>"; };
 		E7015B3B167B7F9000843A73 /* MenuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuCell.m; sourceTree = "<group>"; };
 		E7015B46167BCBB900843A73 /* LoginFieldBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LoginFieldBG.png; sourceTree = "<group>"; };
-		E7015B5C167F9CD900843A73 /* NSString+InitialHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+InitialHelper.h"; sourceTree = "<group>"; };
-		E7015B5D167F9CD900843A73 /* NSString+InitialHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+InitialHelper.m"; sourceTree = "<group>"; };
+		E7015B5C167F9CD900843A73 /* NSString+InitialHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+InitialHelper.h"; path = "ParseStarterProject/NSString+InitialHelper.h"; sourceTree = "<group>"; };
+		E7015B5D167F9CD900843A73 /* NSString+InitialHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+InitialHelper.m"; path = "ParseStarterProject/NSString+InitialHelper.m"; sourceTree = "<group>"; };
 		E7089419165A46140079604C /* NewContactViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewContactViewController.h; sourceTree = "<group>"; };
 		E708941A165A46140079604C /* NewContactViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewContactViewController.m; sourceTree = "<group>"; };
 		E72F7A40166E756700E74B34 /* App-Icon-57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "App-Icon-57.png"; sourceTree = "<group>"; };
@@ -348,8 +378,8 @@
 		E7CD70F1165C3D03008F0936 /* 68-paperclip@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "68-paperclip@2x.png"; sourceTree = "<group>"; };
 		E7CD7117165C543C008F0936 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		E7CD7118165C543C008F0936 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
-		E7F3B518165440A700C99D62 /* AddressBookHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressBookHelper.h; sourceTree = "<group>"; };
-		E7F3B519165440A700C99D62 /* AddressBookHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressBookHelper.m; sourceTree = "<group>"; };
+		E7F3B518165440A700C99D62 /* AddressBookHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddressBookHelper.h; path = ParseStarterProject/AddressBookHelper.h; sourceTree = "<group>"; };
+		E7F3B519165440A700C99D62 /* AddressBookHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddressBookHelper.m; path = ParseStarterProject/AddressBookHelper.m; sourceTree = "<group>"; };
 		E7F3B5301656A04700C99D62 /* ContactDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactDetailViewController.h; sourceTree = "<group>"; };
 		E7F3B5311656A04700C99D62 /* ContactDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactDetailViewController.m; sourceTree = "<group>"; };
 		E7F3B53A1656CD3100C99D62 /* Email.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Email.h; sourceTree = "<group>"; };
@@ -396,6 +426,8 @@
 		09ABC06213A1D52D009C3FCF = {
 			isa = PBXGroup;
 			children = (
+				0BEB004916C6EB260068ECDB /* Metadata */,
+				0BEB003816C6CD5E0068ECDB /* PhoneNumberNormaliser */,
 				0B64967516B3146500A875ED /* libz.dylib */,
 				0B64966D16B3141C00A875ED /* TestFlightSDK1 */,
 				E72F7A43166E757700E74B34 /* App-Icon-114.png */,
@@ -408,6 +440,7 @@
 				E7B8D7E2165190BB00BD89B6 /* CoreData.framework */,
 				E7CD70F5165C3E7D008F0936 /* UIImage-categories */,
 				E7B8D7DE165179D900BD89B6 /* Database */,
+				0B8BBC4516CAD66000E833D1 /* Helpers */,
 				09ABC07713A1D52D009C3FCF /* ParseStarterProject */,
 				09ABC07013A1D52D009C3FCF /* Frameworks */,
 				09ABC06E13A1D52D009C3FCF /* Products */,
@@ -453,16 +486,10 @@
 				E7B8D8031652533D00BD89B6 /* MainStoryboard.storyboard */,
 				09ABC08013A1D52D009C3FCF /* ParseStarterProjectAppDelegate.h */,
 				09ABC08113A1D52D009C3FCF /* ParseStarterProjectAppDelegate.m */,
+				0BCB90D116CAE14600468B57 /* InitialViewController.h */,
+				0BCB90D216CAE14600468B57 /* InitialViewController.m */,
 				E7A0175A165BB0A1003F1817 /* ShredderSlideMenuControllerViewController.h */,
 				E7A0175B165BB0A1003F1817 /* ShredderSlideMenuControllerViewController.m */,
-				E7F3B518165440A700C99D62 /* AddressBookHelper.h */,
-				E7F3B519165440A700C99D62 /* AddressBookHelper.m */,
-				0BAE4FB916C5BBE000245288 /* ContactsDatabaseManager.h */,
-				0BAE4FBA16C5BBE000245288 /* ContactsDatabaseManager.m */,
-				0B663AE216C69BA4007B8C10 /* PhoneNumberManager.h */,
-				0B663AE316C69BA4007B8C10 /* PhoneNumberManager.m */,
-				0B663AD616C5C1A2007B8C10 /* ParseManager.h */,
-				0B663AD716C5C1A2007B8C10 /* ParseManager.m */,
 				E7F3B53F165833A700C99D62 /* AllMessagesViewController.h */,
 				E7F3B540165833A700C99D62 /* AllMessagesViewController.m */,
 				E78887831664EE72003C5ACB /* AllReportsViewController.h */,
@@ -491,8 +518,6 @@
 				E7015B3B167B7F9000843A73 /* MenuCell.m */,
 				E76FF702165F7C72005F1081 /* ShreddingEffectView.h */,
 				E76FF703165F7C72005F1081 /* ShreddingEffectView.m */,
-				E7015B5C167F9CD900843A73 /* NSString+InitialHelper.h */,
-				E7015B5D167F9CD900843A73 /* NSString+InitialHelper.m */,
 				09ABC07813A1D52D009C3FCF /* Supporting Files */,
 			);
 			path = ParseStarterProject;
@@ -583,6 +608,54 @@
 				0B64967116B3141C00A875ED /* TestFlight.h */,
 			);
 			path = TestFlightSDK1;
+			sourceTree = "<group>";
+		};
+		0B8BBC4516CAD66000E833D1 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				E7F3B518165440A700C99D62 /* AddressBookHelper.h */,
+				E7F3B519165440A700C99D62 /* AddressBookHelper.m */,
+				0BAE4FB916C5BBE000245288 /* ContactsDatabaseManager.h */,
+				0BAE4FBA16C5BBE000245288 /* ContactsDatabaseManager.m */,
+				0B663AE216C69BA4007B8C10 /* PhoneNumberManager.h */,
+				0B663AE316C69BA4007B8C10 /* PhoneNumberManager.m */,
+				E7015B5C167F9CD900843A73 /* NSString+InitialHelper.h */,
+				E7015B5D167F9CD900843A73 /* NSString+InitialHelper.m */,
+				0B663AD616C5C1A2007B8C10 /* ParseManager.h */,
+				0B663AD716C5C1A2007B8C10 /* ParseManager.m */,
+				0BCB90D416CAE2AC00468B57 /* BackgroundImageHelper.h */,
+				0BCB90D516CAE2AC00468B57 /* BackgroundImageHelper.m */,
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
+		0BEB003816C6CD5E0068ECDB /* PhoneNumberNormaliser */ = {
+			isa = PBXGroup;
+			children = (
+				0BEB003916C6CD7D0068ECDB /* NBNumberFormat.h */,
+				0BEB003A16C6CD7D0068ECDB /* NBNumberFormat.m */,
+				0BEB003B16C6CD7D0068ECDB /* NBPhoneMetaData.h */,
+				0BEB003C16C6CD7D0068ECDB /* NBPhoneMetaData.m */,
+				0BEB003D16C6CD7D0068ECDB /* NBPhoneNumber.h */,
+				0BEB003E16C6CD7D0068ECDB /* NBPhoneNumber.m */,
+				0BEB003F16C6CD7D0068ECDB /* NBPhoneNumberDefines.h */,
+				0BEB004016C6CD7D0068ECDB /* NBPhoneNumberDesc.h */,
+				0BEB004116C6CD7D0068ECDB /* NBPhoneNumberDesc.m */,
+				0BEB004216C6CD7D0068ECDB /* NBPhoneNumberUtil.h */,
+				0BEB004316C6CD7D0068ECDB /* NBPhoneNumberUtil.m */,
+			);
+			name = PhoneNumberNormaliser;
+			sourceTree = "<group>";
+		};
+		0BEB004916C6EB260068ECDB /* Metadata */ = {
+			isa = PBXGroup;
+			children = (
+				0BEB004A16C6EB4A0068ECDB /* PhoneNumberMetaData.json */,
+				0BEB004B16C6EB4A0068ECDB /* PhoneNumberMetaDataForTesting.json */,
+				0BEB004C16C6EB4A0068ECDB /* NBPhoneNumberMetadata.plist */,
+				0BEB004D16C6EB4A0068ECDB /* NBPhoneNumberMetadataForTesting.plist */,
+			);
+			name = Metadata;
 			sourceTree = "<group>";
 		};
 		E76FF6BC165E714C005F1081 /* CoreDataTableViewController */ = {
@@ -821,6 +894,10 @@
 				0BADE88216AF1D2F004C73B5 /* ShredBackground@2x.png in Resources */,
 				0B64967316B3141C00A875ED /* README.md in Resources */,
 				0B64967416B3141C00A875ED /* release_notes.md in Resources */,
+				0BEB004E16C6EB4A0068ECDB /* PhoneNumberMetaData.json in Resources */,
+				0BEB004F16C6EB4A0068ECDB /* PhoneNumberMetaDataForTesting.json in Resources */,
+				0BEB005016C6EB4A0068ECDB /* NBPhoneNumberMetadata.plist in Resources */,
+				0BEB005116C6EB4A0068ECDB /* NBPhoneNumberMetadataForTesting.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -866,6 +943,13 @@
 				0B663AD816C5C1A2007B8C10 /* ParseManager.m in Sources */,
 				0B663AE416C69BA5007B8C10 /* PhoneNumberManager.m in Sources */,
 				0B663AE916C69FF4007B8C10 /* Contact.m in Sources */,
+				0BEB004416C6CD7D0068ECDB /* NBNumberFormat.m in Sources */,
+				0BEB004516C6CD7D0068ECDB /* NBPhoneMetaData.m in Sources */,
+				0BEB004616C6CD7D0068ECDB /* NBPhoneNumber.m in Sources */,
+				0BEB004716C6CD7D0068ECDB /* NBPhoneNumberDesc.m in Sources */,
+				0BEB004816C6CD7D0068ECDB /* NBPhoneNumberUtil.m in Sources */,
+				0BCB90D316CAE14600468B57 /* InitialViewController.m in Sources */,
+				0BCB90D616CAE2AC00468B57 /* BackgroundImageHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

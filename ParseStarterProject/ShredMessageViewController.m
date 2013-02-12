@@ -183,6 +183,82 @@
       
 }
 
+- (IBAction)shredButtonLongPressed:(UILongPressGestureRecognizer *)sender {
+    
+    sender.enabled = NO;
+    
+    // Check if already shredding to prevent multiple shred reports
+    if([self.shreddingInProcess isEqualToNumber:[NSNumber numberWithBool:NO]])
+    {
+        self.shreddingInProcess = [NSNumber numberWithBool:YES];
+        
+        // Create a shred report message
+        if([self.reportSent isEqualToNumber:[NSNumber numberWithBool:NO]])
+        {
+            [self sendShredReport];
+            self.reportSent = [NSNumber numberWithBool:YES];
+        }
+        
+        // Animate Shredding
+        
+        // Play sound and add graphic
+        SystemSoundID chainsawId;
+        NSString *chainsaw = [[NSBundle mainBundle]
+                              pathForResource:@"chainsaw-02" ofType:@"wav"];
+        NSURL *chainsawURL = [NSURL fileURLWithPath:chainsaw];
+        AudioServicesCreateSystemSoundID((__bridge CFURLRef)chainsawURL, &chainsawId);
+        AudioServicesPlaySystemSound(chainsawId);
+        
+        // Move message view up and start shred graphic
+        CGRect newMessageFrame = self.messageView.frame;
+        newMessageFrame.origin.y -= 568;
+        [UIView animateWithDuration:1
+                              delay:0
+                            options:UIViewAnimationCurveLinear
+                         animations:^{
+                             
+                             // Rotate shredding button
+                             self.shredButton.transform = CGAffineTransformRotate(self.shredButton.transform, M_PI / 2);
+                             
+                             // Message moves upwards
+                             self.messageView.frame = newMessageFrame;
+                             
+                         }
+                         completion:^(BOOL finished){
+                             
+                             self.shreddingEffectView.confettiEmitter.birthRate = 20;
+                             
+                             // If attachment -> confetti multi-coloured
+                             if([self.message objectForKey:@"attachedImage"])
+                             {
+                                 self.shreddingEffectView.confettiColour.birthRate = 20;
+                                 
+                             }
+                             
+                             [self.shreddingEffectView decayOverTime:1];
+                             [self performSelector:@selector(dismissControllerAndSendReply) withObject:nil afterDelay:3.0];
+                             
+                         }];
+        
+        
+        
+        // Delete message
+        [self.message deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
+            
+            // Broadcast notification that message being shredded so that All Messages table reloads
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadMessagesTable" object:nil];
+            
+        }];
+    }
+    
+}
+
+-(void)dismissControllerAndSendReply{
+    
+    // Tell delegate to dismiss view controller and perform segue to compose message with sender of current message
+    
+}
+
 -(void)sendShredReport
 {
     PFObject *shredReport = [PFObject objectWithClassName:@"Message"];

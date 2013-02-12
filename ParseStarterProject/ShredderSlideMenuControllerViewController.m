@@ -53,7 +53,14 @@
 // The SASlideMenuDataSource is used to provide the initial segueid that represents the initial visibile view controller and to provide eventual additional configuration to the menu button
 
 -(NSString*)initialSegueId{
-    return @"LogOut";
+    
+    if(![[PFUser currentUser] username]){
+        return @"Messages";
+    } else {
+        return @"Messages";
+    }
+    
+    return @"SignUp";
 }
 
 -(void) configureMenuButton:(UIButton *)menuButton{

@@ -7,35 +7,25 @@
 //
 
 #import "PhoneNumberManager.h"
+#import "NBPhoneNumberUtil.h"
+#import "NBPhoneNumber.h"
+
 
 @implementation PhoneNumberManager
 
 +(NSString *)normalisedPhoneNumberWithContactNumber:(NSString *)phoneNumber countryCode:(NSString *)countryCode{
     
-    NSString *normalisedPhoneNumber;
+    NBPhoneNumberUtil *phoneUtil = [NBPhoneNumberUtil sharedInstance];
+    NSError *error;
     
-    // Check if existing international number
-    // If so replace any '00' with '+'
-    if([phoneNumber hasPrefix:@"+"]){
-       
-        normalisedPhoneNumber = phoneNumber;
-        
-    } else if ([phoneNumber hasPrefix:@"00"]){
-        // International number, change to +
-        normalisedPhoneNumber = @"+";
-        phoneNumber = [phoneNumber substringFromIndex:2];
-        normalisedPhoneNumber = [normalisedPhoneNumber stringByAppendingString:phoneNumber];
-        
-    } else if([phoneNumber hasPrefix:@"0"]){
-        // Local number
-        normalisedPhoneNumber = [@"+" stringByAppendingString:countryCode];
-        phoneNumber = [phoneNumber substringFromIndex:1];
-        normalisedPhoneNumber = [normalisedPhoneNumber stringByAppendingString:phoneNumber];
-    } else {
-        normalisedPhoneNumber = phoneNumber;
+    NBPhoneNumber *parsedNumber = [phoneUtil parseAndKeepRawInput:phoneNumber defaultRegion:@"IE" error:&error];
+    if(error){
+        NSLog(@"%@", [error localizedDescription]);
     }
     
-    return normalisedPhoneNumber;
+    NSString *parsedNumberString = [phoneUtil format:parsedNumber numberFormat:NBEPhoneNumberFormatE164 error:nil];
+    
+    return parsedNumberString;
     
 }
 

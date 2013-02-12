@@ -10,6 +10,7 @@
 #import "MySignUpViewController.h"
 #import "MBProgressHUD.h"
 #import <QuartzCore/QuartzCore.h>
+#import "BackgroundImageHelper.h"
 
 @interface MyLogInViewController ()
 
@@ -17,9 +18,7 @@
 
 @implementation MyLogInViewController
 
-#define isPhone568 ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && [UIScreen mainScreen].bounds.size.height == 568)
-#define iPhone568ImageNamed(image) (isPhone568 ? [NSString stringWithFormat:@"%@-568h.%@", [image stringByDeletingPathExtension], [image pathExtension]] : image)
-#define iPhone568Image(image) ([UIImage imageNamed:iPhone568ImageNamed(image)])
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {

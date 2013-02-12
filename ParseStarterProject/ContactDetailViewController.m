@@ -73,9 +73,9 @@
     [txtField setBorderStyle:UITextBorderStyleNone];
     
     
-    if(self.contact.phoneNumber)
+    if(self.contact.normalisedPhoneNumber)
     {
-        txtField.text = self.contact.phoneNumber;
+        txtField.text = self.contact.normalisedPhoneNumber;
     } else {
         txtField.text = @"";
     }
@@ -185,7 +185,7 @@
                 // Save phone number if entered
                 if(![self.contactPhoneTextField.text isEqualToString:@""])
                 {
-                    self.contact.phoneNumber = self.contactPhoneTextField.text;
+                    self.contact.normalisedPhoneNumber = self.contactPhoneTextField.text;
                 }
                 
             }
