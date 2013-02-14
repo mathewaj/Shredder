@@ -7,7 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SignUpDetailsViewController.h"
 
-@interface InitialViewController : UIViewController
+
+// View Controller which presents SignUp View route on first run of app
+
+@interface InitialViewController : UIViewController <SignUpDetailsViewControllerProtocol>
+
+-(void)directLoggedInOrNotLoggedInUserRespectively;
 
 @end

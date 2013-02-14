@@ -213,7 +213,7 @@
         if(self.contact.email){
             
             // Check if contact on Shredder and update invite label accordingly
-            [self checkIfContactOnShredder:self.contact onCompletion:^(BOOL signedUp){
+            [self checkIfContactOnShredder:self.contact onCompletion:^(BOOL signedUp, NSError *error){
                 
                 self.contact.signedUp = [NSNumber numberWithBool:signedUp];
                 
@@ -253,10 +253,10 @@
             {
                 PFUser *user = [objects lastObject];
                 self.contact.parseID = user.objectId;
-                parseReturned(YES);
+                parseReturned(YES, error);
                 
             } else {
-                parseReturned(NO);
+                parseReturned(NO, error);
             }
             
             

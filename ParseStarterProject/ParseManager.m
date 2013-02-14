@@ -11,6 +11,7 @@
 #import <CoreData/CoreData.h>
 #import "Contact.h"
 
+
 @interface ParseManager()
 
 @property (nonatomic, strong) NSArray *contactsForUserCheck;
@@ -19,6 +20,55 @@
 
 @implementation ParseManager
 
+#pragma mark - User Functions
+
++(void)signUpWithPhoneNumber:(NSString *)phoneNumber andPassword:(NSString *)password withCompletionBlock:(ParseReturned)parseReturned {
+    
+    PFUser *user = [PFUser user];
+    user.username = phoneNumber;
+    user.password = password;
+    
+    [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        
+        if (!error) {
+            // Hooray! Let them use the app now.
+            if(succeeded)
+            {
+                parseReturned(YES, error);
+            } else {
+                parseReturned(NO, error);
+            }
+            
+        } else {
+            parseReturned(NO, error);
+        }
+    }];
+    
+}
+
++(void)loginWithPhoneNumber:(NSString *)phoneNumber andPassword:(NSString *)password withCompletionBlock:(ParseReturned)parseReturned{
+    
+    PFUser *user = [PFUser user];
+    user.username = phoneNumber;
+    user.password = password;
+    
+    [PFUser logInWithUsernameInBackground:phoneNumber password:password
+                                    block:^(PFUser *user, NSError *error) {
+                                        if (user) {
+                                            // Do stuff after successful login.
+                                            parseReturned(YES, error);
+                                        } else {
+                                            // The login failed. Check error to see why.
+                                            parseReturned(NO, error);
+                                        }
+                                    }];
+    
+}
+
+#pragma mark - Messaging Functions
+
+
+#pragma mark - Contact Functions
 
 -(void)checkIfNewContactsAreOnShredder:(NSArray *)newlyUpdatedContacts{
     

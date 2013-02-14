@@ -108,7 +108,7 @@
         [self.view endEditing:TRUE];
         
         // Check if contact on Shredder and update invite label accordingly
-        [self checkIfContactOnShredder:self.contact onCompletion:^(BOOL signedUp){
+        [self checkIfContactOnShredder:self.contact onCompletion:^(BOOL signedUp, NSError *error){
             
             self.contact.signedUp = [NSNumber numberWithBool:signedUp];
             
@@ -289,11 +289,11 @@
                 // Confirmed Shredder user
                 PFUser *user = [objects lastObject];
                 self.contact.parseID = user.objectId;
-                parseReturned(YES);
+                parseReturned(YES, error);
                 
             } else {
                 // Email not found
-                parseReturned(NO);
+                parseReturned(NO, error);
             }
             
             

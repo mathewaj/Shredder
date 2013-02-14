@@ -353,10 +353,10 @@
             </objects>
             <point key="canvasLocation" x="2909" y="-1047"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Sign Up Phone Number View Controller-->
         <scene sceneID="WEP-rE-3wT">
             <objects>
-                <tableViewController id="26z-Hl-zKx" sceneMemberID="viewController">
+                <tableViewController id="26z-Hl-zKx" customClass="SignUpPhoneNumberViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="liv-vg-wnC">
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -433,7 +433,7 @@
                     <navigationItem key="navigationItem" id="2hB-9i-3TM">
                         <barButtonItem key="rightBarButtonItem" title="Next" id="C7E-mj-kF2">
                             <connections>
-                                <segue destination="OnQ-XQ-w3J" kind="push" identifier="EnterPersonalDetails" id="UeY-BK-mQl"/>
+                                <segue destination="OnQ-XQ-w3J" kind="push" identifier="SignUpDetails" id="UeY-BK-mQl"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -442,10 +442,10 @@
             </objects>
             <point key="canvasLocation" x="-784" y="-2477"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Sign Up Details View Controller-->
         <scene sceneID="OO3-5s-1c8">
             <objects>
-                <tableViewController id="OnQ-XQ-w3J" sceneMemberID="viewController">
+                <tableViewController id="OnQ-XQ-w3J" customClass="SignUpDetailsViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="dnV-LG-gqI">
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -505,7 +505,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="fjI-Z1-Esp">
-                        <barButtonItem key="rightBarButtonItem" title="Done" id="Rts-yk-44G"/>
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="Rts-yk-44G">
+                            <connections>
+                                <action selector="doneButtonPressed:" destination="OnQ-XQ-w3J" id="LdT-zZ-GGc"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0e6-F5-Tft" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -709,8 +713,8 @@
                     <navigationItem key="navigationItem" id="i6h-2Y-Kvi"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
-                        <segue destination="vux-d0-WtY" kind="modal" identifier="LoggedIn" modalTransitionStyle="flipHorizontal" id="a92-Xa-d1I"/>
-                        <segue destination="OW9-6n-2I2" kind="modal" identifier="SignUp" id="R4j-dy-9iV"/>
+                        <segue destination="vux-d0-WtY" kind="modal" identifier="LoggedIn" modalTransitionStyle="flipHorizontal" animates="NO" id="a92-Xa-d1I"/>
+                        <segue destination="OW9-6n-2I2" kind="modal" identifier="SignUp" animates="NO" id="R4j-dy-9iV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UbK-jO-7JL" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1429,6 +1433,12 @@
         </class>
         <class className="ShreddingEffectView" superclassName="UIView">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ShreddingEffectView.h"/>
+        </class>
+        <class className="SignUpDetailsViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SignUpDetailsViewController.h"/>
+        </class>
+        <class className="SignUpPhoneNumberViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SignUpPhoneNumberViewController.h"/>
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

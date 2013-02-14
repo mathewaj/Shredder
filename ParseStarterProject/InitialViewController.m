@@ -9,6 +9,7 @@
 #import "InitialViewController.h"
 #import <Parse/Parse.h>
 #import "BackgroundImageHelper.h"
+#import "SignUpPhoneNumberViewController.h"
 
 @interface InitialViewController ()
 
@@ -25,6 +26,25 @@
     return self;
 }
 
+-(void)directLoggedInOrNotLoggedInUserRespectively{
+    
+    if(![[PFUser currentUser] username])
+    {
+        [self performSegueWithIdentifier:@"SignUp" sender:self];
+        
+    } else {
+        
+        [self performSegueWithIdentifier:@"LoggedIn" sender:self];
+        
+    }
+    
+}
+
+-(void)signedIn{
+    
+    [self directLoggedInOrNotLoggedInUserRespectively];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -32,19 +52,22 @@
     // Set background
     self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:iPhone568ImageNamed(@"background.png")]];
     
-    if([[PFUser currentUser] username])
-    {
-        [self performSegueWithIdentifier:@"SignUp" sender:self];
-    } else {
-        [self performSegueWithIdentifier:@"LoggedIn" sender:self];
-    }
-	// Do any additional setup after loading the view.
+	[self directLoggedInOrNotLoggedInUserRespectively];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if([segue.identifier isEqualToString:@"SignUp"]){
+        UINavigationController *navController = segue.destinationViewController;
+        SignUpPhoneNumberViewController *signUpPhoneNumberViewController = [[navController viewControllers] lastObject];
+        signUpPhoneNumberViewController.delegate = self;
+    }
 }
 
 @end

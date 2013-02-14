@@ -10,9 +10,6 @@
 #import "Contact.h"
 #import <MessageUI/MessageUI.h>
 
-// Typedef a block called ParseReturned which receives a contact and returns a BOOL
-//typedef void (^ParseReturned) (BOOL signedUp);
-
 @interface ContactDetailViewController : UITableViewController <MFMessageComposeViewControllerDelegate, MFMailComposeViewControllerDelegate, UIAlertViewDelegate, UITextFieldDelegate>
 
 // Model is a contact

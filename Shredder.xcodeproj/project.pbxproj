@@ -51,6 +51,8 @@
 		0BC6DD1E16AC77DD00BFD791 /* YellowMessage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BC6DD1C16AC77DD00BFD791 /* YellowMessage@2x.png */; };
 		0BCB90D316CAE14600468B57 /* InitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BCB90D216CAE14600468B57 /* InitialViewController.m */; };
 		0BCB90D616CAE2AC00468B57 /* BackgroundImageHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BCB90D516CAE2AC00468B57 /* BackgroundImageHelper.m */; };
+		0BCDC1A316CD8A2D00C88278 /* SignUpDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BCDC1A216CD8A2D00C88278 /* SignUpDetailsViewController.m */; };
+		0BCDC1A616CD96CA00C88278 /* SignUpPhoneNumberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BCDC1A516CD96CA00C88278 /* SignUpPhoneNumberViewController.m */; };
 		0BEB004416C6CD7D0068ECDB /* NBNumberFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BEB003A16C6CD7D0068ECDB /* NBNumberFormat.m */; };
 		0BEB004516C6CD7D0068ECDB /* NBPhoneMetaData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BEB003C16C6CD7D0068ECDB /* NBPhoneMetaData.m */; };
 		0BEB004616C6CD7D0068ECDB /* NBPhoneNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BEB003E16C6CD7D0068ECDB /* NBPhoneNumber.m */; };
@@ -236,6 +238,10 @@
 		0BCB90D216CAE14600468B57 /* InitialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InitialViewController.m; sourceTree = "<group>"; };
 		0BCB90D416CAE2AC00468B57 /* BackgroundImageHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackgroundImageHelper.h; sourceTree = "<group>"; };
 		0BCB90D516CAE2AC00468B57 /* BackgroundImageHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackgroundImageHelper.m; sourceTree = "<group>"; };
+		0BCDC1A116CD8A2D00C88278 /* SignUpDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpDetailsViewController.h; sourceTree = "<group>"; };
+		0BCDC1A216CD8A2D00C88278 /* SignUpDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpDetailsViewController.m; sourceTree = "<group>"; };
+		0BCDC1A416CD96CA00C88278 /* SignUpPhoneNumberViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpPhoneNumberViewController.h; sourceTree = "<group>"; };
+		0BCDC1A516CD96CA00C88278 /* SignUpPhoneNumberViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpPhoneNumberViewController.m; sourceTree = "<group>"; };
 		0BEB003916C6CD7D0068ECDB /* NBNumberFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBNumberFormat.h; sourceTree = "<group>"; };
 		0BEB003A16C6CD7D0068ECDB /* NBNumberFormat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBNumberFormat.m; sourceTree = "<group>"; };
 		0BEB003B16C6CD7D0068ECDB /* NBPhoneMetaData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBPhoneMetaData.h; sourceTree = "<group>"; };
@@ -488,6 +494,10 @@
 				09ABC08113A1D52D009C3FCF /* ParseStarterProjectAppDelegate.m */,
 				0BCB90D116CAE14600468B57 /* InitialViewController.h */,
 				0BCB90D216CAE14600468B57 /* InitialViewController.m */,
+				0BCDC1A416CD96CA00C88278 /* SignUpPhoneNumberViewController.h */,
+				0BCDC1A516CD96CA00C88278 /* SignUpPhoneNumberViewController.m */,
+				0BCDC1A116CD8A2D00C88278 /* SignUpDetailsViewController.h */,
+				0BCDC1A216CD8A2D00C88278 /* SignUpDetailsViewController.m */,
 				E7A0175A165BB0A1003F1817 /* ShredderSlideMenuControllerViewController.h */,
 				E7A0175B165BB0A1003F1817 /* ShredderSlideMenuControllerViewController.m */,
 				E7F3B53F165833A700C99D62 /* AllMessagesViewController.h */,
@@ -950,6 +960,8 @@
 				0BEB004816C6CD7D0068ECDB /* NBPhoneNumberUtil.m in Sources */,
 				0BCB90D316CAE14600468B57 /* InitialViewController.m in Sources */,
 				0BCB90D616CAE2AC00468B57 /* BackgroundImageHelper.m in Sources */,
+				0BCDC1A316CD8A2D00C88278 /* SignUpDetailsViewController.m in Sources */,
+				0BCDC1A616CD96CA00C88278 /* SignUpPhoneNumberViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
