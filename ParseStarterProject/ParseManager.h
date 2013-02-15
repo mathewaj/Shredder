@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Blocks.h"
+#import "ShredderUser.h"
 
 @interface ParseManager : NSObject <UIAlertViewDelegate>
 
@@ -16,6 +17,11 @@
 +(void)signUpWithPhoneNumber:(NSString *)phoneNumber andPassword:(NSString *)password withCompletionBlock:(ParseReturned)parseReturned;
 
 +(void)loginWithPhoneNumber:(NSString *)phoneNumber andPassword:(NSString *)password withCompletionBlock:(ParseReturned)parseReturned;
+
++(void)retrieveAllMessagesForShredderUser:(ShredderUser *)user withCompletionBlock:(ParseReturnedArray)parseReturnedArray;
+
++(void)retrieveAllMessagePermissionsForShredderUser:(ShredderUser *)user withCompletionBlock:(ParseReturnedArray)parseReturnedArray;
+
 
 -(void)checkIfNewContactsAreOnShredder:(NSArray *)newlyUpdatedContacts;
 

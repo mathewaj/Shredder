@@ -67,6 +67,41 @@
 
 #pragma mark - Messaging Functions
 
++(void)retrieveAllMessagesForShredderUser:(ShredderUser *)user withCompletionBlock:(ParseReturnedArray)parseReturnedArray{
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"Messages"];
+    [query whereKey:@"recipient" equalTo:user];
+    [query includeKey:@"sender"];    
+    [query orderByDescending:@"createdAt"];
+    
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            // The find succeeded.
+            parseReturnedArray(YES, error, objects);
+        } else {
+            // Log details of the failure
+            parseReturnedArray(NO, error, objects);
+        }
+    }];
+    
+}
+
++(void)retrieveAllMessagePermissionsForShredderUser:(ShredderUser *)user withCompletionBlock:(ParseReturnedArray)parseReturnedArray{
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"MessagePermissions"];
+    [query orderByDescending:@"createdAt"];
+    
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            // The find succeeded.
+            parseReturnedArray(YES, error, objects);
+        } else {
+            // Log details of the failure
+            parseReturnedArray(NO, error, objects);
+        }
+    }];
+    
+}
 
 #pragma mark - Contact Functions
 
