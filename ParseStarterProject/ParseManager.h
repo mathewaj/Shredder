@@ -10,6 +10,7 @@
 #import "Blocks.h"
 #import "ShredderUser.h"
 #import "Message.h"
+#import "MessagePermission.h"
 
 @interface ParseManager : NSObject <UIAlertViewDelegate>
 
@@ -23,9 +24,9 @@
 
 #pragma mark - Message Methods
 
-+(void)retrieveMessagesForCurrentUser:(PFUser *)user withCompletionBlock:(ParseReturnedArray)parseReturnedArray;
++(void)retrieveReceivedMessagePermissionsForCurrentUser:(PFUser *)user withCompletionBlock:(ParseReturnedArray)parseReturnedArray;
 
-+(void)retrieveAllMessagePermissionsForShredderUser:(ShredderUser *)user withCompletionBlock:(ParseReturnedArray)parseReturnedArray;
++(void)retrieveAllReportsForShredderUser:(ShredderUser *)user withCompletionBlock:(ParseReturnedArray)parseReturnedArray;
 
 +(void)sendMessage:(Message *)message withCompletionBlock:(ParseReturned)parseReturned;
 +(void)shredMessage:(Message *)message withCompletionBlock:(ParseReturned)parseReturned;

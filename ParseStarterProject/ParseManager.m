@@ -67,17 +67,19 @@
 
 #pragma mark - Messaging Functions
 
-+(void)retrieveMessagesForCurrentUser:(PFUser *)user withCompletionBlock:(ParseReturnedArray)parseReturnedArray{
++(void)retrieveReceivedMessagePermissionsForCurrentUser:(PFUser *)user withCompletionBlock:(ParseReturnedArray)parseReturnedArray{
     
-    PFQuery *query = [PFQuery queryWithClassName:@"Message"];
+    PFQuery *query = [PFQuery queryWithClassName:@"MessagePermission"];
     [query whereKey:@"recipient" equalTo:user];
+    [query whereKey:@"permissionShredded" equalTo:[NSNumber numberWithBool:NO]];
     [query includeKey:@"sender"];    
     [query orderByDescending:@"createdAt"];
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
-            NSArray *messagesArray = [Message convertPFObjectArraytoMessagesArray:objects];
-            parseReturnedArray(YES, error, messagesArray);
+            NSLog(@"Messages Found: %i", [objects count]);
+            NSArray *messagePermissionsArray = [MessagePermission convertPFObjectArraytoMessagePermissionsArray:objects];
+            parseReturnedArray(YES, error, messagePermissionsArray);
         } else {
             // Log details of the failure
             parseReturnedArray(NO, error, objects);
@@ -86,14 +88,17 @@
     
 }
 
-+(void)retrieveAllMessagePermissionsForShredderUser:(ShredderUser *)user withCompletionBlock:(ParseReturnedArray)parseReturnedArray{
++(void)retrieveAllReportsForShredderUser:(ShredderUser *)user withCompletionBlock:(ParseReturnedArray)parseReturnedArray{
     
     PFQuery *query = [PFQuery queryWithClassName:@"MessagePermission"];
+    [query whereKey:@"sender" equalTo:user];
+    [query whereKey:@"messageShredded" equalTo:[NSNumber numberWithBool:YES]];
+    [query includeKey:@"recipient"];
     [query orderByDescending:@"createdAt"];
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
-            // The find succeeded.
+            NSLog(@"Reports Found: %@", [objects count]);
             parseReturnedArray(YES, error, objects);
         } else {
             // Log details of the failure
@@ -110,8 +115,10 @@
     [pfMessage setObject:[PFUser currentUser] forKey:@"sender"];
     [pfMessage setObject:message.user.pfUser forKey:@"recipient"];
     
-    // Handle attached image
+    // Create message permission
+    message = [ParseManager createMessagePermissionsForMessage:message];
     
+    // Set Access
     PFACL *messageACL = [PFACL ACL];
     [messageACL setReadAccess:YES forUser:[PFUser currentUser]];
     [messageACL setWriteAccess:YES forUser:[PFUser currentUser]];
@@ -158,6 +165,26 @@
     }];
     
     
+}
+
++(Message *)createMessagePermissionsForMessage:(Message *)message{
+    
+    // Create Message Permissions for given message
+    // These cannot rely on the message still being present so must incorporate all the info
+    PFObject *messagePermission = [PFObject objectWithClassName:@"MessagePermission"];
+    [messagePermission setObject:[PFUser currentUser] forKey:@"sender"];
+    [messagePermission setObject:message.user.pfUser forKey:@"recipient"];
+    [messagePermission setObject:[NSNumber numberWithBool:NO] forKey:@"permissionShredded"];
+    [message.message setObject:messagePermission forKey:@"permissions"];
+    
+    // Set Access
+    // Set Access
+    PFACL *messagePermissionACL = [PFACL ACL];
+    [messagePermissionACL setReadAccess:YES forUser:[PFUser currentUser]];
+    [messagePermissionACL setWriteAccess:YES forUser:[PFUser currentUser]];
+    [messagePermissionACL setReadAccess:YES forUser:message.user.pfUser];
+    [messagePermissionACL setWriteAccess:YES forUser:message.user.pfUser];
+    return message;
 }
 
 +(void)shredMessage:(Message *)message withCompletionBlock:(ParseReturned)parseReturned{

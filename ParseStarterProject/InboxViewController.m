@@ -10,6 +10,7 @@
 #import "MessageViewController.h"
 #import "ParseManager.h"
 #import "Message.h"
+#import "MessagePermission.h"
 #import "ShredderUser.h"
 #import "MGBase.h"
 #import "MGBox.h"
@@ -66,7 +67,7 @@
     __block int count = 0;
     
     // Retrieve Messages Array from Parse
-    [ParseManager retrieveMessagesForCurrentUser:[PFUser currentUser] withCompletionBlock:^(BOOL success, NSError *error, NSArray *objects){
+    [ParseManager retrieveReceivedMessagePermissionsForCurrentUser:[PFUser currentUser] withCompletionBlock:^(BOOL success, NSError *error, NSArray *objects) {
         count ++;
         self.messagesArray = objects;
         if (count == 2) {
@@ -74,14 +75,14 @@
         }
     }];
     
-    // Retrieve MessagesPermissions Array from Parse
-    [ParseManager retrieveAllMessagePermissionsForShredderUser:(ShredderUser *)[PFUser currentUser] withCompletionBlock:^(BOOL success, NSError *error, NSArray *objects){
+    // Retrieve Reports Array from Parse
+    /*[ParseManager retrieveAllReportsForShredderUser:(ShredderUser *)[PFUser currentUser] withCompletionBlock:^(BOOL success, NSError *error, NSArray *objects){
         count ++;
         self.messagePermissionsArray = objects;
         if (count == 2) {
             [self loadInbox];
         }
-    }];
+    }];*/
     
 }
 
@@ -98,9 +99,9 @@
     for(int i=0;i<[self.messagesArray count];i++){
         
         // For each message create a table row
-        Message *message = [self.messagesArray objectAtIndex:i];
+        MessagePermission *messagePermission = [self.messagesArray objectAtIndex:i];
         
-        MGLineStyled *header = [MGLineStyled lineWithLeft:[self.contactsDatabaseManager getName:message.user] right:nil size:rowSize];
+        MGLineStyled *header = [MGLineStyled lineWithLeft:[self.contactsDatabaseManager getName:messagePermission.sender] right:nil size:rowSize];
         header.leftPadding = header.rightPadding = 16;
         
         __weak id wheader = header;
@@ -114,7 +115,7 @@
             // Set flag and perform segue
             [self setComposeRequest:NO];
             [section layoutWithSpeed:0.5 completion:^{
-                [self performSegueWithIdentifier:@"Message" sender:message];
+                [self performSegueWithIdentifier:@"Message" sender:messagePermission];
             }];
             [self.scrollView layoutWithSpeed:0.5 completion:nil];
            
