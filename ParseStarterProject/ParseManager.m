@@ -72,10 +72,12 @@
     PFQuery *query = [PFQuery queryWithClassName:@"MessagePermission"];
     [query whereKey:@"recipient" equalTo:user];
     [query whereKey:@"permissionShredded" equalTo:[NSNumber numberWithBool:NO]];
-    [query includeKey:@"sender"];    
+    [query includeKey:@"sender"];
+    [query includeKey:@"message"];
     [query orderByDescending:@"createdAt"];
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        
         if (!error) {
             NSLog(@"Messages Found: %i", [objects count]);
             NSArray *messagePermissionsArray = [MessagePermission convertPFObjectArraytoMessagePermissionsArray:objects];
@@ -88,18 +90,18 @@
     
 }
 
-+(void)retrieveAllReportsForShredderUser:(ShredderUser *)user withCompletionBlock:(ParseReturnedArray)parseReturnedArray{
++(void)retrieveAllReportsForCurrentUser:(ShredderUser *)user withCompletionBlock:(ParseReturnedArray)parseReturnedArray{
     
     PFQuery *query = [PFQuery queryWithClassName:@"MessagePermission"];
     [query whereKey:@"sender" equalTo:user];
-    [query whereKey:@"messageShredded" equalTo:[NSNumber numberWithBool:YES]];
-    [query includeKey:@"message"];
+    [query whereKey:@"permissionShredded" equalTo:[NSNumber numberWithBool:YES]];
+    [query includeKey:@"recipient"];
     [query orderByDescending:@"createdAt"];
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
-            NSLog(@"Reports Found: %@", [objects count]);
-            parseReturnedArray(YES, error, objects);
+            NSArray *messagePermissionsArray = [MessagePermission convertPFObjectArraytoMessagePermissionsArray:objects];
+            parseReturnedArray(YES, error, messagePermissionsArray);
         } else {
             // Log details of the failure
             parseReturnedArray(NO, error, objects);
@@ -108,9 +110,9 @@
     
 }
 
-+(void)sendMessage:(Message *)message withCompletionBlock:(ParseReturned)parseReturned{
++(void)sendMessage:(Message *)message withPermission:(MessagePermission *)messagePermission withCompletionBlock:(ParseReturned)parseReturned{
     
-    PFObject *pfMessage = message.message;
+    /*PFObject *pfMessage = message.message;
     
     
     // At this stage set the other side of the relationship
@@ -121,7 +123,7 @@
         
         if(succeeded){
             
-            /*PUSH NOTIFICATIONS _ TBC
+            PUSH NOTIFICATIONS _ TBC
             
              Create our installation query
             PFQuery *pushQuery = [PFInstallation query];
@@ -143,13 +145,26 @@
             
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Alert" message:@"Your message did not send. Please try again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [alert show];
-         */   
+           
         } else {
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
         
         //[[UIApplication sharedApplication] endBackgroundTask:backgroundTaskID];
     }]; 
+    
+    */
+}
+
++(void)sendMessage:(MessagePermission *)messagePermission withCompletionBlock:(ParseReturned)parseReturned{
+    
+    PFObject *pfMessagePermission = messagePermission.messagePermission;
+    
+    [pfMessagePermission saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        
+        parseReturned(succeeded, error);
+        
+    }];
     
     
 }
@@ -175,12 +190,44 @@
     return message;
 }*/
 
-+(void)shredMessage:(Message *)message withCompletionBlock:(ParseReturned)parseReturned{
++(void)shredMessage:(MessagePermission *)messagePermission withCompletionBlock:(ParseReturned)parseReturned{
     
-    // Delete Message
-    [message.message deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+    PFObject *onlineMessagePermission = messagePermission.messagePermission;
+    PFObject *onlineMessage = [messagePermission.messagePermission objectForKey:@"message"];
+    
+    // Turn Message Permission Shredded Value to True
+    [onlineMessagePermission setObject:[NSNumber numberWithBool:YES] forKey:@"permissionShredded"];
+    [onlineMessagePermission saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        
+        parseReturned(succeeded, error);
+        
+        // Check if this is the there are outstanding permissions for this message,
+        // If not delete message
+        PFQuery *query = [PFQuery queryWithClassName:@"MessagePermission"];
+        [query whereKey:@"message" equalTo:onlineMessage];
+        [query whereKey:@"permissionShredder" equalTo:[NSNumber numberWithBool:NO]];
+        [query countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
+            
+            if(number == 0)
+            {
+                [onlineMessage deleteInBackground];
+            }
+        }];
+    }];
+    
+    // Check if this is the last message permission
+    // If so, destroy message
+    
+    
+}
+
++(void)deleteReport:(MessagePermission *)messagePermission withCompletionBlock:(ParseReturned)parseReturned{
+    
+    PFObject *onlineMessagePermission = messagePermission.messagePermission;
+    [onlineMessagePermission deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         parseReturned(succeeded, error);
     }];
+    
     
 }
 
@@ -248,7 +295,7 @@
         
     }
     
-    // Find Parse contacts which have these email addresses
+    // Find Parse contacts which have these phone numbers
     PFQuery *query = [PFUser query];
     [query whereKey:@"username" containedIn:phoneNumberArray];
     

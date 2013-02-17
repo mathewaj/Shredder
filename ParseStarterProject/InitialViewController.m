@@ -31,7 +31,7 @@
 
 -(void)directLoggedInOrNotLoggedInUserRespectively{
     
-    if(![[PFUser currentUser] isAuthenticated])
+    if(![[PFUser currentUser] username])
     {
         [self performSegueWithIdentifier:@"SignUp" sender:self];
         

@@ -28,12 +28,12 @@
 
 #pragma mark - Custom Initialisers
 
-- (id)initWithFrame:(CGRect)frame withEmptyMessage:(Message *)message
+- (id)initWithFrame:(CGRect)frame withEmptyMessage:(Message *)message forRecipient:(ShredderUser *)recipient
 {
     self = [super initWithFrame:frame];
     if (self) {
         self.message = message;
-        self.contactee = message.messagePermission.recipient;
+        self.contactee = recipient;
         [self setUpForComposeMessage];
     }
     return self;
@@ -43,9 +43,10 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        /*self.message = [[Message alloc] initPopulatedMessageWithPFObject:[messagePermission.messagePermission objectForKey:@"message"]];
+        self.messagePermission = messagePermission;
+        self.message = [[Message alloc] initPopulatedMessageWithPFObject:[messagePermission.messagePermission objectForKey:@"message"]];
         self.contactee = messagePermission.sender;
-        [self setUpForShredMessage];*/
+        [self setUpForShredMessage];
     }
     return self;
 }

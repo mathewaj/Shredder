@@ -26,7 +26,7 @@
 
 @interface MessageView : MGTableBoxStyled
 
-- (id)initWithFrame:(CGRect)frame withEmptyMessage:(Message *)message;
+- (id)initWithFrame:(CGRect)frame withEmptyMessage:(Message *)message forRecipient:(ShredderUser *)recipient;
 - (id)initWithFrame:(CGRect)frame withPopulatedMessagePermission:(MessagePermission *)messagePermission;
 
 -(void)updateAttachmentThumbnailView:(UIImage *)image;

@@ -56,8 +56,7 @@
     // In compose mode, a blank message must be created to which permissions may be added
     self.message = [[Message alloc] initNewMessageWithShredderUserReceiver:self.contact];
     
-    
-    MessageView *messageView = [[MessageView alloc] initWithFrame:CGRectZero withEmptyMessage:self.message];
+    MessageView *messageView = [[MessageView alloc] initWithFrame:CGRectZero withEmptyMessage:self.message forRecipient:self.contact];
     messageView.delegate = self;
     return messageView;
 }
@@ -97,8 +96,13 @@
             [messageToBeSent attachImages:self.images];
         }
         
+        // Create message permissions
+        MessagePermission *permission = [[MessagePermission alloc] initNewMessagePermissionWithShredderUserReceiver:self.contact];
+        
+        [permission.messagePermission setObject:messageToBeSent.message forKey:@"message"];
+        
         // Create Message Permission from message info
-        [ParseManager sendMessage:messageToBeSent withCompletionBlock:^(BOOL success, NSError *error) {
+        [ParseManager sendMessage:permission withCompletionBlock:^(BOOL success, NSError *error) {
             // Handle Error - TBC
         }];
         
@@ -119,11 +123,12 @@
     //[self.navigationController popViewControllerAnimated:YES];
     [self dismissModalViewControllerAnimated:YES];
     
-    [ParseManager shredMessage:sender.message withCompletionBlock:^(BOOL success, NSError *error) {
+    [ParseManager shredMessage:sender.messagePermission withCompletionBlock:^(BOOL success, NSError *error) {
         // Message Shredder
     }];
     
 }
+
 -(void)replyButtonPressed:(MessageView *)sender{
     
     // Shred Message

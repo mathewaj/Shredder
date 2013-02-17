@@ -15,7 +15,6 @@
     self = [super init];
     if (self) {
         self.pfUser = pfUser;
-        
         // Check for contact
         
     }

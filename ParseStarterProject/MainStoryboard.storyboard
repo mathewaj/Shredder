@@ -1385,6 +1385,9 @@
         </class>
         <class className="ShredderContactsViewController" superclassName="CoreDataTableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ShredderContactsViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="cancelButtonPressed:"/>
+            </relationships>
         </class>
         <class className="ShredderSlideMenuControllerViewController" superclassName="SASlideMenuViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ShredderSlideMenuControllerViewController.h"/>

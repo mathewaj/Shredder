@@ -10,8 +10,6 @@
 #import "ShredderUser.h"
 #import "Message.h"
 
-@class Message;
-
 @interface MessagePermission : NSObject
 
 -(id)initNewMessagePermissionWithShredderUserReceiver:(ShredderUser *)recipient;

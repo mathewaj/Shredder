@@ -46,7 +46,6 @@
     self = [super init];
     if (self) {
         self.message = onlineMessage;
-        self.messagePermission = [[MessagePermission alloc] initNewMessagePermissionWithShredderUserReceiver:[onlineMessage objectForKey:@"recipient"]];
     }
     return self;
     

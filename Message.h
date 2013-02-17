@@ -8,9 +8,6 @@
 
 #import <Parse/Parse.h>
 #import "ShredderUser.h"
-#import "MessagePermission.h"
-
-@class MessagePermission;
 
 @interface Message : NSObject
 

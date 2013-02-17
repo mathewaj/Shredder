@@ -13,22 +13,6 @@
 
 @implementation ContactsDatabaseManager
 
-+ (id)sharedManager{
-    static ContactsDatabaseManager *sharedMyManager = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sharedMyManager = [[self alloc] init];
-    });
-    return sharedMyManager;
-}
-
-- (id)init {
-    if (self = [super init]) {
-        
-    }
-    return self;
-}
-
 -(Contact *)retrieveContactwithParseID:(NSString *)parseID inManagedObjectContext:(UIManagedDocument *)document{
     
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Contact"];
@@ -174,22 +158,22 @@
     return allContacts;
 }
 
--(NSString *)getName:(ShredderUser *)user{
+-(NSString *)getName:(PFUser *)user{
     
     // A little bit of a hacky place for this possibly
+    // Really belongs in ShredderUser but don't have database access there
     // Find contact for a give PFUser
-    
+    NSLog(user.username);
     NSString *name;
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Contact"];
-    request.predicate = [NSPredicate predicateWithFormat:@"parseID = %@",  user.pfUser.objectId];
+    request.predicate = [NSPredicate predicateWithFormat:@"normalisedPhoneNumber = %@", user.username];
     NSArray *contacts = [self.contactsDatabase.managedObjectContext executeFetchRequest:request error:nil];
     Contact *contact = [contacts lastObject];
     if(contact){
-        user.contact = contact;
         name = contact.name;
     } else {
         // Use phone number until custom name field included. TBC
-        name = user.pfUser.username;
+        name = user.username;
     }
     
     return name;

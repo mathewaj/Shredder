@@ -70,24 +70,24 @@
     [ParseManager retrieveReceivedMessagePermissionsForCurrentUser:[PFUser currentUser] withCompletionBlock:^(BOOL success, NSError *error, NSArray *objects) {
         count ++;
         self.messagesArray = objects;
-        [self loadInbox];
+        
         if (count == 2) {
-            [self loadInbox];
+            [self loadMessages];
         }
     }];
     
     // Retrieve Reports Array from Parse
-    /*[ParseManager retrieveAllReportsForShredderUser:(ShredderUser *)[PFUser currentUser] withCompletionBlock:^(BOOL success, NSError *error, NSArray *objects){
+    [ParseManager retrieveAllReportsForCurrentUser:(ShredderUser *)[PFUser currentUser] withCompletionBlock:^(BOOL success, NSError *error, NSArray *objects){
         count ++;
-        self.messagePermissionsArray = objects;
+        self.reportsArray = objects;
         if (count == 2) {
-            [self loadInbox];
+            [self loadMessages];
         }
-    }];*/
+    }];
     
 }
 
--(void)loadInbox{
+-(void)loadMessages{
     
     [self.scrollView.boxes removeAllObjects];
     
@@ -102,7 +102,7 @@
         // For each message create a table row
         MessagePermission *messagePermission = [self.messagesArray objectAtIndex:i];
         
-        MGLineStyled *header = [MGLineStyled lineWithLeft:[self.contactsDatabaseManager getName:messagePermission.sender] right:nil size:rowSize];
+        MGLineStyled *header = [MGLineStyled lineWithLeft:[self.contactsDatabaseManager getName:[messagePermission.messagePermission objectForKey:@"sender"]] right:nil size:rowSize];
         header.leftPadding = header.rightPadding = 16;
         
         __weak id wheader = header;
@@ -119,8 +119,42 @@
                 [self performSegueWithIdentifier:@"Message" sender:messagePermission];
             }];
             [self.scrollView layoutWithSpeed:0.5 completion:nil];
-           
             
+        };
+    }
+    
+    [self loadReports];
+    
+}
+
+-(void)loadReports{
+    
+    // Set Reports Section
+    MGTableBoxStyled *section = [MGTableBoxStyled box];
+    [self.scrollView.boxes addObject:section];
+    
+    // Set Message Rows
+    CGSize rowSize = (CGSize){304, 40};
+    for(int i=0;i<[self.reportsArray count];i++){
+        
+        // For each message create a table row
+        MessagePermission *messagePermission = [self.reportsArray objectAtIndex:i];
+        
+        MGLineStyled *header = [MGLineStyled lineWithLeft:[self.contactsDatabaseManager getName:[messagePermission.messagePermission objectForKey:@"recipient"]] right:nil size:rowSize];
+        header.leftPadding = header.rightPadding = 16;
+        
+        __weak id wheader = header;
+        
+        [section.topLines addObject:header];
+        header.onTap = ^{
+            
+            // Remove message
+            [section.topLines removeObject:wheader];
+            [self.scrollView layoutWithSpeed:0.5 completion:nil];
+            
+            [ParseManager deleteReport:messagePermission withCompletionBlock:^(BOOL success, NSError *error) {
+                // Handle return - TBC
+            }];
             
         };
     }

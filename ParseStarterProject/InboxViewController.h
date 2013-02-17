@@ -17,7 +17,7 @@
 @property(nonatomic, strong) NSArray *messagesArray;
 
 // Model: MessagePermissions Array from Parse DB
-@property(nonatomic, strong) NSArray *messagePermissionsArray;
+@property(nonatomic, strong) NSArray *reportsArray;
 
 // Model: Contacts Database
 @property (nonatomic, strong) ContactsDatabaseManager *contactsDatabaseManager;

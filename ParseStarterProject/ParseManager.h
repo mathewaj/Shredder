@@ -26,10 +26,13 @@
 
 +(void)retrieveReceivedMessagePermissionsForCurrentUser:(PFUser *)user withCompletionBlock:(ParseReturnedArray)parseReturnedArray;
 
-+(void)retrieveAllReportsForShredderUser:(ShredderUser *)user withCompletionBlock:(ParseReturnedArray)parseReturnedArray;
++(void)retrieveAllReportsForCurrentUser:(ShredderUser *)user withCompletionBlock:(ParseReturnedArray)parseReturnedArray;
 
-+(void)sendMessage:(Message *)message withCompletionBlock:(ParseReturned)parseReturned;
-+(void)shredMessage:(Message *)message withCompletionBlock:(ParseReturned)parseReturned;
++(void)sendMessage:(Message *)message withPermission:(MessagePermission *)messagePermission withCompletionBlock:(ParseReturned)parseReturned;
++(void)sendMessage:(MessagePermission *)messagePermission withCompletionBlock:(ParseReturned)parseReturned;
+//+(void)shredMessage:(Message *)message withCompletionBlock:(ParseReturned)parseReturned;
++(void)shredMessage:(MessagePermission *)messagePermission withCompletionBlock:(ParseReturned)parseReturned;
++(void)deleteReport:(MessagePermission *)messagePermission withCompletionBlock:(ParseReturned)parseReturned;
 
 +(Message *)createMessagePermissionsForMessage:(Message *)message;
 
