@@ -93,7 +93,7 @@
     PFQuery *query = [PFQuery queryWithClassName:@"MessagePermission"];
     [query whereKey:@"sender" equalTo:user];
     [query whereKey:@"messageShredded" equalTo:[NSNumber numberWithBool:YES]];
-    [query includeKey:@"recipient"];
+    [query includeKey:@"message"];
     [query orderByDescending:@"createdAt"];
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -112,33 +112,18 @@
     
     PFObject *pfMessage = message.message;
     
-    [pfMessage setObject:[PFUser currentUser] forKey:@"sender"];
-    [pfMessage setObject:message.user.pfUser forKey:@"recipient"];
     
-    // Create message permission
-    message = [ParseManager createMessagePermissionsForMessage:message];
-    
-    // Set Access
-    PFACL *messageACL = [PFACL ACL];
-    [messageACL setReadAccess:YES forUser:[PFUser currentUser]];
-    [messageACL setWriteAccess:YES forUser:[PFUser currentUser]];
-    [messageACL setReadAccess:YES forUser:message.user.pfUser];
-    [messageACL setWriteAccess:YES forUser:message.user.pfUser];
-    
-    pfMessage.ACL = messageACL;
-    
-    // Request a background execution task to allow us to finish uploading
-    // the message even if the app is sent to the background
-    UIBackgroundTaskIdentifier *backgroundTaskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
-        [[UIApplication sharedApplication] endBackgroundTask:backgroundTaskID];
-    }];
-
-    
+    // At this stage set the other side of the relationship
+    PFObject *pfmessagePermission = message.messagePermission.messagePermission;
+    [pfmessagePermission setObject:message.message forKey:@"message"];
+        
     [pfMessage saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
         
         if(succeeded){
             
-            // Create our installation query
+            /*PUSH NOTIFICATIONS _ TBC
+            
+             Create our installation query
             PFQuery *pushQuery = [PFInstallation query];
             [pushQuery whereKey:@"owner" equalTo:message.user.pfUser];
             
@@ -158,20 +143,23 @@
             
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Alert" message:@"Your message did not send. Please try again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [alert show];
-            
+         */   
+        } else {
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
         
-        [[UIApplication sharedApplication] endBackgroundTask:backgroundTaskID];
-    }];
+        //[[UIApplication sharedApplication] endBackgroundTask:backgroundTaskID];
+    }]; 
     
     
 }
-
+/*
 +(Message *)createMessagePermissionsForMessage:(Message *)message{
     
     // Create Message Permissions for given message
     // These cannot rely on the message still being present so must incorporate all the info
     PFObject *messagePermission = [PFObject objectWithClassName:@"MessagePermission"];
+    [messagePermission setObject:message.message forKey:@"message"];
     [messagePermission setObject:[PFUser currentUser] forKey:@"sender"];
     [messagePermission setObject:message.user.pfUser forKey:@"recipient"];
     [messagePermission setObject:[NSNumber numberWithBool:NO] forKey:@"permissionShredded"];
@@ -185,7 +173,7 @@
     [messagePermissionACL setReadAccess:YES forUser:message.user.pfUser];
     [messagePermissionACL setWriteAccess:YES forUser:message.user.pfUser];
     return message;
-}
+}*/
 
 +(void)shredMessage:(Message *)message withCompletionBlock:(ParseReturned)parseReturned{
     

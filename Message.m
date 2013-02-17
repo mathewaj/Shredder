@@ -11,23 +11,42 @@
 
 @implementation Message
 
--(id)initNewMessageWithShredderUserReceiver:(ShredderUser *)user{
+-(id)initNewMessageWithShredderUserReceiver:(ShredderUser *)recipient{
     
     self = [super init];
     if (self) {
-        self.user = user;
-        self.message = [PFObject objectWithClassName:@"Message"];
+        
+        PFObject *pfMessage = [PFObject objectWithClassName:@"Message"];
+        [pfMessage setObject:[PFUser currentUser] forKey:@"sender"];
+        [pfMessage setObject:recipient.pfUser forKey:@"recipient"];
+        
+        // Set Access
+        PFACL *messageACL = [PFACL ACL];
+        [messageACL setReadAccess:YES forUser:[PFUser currentUser]];
+        [messageACL setWriteAccess:YES forUser:[PFUser currentUser]];
+        [messageACL setReadAccess:YES forUser:recipient.pfUser];
+        [messageACL setWriteAccess:YES forUser:recipient.pfUser];
+        
+        pfMessage.ACL = messageACL;
+        
+        self.message = pfMessage;
+        
+        /* Create message permission
+        self.messagePermission = [[MessagePermission alloc] initNewMessagePermissionWithShredderUserReceiver:recipient];
+        [pfMessage setObject:self.messagePermission.messagePermission forKey:@"permission"];*/
+        
     }
+    
     return self;
     
 }
 
--(id)initPopulatedMessageWithPFObject:(PFObject *)pfmessage;{
+-(id)initPopulatedMessageWithPFObject:(PFObject *)onlineMessage{
     
     self = [super init];
     if (self) {
-        self.user = [[ShredderUser alloc] initWithPFUser:[pfmessage objectForKey:@"sender"]];
-        self.message = pfmessage;
+        self.message = onlineMessage;
+        self.messagePermission = [[MessagePermission alloc] initNewMessagePermissionWithShredderUserReceiver:[onlineMessage objectForKey:@"recipient"]];
     }
     return self;
     

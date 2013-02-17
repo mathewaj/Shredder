@@ -9,13 +9,14 @@
 #import "MGTableBoxStyled.h"
 #import "Message.h"
 #import "ShredderUser.h"
+#import "MessagePermission.h"
 
 @class MessageView;
 
 @protocol MessageViewDelegate <NSObject>
 
 -(void)cancelButtonPressed:(MessageView *)sender;
--(void)sendButtonPressed:(MessageView *)sender;
+-(void)sendButtonPressed:(Message *)messageToBeSent;
 -(void)shredButtonPressed:(MessageView *)sender;
 -(void)replyButtonPressed:(MessageView *)sender;
 -(void)attachmentIconPressed:(MessageView *)sender;
@@ -26,15 +27,18 @@
 @interface MessageView : MGTableBoxStyled
 
 - (id)initWithFrame:(CGRect)frame withEmptyMessage:(Message *)message;
-- (id)initWithFrame:(CGRect)frame withPopulatedMessage:(Message *)message;
+- (id)initWithFrame:(CGRect)frame withPopulatedMessagePermission:(MessagePermission *)messagePermission;
 
 -(void)updateAttachmentThumbnailView:(UIImage *)image;
 
-// Model: Shredder User Contactee
-@property (nonatomic, strong) ShredderUser *contactee;
-
 // Model: Message
 @property (nonatomic, strong) Message *message;
+
+// Model: Message Permission
+@property (nonatomic, strong) MessagePermission *messagePermission;
+
+// Model: Shredder User Contactee
+@property (nonatomic, strong) ShredderUser *contactee;
 
 // Subviews:
 @property (nonatomic, strong) UITextView *messageBodyTextView;

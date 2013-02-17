@@ -33,19 +33,19 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.message = message;
-        self.contactee = self.message.user;
+        self.contactee = message.messagePermission.recipient;
         [self setUpForComposeMessage];
     }
     return self;
 }
 
-- (id)initWithFrame:(CGRect)frame withPopulatedMessage:(Message *)message
+- (id)initWithFrame:(CGRect)frame withPopulatedMessagePermission:(MessagePermission *)messagePermission;
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.message = message;
-        self.contactee = self.message.user;
-        [self setUpForShredMessage:message];
+        /*self.message = [[Message alloc] initPopulatedMessageWithPFObject:[messagePermission.messagePermission objectForKey:@"message"]];
+        self.contactee = messagePermission.sender;
+        [self setUpForShredMessage];*/
     }
     return self;
 }
@@ -79,13 +79,13 @@
     
 }
 
--(void)setUpForShredMessage:(Message *)message{
+-(void)setUpForShredMessage{
     
     // a default row size
     CGSize rowSize = (CGSize){304, 60};
     
     // Header Row contains Name, Date, Attachment
-    NSString *nameAndTimeDateString = [NSString stringWithFormat:@"%@\n\n%@", [self.contactee getName], [message sentTimeAndDateString]];
+    NSString *nameAndTimeDateString = [NSString stringWithFormat:@"%@\n\n%@", [self.contactee getName], [self.message sentTimeAndDateString]];
     
     // Check if message has attachment
     if([self.message.message objectForKey:@"attachment"]){
@@ -100,7 +100,7 @@
     
     // Middle Row contains Message body text view
     MGLineStyled *body = [MGLineStyled line];
-    body.multilineLeft = [message.message objectForKey:@"body"];
+    body.multilineLeft = [self.message.message objectForKey:@"body"];
     body.minHeight = 200;
     [self.middleLines addObject:body];
     
@@ -230,11 +230,14 @@
 
 -(void)sendButtonPressed:(UIButton *)sender{
     
+    // Disable multiple presses
+    sender.enabled = NO;
+    
     // Save info to message
     [self.message.message setObject:self.messageBodyTextView.text forKey:@"body"];
     
     // Fire delegate
-    [self.delegate sendButtonPressed:self];
+    [self.delegate sendButtonPressed:self.message];
     
 }
 

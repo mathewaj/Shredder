@@ -44,7 +44,6 @@
         self.messageView = [self setUpShredMessageView];
     }
     
-    
     self.contact = self.messageView.contactee;
     
     [self.scrollView.boxes addObject:self.messageView];
@@ -54,7 +53,10 @@
 
 -(MessageView *)setUpComposeMessageView{
     
-    self.message = [[Message alloc] initNewMessageWithShredderUserReceiver:(self.contact)];
+    // In compose mode, a blank message must be created to which permissions may be added
+    self.message = [[Message alloc] initNewMessageWithShredderUserReceiver:self.contact];
+    
+    
     MessageView *messageView = [[MessageView alloc] initWithFrame:CGRectZero withEmptyMessage:self.message];
     messageView.delegate = self;
     return messageView;
@@ -62,7 +64,8 @@
 
 -(MessageView *)setUpShredMessageView{
     
-    MessageView *messageView = [[MessageView alloc] initWithFrame:CGRectZero withPopulatedMessage:self.message];
+    // In shred mode, a message permission has been set    
+    MessageView *messageView = [[MessageView alloc] initWithFrame:CGRectZero withPopulatedMessagePermission:self.messagePermission];
     messageView.delegate = self;
     return messageView;
 }
@@ -80,22 +83,31 @@
     [self dismissModalViewControllerAnimated:YES];
     
 }
--(void)sendButtonPressed:(MessageView *)sender{
+-(void)sendButtonPressed:(Message *)messageToBeSent{
     
-    // Animate sending of message - TBC
-    
-    // Pop view controller
-    [self dismissModalViewControllerAnimated:YES];
-    
-    // Attach any images
-    if(self.images){
-        [sender.message attachImages:self.images];
+    if(!self.isSendButtonPressed){
+        
+        // Animate sending of message - TBC
+        
+        // Pop view controller
+        [self dismissModalViewControllerAnimated:YES];
+        
+        // Attach any images
+        if(self.images){
+            [messageToBeSent attachImages:self.images];
+        }
+        
+        // Create Message Permission from message info
+        [ParseManager sendMessage:messageToBeSent withCompletionBlock:^(BOOL success, NSError *error) {
+            // Handle Error - TBC
+        }];
+        
+        /*[ParseManager sendMessage:sender.message withCompletionBlock:^(BOOL success, NSError *error) {
+         // Message Sent
+         }];*/
+        
     }
     
-    // Create message from message info
-    [ParseManager sendMessage:sender.message withCompletionBlock:^(BOOL success, NSError *error) {
-        // Message Sent
-    }];
     
     
 }

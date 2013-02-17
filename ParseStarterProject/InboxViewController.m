@@ -70,6 +70,7 @@
     [ParseManager retrieveReceivedMessagePermissionsForCurrentUser:[PFUser currentUser] withCompletionBlock:^(BOOL success, NSError *error, NSArray *objects) {
         count ++;
         self.messagesArray = objects;
+        [self loadInbox];
         if (count == 2) {
             [self loadInbox];
         }
@@ -147,7 +148,9 @@
         if(self.isComposeRequest){
             vc.contact = (ShredderUser *)sender;
         } else {
-            vc.message = (Message *)sender;
+            
+            vc.messagePermission = (MessagePermission *)sender;
+            
         }
         
     }

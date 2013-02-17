@@ -3779,7 +3779,7 @@ NSString *UNIQUE_INTERNATIONAL_PREFIX_ = @"[\\d]+(?:[~\u2053\u223C\uFF5E][\\d]+)
     
     if ([self isViablePhoneNumber:nationalNumber] == NO)
     {
-        @throw [NSException exceptionWithName:@"NOT_A_NUMBER" reason:[NSString stringWithFormat:@"NOT_A_NUMBER:%@", nationalNumber] userInfo:nil];
+        //@throw [NSException exceptionWithName:@"NOT_A_NUMBER" reason:[NSString stringWithFormat:@"NOT_A_NUMBER:%@", nationalNumber] userInfo:nil];
     }
     
     // Check the region supplied is valid, or that the extracted number starts

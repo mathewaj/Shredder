@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
+#import "MessagePermission.h"
 #import "Message.h"
 #import "ShredderUser.h"
 #import "MGScrollView.h"
@@ -15,6 +16,9 @@
 
 
 @interface MessageViewController : UIViewController <MessageViewDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+
+// Model: Message Permission
+@property (nonatomic, strong) MessagePermission *messagePermission;
 
 // Model: Message
 @property (nonatomic, strong) Message *message;
@@ -39,6 +43,9 @@
 
 // View: MessageView
 @property (nonatomic, strong) MessageView *messageView;
+
+// View: Send Button Status
+@property (nonatomic, assign, getter=isSendButtonPressed) BOOL isSendButtonPressed;
 
 
 @end

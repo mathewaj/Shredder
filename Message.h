@@ -8,12 +8,15 @@
 
 #import <Parse/Parse.h>
 #import "ShredderUser.h"
+#import "MessagePermission.h"
+
+@class MessagePermission;
 
 @interface Message : NSObject
 
 // Creating Message Objects
 -(id)initNewMessageWithShredderUserReceiver:(ShredderUser *)user;
--(id)initPopulatedMessageWithPFObject:(PFObject *)message;
+-(id)initPopulatedMessageWithPFObject:(PFObject *)onlineMessage;
 
 // Converting PFMessages from Parse to Message Objects
 +(NSArray *)convertPFObjectArraytoMessagesArray:(NSArray *)objects;
@@ -22,7 +25,7 @@
 -(void)attachImages:(NSArray *)images;
 
 // Model: Shredder User
-@property (nonatomic, strong) ShredderUser *user;
+//@property (nonatomic, retain) MessagePermission *messagePermission;
 
 // Model: Message
 @property (nonatomic, strong) PFObject *message;

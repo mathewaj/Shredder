@@ -31,6 +31,8 @@
 +(void)sendMessage:(Message *)message withCompletionBlock:(ParseReturned)parseReturned;
 +(void)shredMessage:(Message *)message withCompletionBlock:(ParseReturned)parseReturned;
 
++(Message *)createMessagePermissionsForMessage:(Message *)message;
+
 #pragma mark - Contact Methods
 
 +(void)shredderUserForContact:(Contact *)contact withCompletionBlock:(ParseReturnedArray)parseReturnedArray;

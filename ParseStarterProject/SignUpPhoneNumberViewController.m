@@ -180,9 +180,39 @@
 -(void)finishedEnteringPassword:(UIBarButtonItem *)button{
     
     [ParseManager signUpWithPhoneNumber:self.phoneNumber andPassword:self.passwordTextField.text withCompletionBlock:^(BOOL success, NSError *error) {
-        [self dismissViewControllerAnimated:YES completion:^{
-            [self.delegate signedIn];
-        }];
+        
+        if(!success){
+            
+            // Log details of the failure
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+            
+            // User may be already signed up
+            [ParseManager loginWithPhoneNumber:self.phoneNumber andPassword:self.passwordTextField.text withCompletionBlock:^(BOOL success, NSError *error) {
+                if(!success){
+                    
+                    // Log details of the failure
+                    NSLog(@"Error: %@ %@", error, [error userInfo]);
+                    
+                } else {
+                    
+                    NSLog(@"Logged In!");
+                    [self dismissViewControllerAnimated:YES completion:^{
+                        [self.delegate signedIn];
+                    }];
+                }
+            }];
+            
+        } else {
+            
+            NSLog(@"Signed Up!");
+            
+            [self dismissViewControllerAnimated:YES completion:^{
+                [self.delegate signedIn];
+            }];
+            
+        }
+        
+        
         
     }];
     
