@@ -161,24 +161,6 @@
              NSLog(@"Normalised Number: %@", contact.normalisedPhoneNumber);
             
         }
-        
-        // Obtain email information from record and then iterate through
-        ABMultiValueRef emails = ABRecordCopyValue(person, kABPersonEmailProperty);
-        
-        for (CFIndex j=0; j < ABMultiValueGetCount(emails); j++) {
-            
-            // For first email, add to existing contact
-            if(j==0){
-                contact.email = (__bridge NSString*)ABMultiValueCopyValueAtIndex(emails, j);
-            } else {
-                /*NSString* emailString = (__bridge NSString*)ABMultiValueCopyValueAtIndex(emails, j);
-                
-                Contact *duplicateContactWithSeparateEmail = [Contact contactWithName:fullName inContext:context];
-                duplicateContactWithSeparateEmail.email = emailString;*/
-            }
-            
-        }
-        
     }
     
     return contact;

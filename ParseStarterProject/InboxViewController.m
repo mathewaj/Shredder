@@ -7,10 +7,12 @@
 //
 
 #import "InboxViewController.h"
+#import "MessageViewController.h"
 #import "ParseManager.h"
+#import "Message.h"
+#import "ShredderUser.h"
 #import "MGBase.h"
 #import "MGBox.h"
-#import "MGScrollView.h"
 #import "MGTableBoxStyled.h"
 #import "MGLineStyled.h"
 
@@ -21,6 +23,8 @@
 @end
 
 @implementation InboxViewController
+
+//@synthesize messagesArray = _messagesArray;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -34,43 +38,35 @@
     return self;
 }
 
--(void)loadInbox{
+-(void)viewDidLoad{
+    [super viewDidLoad];
     
-    MGScrollView *scroller = [MGScrollView scrollerWithSize:self.view.bounds.size];
-    [self.view addSubview:scroller];
+    // Set Scroll View
+    self.scrollView = [MGScrollView scrollerWithSize:self.view.bounds.size];
+    [self.view addSubview:self.scrollView];
     
-    MGTableBoxStyled *section = MGTableBoxStyled.box;
-    [scroller.boxes addObject:section];
-    
-    // a default row size
-    CGSize rowSize = (CGSize){304, 40};
-    
-    // a header row
-    MGLineStyled *header = [MGLineStyled lineWithLeft:@"My First Table" right:nil size:rowSize];
-    header.leftPadding = header.rightPadding = 16;
-    [section.topLines addObject:header];
-    
-    // a string on the left and a horse on the right
-    MGLineStyled *row1 = [MGLineStyled lineWithLeft:@"Left text"
-                                              right:[UIImage imageNamed:@"horse.png"] size:rowSize];
-    [section.topLines addObject:row1];
-    
-    [scroller layoutWithSpeed:1 completion:nil];
-    [scroller scrollToView:section withMargin:8];
-    
+    // Set up the tables
+    [self loadTables];
     
 }
 
-- (void)viewDidLoad
+
+- (void)viewDidAppear:(BOOL)animated
 {
-    [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    [super viewDidAppear:animated];
+    
+    [self loadTables];
+	
+}
+
+
+-(void)loadTables{
     
     // Track return of blocks
     __block int count = 0;
     
     // Retrieve Messages Array from Parse
-    [ParseManager retrieveAllMessagesForShredderUser:(ShredderUser *)[PFUser currentUser] withCompletionBlock:^(BOOL success, NSError *error, NSArray *objects){
+    [ParseManager retrieveMessagesForCurrentUser:[PFUser currentUser] withCompletionBlock:^(BOOL success, NSError *error, NSArray *objects){
         count ++;
         self.messagesArray = objects;
         if (count == 2) {
@@ -86,13 +82,88 @@
             [self loadInbox];
         }
     }];
+    
+}
 
+-(void)loadInbox{
+    
+    [self.scrollView.boxes removeAllObjects];
+    
+    // Set Messages Section
+    MGTableBoxStyled *section = [MGTableBoxStyled box];
+    [self.scrollView.boxes addObject:section];
+    
+    // Set Message Rows
+    CGSize rowSize = (CGSize){304, 40};
+    for(int i=0;i<[self.messagesArray count];i++){
+        
+        // For each message create a table row
+        Message *message = [self.messagesArray objectAtIndex:i];
+        
+        MGLineStyled *header = [MGLineStyled lineWithLeft:[self.contactsDatabaseManager getName:message.user] right:nil size:rowSize];
+        header.leftPadding = header.rightPadding = 16;
+        
+        __weak id wheader = header;
+        
+        [section.topLines addObject:header];
+        header.onTap = ^{
+            
+            // Remove message
+            [section.topLines removeObject:wheader];
+
+            // Set flag and perform segue
+            [self setComposeRequest:NO];
+            [section layoutWithSpeed:0.5 completion:^{
+                [self performSegueWithIdentifier:@"Message" sender:message];
+            }];
+            [self.scrollView layoutWithSpeed:0.5 completion:nil];
+           
+            
+            
+        };
+    }
+    
+    [self.scrollView layoutWithSpeed:0.3 completion:nil];
+    
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    
+    if([segue.identifier isEqualToString:@"SelectContact"]){
+        
+        ContactsViewController *vc = (ContactsViewController *)segue.destinationViewController;
+        vc.contactsDatabaseManager = self.contactsDatabaseManager;
+        vc.delegate = self;
+        
+    }
+    
+    if([segue.identifier isEqualToString:@"Message"]){
+        
+        MessageViewController *vc = (MessageViewController *)segue.destinationViewController;
+        // Check whether compose or shred request
+        vc.composeMode = self.isComposeRequest;
+        
+        if(self.isComposeRequest){
+            vc.contact = (ShredderUser *)sender;
+        } else {
+            vc.message = (Message *)sender;
+        }
+        
+    }
+    
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)didSelectShredderUser:(ShredderUser *)user{
+    
+    // Set flag for compose mode
+    [self setComposeRequest:YES];
+    [self performSegueWithIdentifier:@"Message" sender:user];
 }
 
 @end

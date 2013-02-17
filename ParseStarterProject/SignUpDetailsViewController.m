@@ -7,8 +7,7 @@
 //
 
 #import "SignUpDetailsViewController.h"
-#import "ParseManager.h"
-#import "InitialViewController.h"
+#import "PhoneNumberManager.h"
 
 @interface SignUpDetailsViewController ()
 
@@ -24,50 +23,47 @@
     }
     return self;
 }
-- (IBAction)doneButtonPressed:(id)sender {
-    
-    NSString *phoneNumber = @"+3537207754";
-    NSString *password = @"my pass";
-    
-    
-    [ParseManager signUpWithPhoneNumber:phoneNumber andPassword:password withCompletionBlock:^(BOOL succeeded, NSError *error){
-        
-        if(succeeded){
-            [self loggedIn];
-        } else {
-            
-            NSString *errorString = [[error userInfo] objectForKey:@"error"];
-            NSLog(@"%@", errorString);
-            
-            // Probably due to user already existing, try to log in
-            [ParseManager loginWithPhoneNumber:phoneNumber andPassword:password withCompletionBlock:^(BOOL succeeded, NSError *error){
-                
-                if(succeeded){
-                    [self loggedIn];
-                } else {
-                    NSString *errorString = [[error userInfo] objectForKey:@"error"];
-                    NSLog(@"%@", errorString);
-                }
-            }];
-            
-        }
-        
-    }];
 
-}
-
--(void)loggedIn{
-    
-    [self.navigationController dismissViewControllerAnimated:YES completion:^{
-        [self.delegate signedIn];
-    }];
-    
-}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    
+    self.scrollView = [MGScrollView scrollerWithSize:self.view.bounds.size];
+    [self.view addSubview:self.scrollView];
+    
+    // Get list of countries
+    NSArray *countries = [PhoneNumberManager getListOfAllCountryCodes];
+    
+    // Set up table
+    MGTableBoxStyled *section = MGTableBoxStyled.box;
+    [self.scrollView.boxes addObject:section];
+    
+    // a default row size
+    CGSize rowSize = (CGSize){304, 44};
+    
+    // Header
+    MGLineStyled *header = [MGLineStyled line];
+    header.middleItems = [NSArray arrayWithObject:@"Select Country"];
+    [section.topLines addObject:header];
+    header.font = HEADER_FONT;
+    
+    for(NSString *countryCode in countries){
+        
+        MGLineStyled *countryRow = [MGLineStyled lineWithLeft:[PhoneNumberManager getCountryForCountryCode:countryCode] right:[PhoneNumberManager getCallingCodeForCountryCode:countryCode] size:rowSize];
+        
+        countryRow.onTap = ^{
+            [self.delegate countrySelected:countryCode];
+            [self dismissModalViewControllerAnimated:YES];
+        };
+        
+        [section.topLines addObject:countryRow];
+        
+    }
+    
+    [self.scrollView layoutWithSpeed:1 completion:nil];
+    [self.scrollView scrollToView:section withMargin:8];
+
 }
 
 - (void)didReceiveMemoryWarning

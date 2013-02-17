@@ -7,9 +7,12 @@
 //
 
 #import "InitialViewController.h"
+#import "SignUpPhoneNumberViewController.h"
+#import "InboxViewController.h"
 #import <Parse/Parse.h>
 #import "BackgroundImageHelper.h"
-#import "SignUpPhoneNumberViewController.h"
+#import "Blocks.h"
+
 
 @interface InitialViewController ()
 
@@ -33,16 +36,29 @@
         [self performSegueWithIdentifier:@"SignUp" sender:self];
         
     } else {
-        
-        [self performSegueWithIdentifier:@"LoggedIn" sender:self];
-        
+        if(!self.contactsDatabaseManager){
+            
+            self.contactsDatabaseManager = [[ContactsDatabaseManager alloc] init];
+            
+            [self.contactsDatabaseManager accessContactsDatabaseWithCompletionHandler:^(BOOL success, ContactsDatabaseManager *manager) {
+ 
+                self.contactsDatabaseManager = (ContactsDatabaseManager *)manager;
+                [self contactsDatabaseReadySoProceed];
+            }];
+            
+        } else {
+            [self contactsDatabaseReadySoProceed];
+        }
     }
-    
 }
 
 -(void)signedIn{
     
     [self directLoggedInOrNotLoggedInUserRespectively];
+}
+
+-(void)contactsDatabaseReadySoProceed{
+    [self performSegueWithIdentifier:@"LoggedIn" sender:self];
 }
 
 - (void)viewDidLoad
@@ -67,6 +83,12 @@
         UINavigationController *navController = segue.destinationViewController;
         SignUpPhoneNumberViewController *signUpPhoneNumberViewController = [[navController viewControllers] lastObject];
         signUpPhoneNumberViewController.delegate = self;
+    }
+    
+    if([segue.identifier isEqualToString:@"LoggedIn"]){
+        UINavigationController *navController = segue.destinationViewController;
+        InboxViewController *inboxViewController = [[navController viewControllers] lastObject];
+        inboxViewController.contactsDatabaseManager = self.contactsDatabaseManager;
     }
 }
 

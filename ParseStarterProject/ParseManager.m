@@ -67,11 +67,28 @@
 
 #pragma mark - Messaging Functions
 
-+(void)retrieveAllMessagesForShredderUser:(ShredderUser *)user withCompletionBlock:(ParseReturnedArray)parseReturnedArray{
++(void)retrieveMessagesForCurrentUser:(PFUser *)user withCompletionBlock:(ParseReturnedArray)parseReturnedArray{
     
-    PFQuery *query = [PFQuery queryWithClassName:@"Messages"];
+    PFQuery *query = [PFQuery queryWithClassName:@"Message"];
     [query whereKey:@"recipient" equalTo:user];
     [query includeKey:@"sender"];    
+    [query orderByDescending:@"createdAt"];
+    
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            NSArray *messagesArray = [Message convertPFObjectArraytoMessagesArray:objects];
+            parseReturnedArray(YES, error, messagesArray);
+        } else {
+            // Log details of the failure
+            parseReturnedArray(NO, error, objects);
+        }
+    }];
+    
+}
+
++(void)retrieveAllMessagePermissionsForShredderUser:(ShredderUser *)user withCompletionBlock:(ParseReturnedArray)parseReturnedArray{
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"MessagePermission"];
     [query orderByDescending:@"createdAt"];
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -86,22 +103,72 @@
     
 }
 
-+(void)retrieveAllMessagePermissionsForShredderUser:(ShredderUser *)user withCompletionBlock:(ParseReturnedArray)parseReturnedArray{
++(void)sendMessage:(Message *)message withCompletionBlock:(ParseReturned)parseReturned{
     
-    PFQuery *query = [PFQuery queryWithClassName:@"MessagePermissions"];
-    [query orderByDescending:@"createdAt"];
+    PFObject *pfMessage = message.message;
     
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (!error) {
-            // The find succeeded.
-            parseReturnedArray(YES, error, objects);
+    [pfMessage setObject:[PFUser currentUser] forKey:@"sender"];
+    [pfMessage setObject:message.user.pfUser forKey:@"recipient"];
+    
+    // Handle attached image
+    
+    PFACL *messageACL = [PFACL ACL];
+    [messageACL setReadAccess:YES forUser:[PFUser currentUser]];
+    [messageACL setWriteAccess:YES forUser:[PFUser currentUser]];
+    [messageACL setReadAccess:YES forUser:message.user.pfUser];
+    [messageACL setWriteAccess:YES forUser:message.user.pfUser];
+    
+    pfMessage.ACL = messageACL;
+    
+    // Request a background execution task to allow us to finish uploading
+    // the message even if the app is sent to the background
+    UIBackgroundTaskIdentifier *backgroundTaskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+        [[UIApplication sharedApplication] endBackgroundTask:backgroundTaskID];
+    }];
+
+    
+    [pfMessage saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
+        
+        if(succeeded){
+            
+            // Create our installation query
+            PFQuery *pushQuery = [PFInstallation query];
+            [pushQuery whereKey:@"owner" equalTo:message.user.pfUser];
+            
+            
+            
+            // Send push notification to query
+            PFPush *push = [[PFPush alloc] init];
+            [push setQuery:pushQuery];
+            NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
+                                  @"You have received a message on Shredder", @"alert",
+                                  @"Increment", @"badge",
+                                  @"chainsaw-02.wav", @"sound",
+                                  nil];
+            [push setData:data];
+            [push sendPushInBackground];
         } else {
-            // Log details of the failure
-            parseReturnedArray(NO, error, objects);
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Alert" message:@"Your message did not send. Please try again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alert show];
+            
         }
+        
+        [[UIApplication sharedApplication] endBackgroundTask:backgroundTaskID];
+    }];
+    
+    
+}
+
++(void)shredMessage:(Message *)message withCompletionBlock:(ParseReturned)parseReturned{
+    
+    // Delete Message
+    [message.message deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        parseReturned(succeeded, error);
     }];
     
 }
+
 
 #pragma mark - Contact Functions
 
@@ -155,20 +222,20 @@
     NSArray *allContacts = [self.contactsDatabase.managedObjectContext executeFetchRequest:request error:nil];*/
     
     // Array of email addresses
-    NSMutableArray *emailArray = [[NSMutableArray alloc] init];
+    NSMutableArray *phoneNumberArray = [[NSMutableArray alloc] init];
     
     for(Contact *contact in self.contactsForUserCheck)
     {
-        if(contact.email)
+        if(contact.normalisedPhoneNumber)
         {
-            [emailArray addObject:contact.email];
+            [phoneNumberArray addObject:contact.normalisedPhoneNumber];
         }
         
     }
     
     // Find Parse contacts which have these email addresses
     PFQuery *query = [PFUser query];
-    [query whereKey:@"username" containedIn:emailArray];
+    [query whereKey:@"username" containedIn:phoneNumberArray];
     
     // CALL TO PARSE
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -177,9 +244,9 @@
             for(PFUser *user in objects)
             {
                 // Iterate through matched Parse Users
-                NSString *emailString = user.username;
+                NSString *normalisedPhoneNumberString = user.username;
                 NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Contact"];
-                NSPredicate *predicate = [NSPredicate predicateWithFormat:@"email = %@", emailString];
+                NSPredicate *predicate = [NSPredicate predicateWithFormat:@"normalisedPhoneNumber = %@", normalisedPhoneNumberString];
                 request.predicate = predicate;
                 NSArray *emailMatches = [self.contactsDatabase.managedObjectContext executeFetchRequest:request error:nil];
                 
@@ -208,6 +275,30 @@
     
 }
 
++(void)shredderUserForContact:(Contact *)contact withCompletionBlock:(ParseReturnedArray)parseReturnedArray{
+    
+    PFQuery *userQuery = [PFUser query];
+    [userQuery whereKey:@"username" equalTo:contact.normalisedPhoneNumber];
+    
+    [userQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        
+        parseReturnedArray(YES, error, objects);
+        
+    }];
+    
+}
 
+#pragma mark - Image Functions
+
++(void)startUploadingImages:(NSArray *)imagesArray{
+    
+    PFFile *thumbnailFile = [imagesArray objectAtIndex:0];
+    PFFile *photoFile = [imagesArray objectAtIndex:1];
+    
+    [thumbnailFile saveInBackground];
+    [photoFile saveInBackground];
+
+    
+}
 
 @end

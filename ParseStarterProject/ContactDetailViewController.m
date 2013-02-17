@@ -337,13 +337,7 @@
     // Try phone number, then email
     if (self.contact.phoneNumber && [MFMessageComposeViewController canSendText]){
         
-        MFMessageComposeViewController *messanger = [[MFMessageComposeViewController alloc] init];
-        messanger.messageComposeDelegate = self;
-        NSArray *toRecipients = [NSArray arrayWithObject:self.contact.phoneNumber];
-        [messanger setRecipients:toRecipients];
-        NSString *messageBody = [NSString stringWithFormat:@"I'd like to send you a confidential message on the new private messaging app Shredder. Please download it from the App Store now!\nitms://itunes.com/apps/Shredder\n\nMy Username: %@", [PFUser currentUser].username ];
-        [messanger setBody:messageBody];
-        [self presentModalViewController:messanger animated:YES];
+        
         
         
         

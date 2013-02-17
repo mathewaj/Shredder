@@ -11,6 +11,16 @@
 
 @interface ShredderUser : PFUser
 
-+(NSArray *)getShredderUsersForContacts:(NSArray *)contacts;
+-(id)initWithPFUser:(PFUser *)pfUser;
+
+// Model: Contact
+@property (nonatomic, strong) Contact *contact;
+
+// Model: PFUser
+@property (nonatomic, strong) PFUser *pfUser;
+
+@property (nonatomic, strong) UIImage *profilePic;
+
+-(NSString *)getName;
 
 @end

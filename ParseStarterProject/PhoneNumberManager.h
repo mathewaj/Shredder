@@ -12,4 +12,18 @@
 
 +(NSString *)normalisedPhoneNumberWithContactNumber:(NSString *)phoneNumber countryCode:(NSString *)countryCode;
 
++(NSString *)getCurrentCountryCode;
+
++(NSString *)getCurrentCountry;
+
++(NSString *)getCountryForCountryCode:(NSString *)countryCodeInitials;
+
++(NSString *)getCallingCodeForCountryCode:(NSString *)countryCode;
+
++(NSArray *)getListOfAllCountryCodes;
+
++(NSArray *)getListOfAllCountries;
+
++(BOOL)isViablePhoneNumber:(NSString *)number forCountryCode:(NSString *)countryCode;
+
 @end

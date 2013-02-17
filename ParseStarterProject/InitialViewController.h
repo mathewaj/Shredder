@@ -7,12 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SignUpDetailsViewController.h"
+#import "SignUpPhoneNumberViewController.h"
+#import "ContactsDatabaseManager.h"
 
 
 // View Controller which presents SignUp View route on first run of app
 
-@interface InitialViewController : UIViewController <SignUpDetailsViewControllerProtocol>
+@interface InitialViewController : UIViewController <SignUpPhoneNumberViewControllerProtocol>
+
+@property (nonatomic, strong) ContactsDatabaseManager *contactsDatabaseManager;
 
 -(void)directLoggedInOrNotLoggedInUserRespectively;
 

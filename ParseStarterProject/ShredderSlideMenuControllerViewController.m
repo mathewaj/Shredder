@@ -167,7 +167,7 @@
     // Get access to the database
     if (!self.contactsDatabase) {
         
-        [self.contactsDatabaseManager createContactsDatabase];
+        //[self.contactsDatabaseManager createContactsDatabase];
         
         //[self createDatabase];
     } else {

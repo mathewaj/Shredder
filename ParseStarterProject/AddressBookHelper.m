@@ -75,8 +75,11 @@ void AddressBookUpdated(ABAddressBookRef addressBook, CFDictionaryRef info, void
         // If new contact or first time running version 1.1
         if (!lastScanDate || [modifiedDate compare:lastScanDate] == NSOrderedDescending) {
             
-            // Create contact and add to array
-            [recentlyUpdatedAddressBookRecords addObject:(__bridge id)(person)];
+            // Check if contact has phone number, if so add to array
+            ABMultiValueRef phoneNumbers = ABRecordCopyValue(person, kABPersonPhoneProperty);
+            if (ABMultiValueGetCount(phoneNumbers) > 0){
+                [recentlyUpdatedAddressBookRecords addObject:(__bridge id)(person)];
+            }
             
         } else if ([modifiedDate compare:lastScanDate] == NSOrderedAscending) {
             // Ignore

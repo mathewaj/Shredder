@@ -10,7 +10,33 @@
 
 @implementation ShredderUser
 
-+(NSArray *)getShredderUsersForContacts:(NSArray *)contacts{
+-(id)initWithPFUser:(PFUser *)pfUser{
+    
+    self = [super init];
+    if (self) {
+        self.pfUser = pfUser;
+        
+        // Check for contact
+        
+    }
+    return self;
+    
+}
+
+-(NSString *)getName{
+    
+    NSString *name;
+    
+    // If contact details are available
+    if(self.contact){
+        name = self.contact.name;
+    } else {
+        
+        // For now, just use phone number
+        name = [self.pfUser objectForKey:@"username"];
+    }
+    
+    return name;
     
 }
 

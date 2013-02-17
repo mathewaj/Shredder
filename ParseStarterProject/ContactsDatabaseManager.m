@@ -13,6 +13,22 @@
 
 @implementation ContactsDatabaseManager
 
++ (id)sharedManager{
+    static ContactsDatabaseManager *sharedMyManager = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedMyManager = [[self alloc] init];
+    });
+    return sharedMyManager;
+}
+
+- (id)init {
+    if (self = [super init]) {
+        
+    }
+    return self;
+}
+
 -(Contact *)retrieveContactwithParseID:(NSString *)parseID inManagedObjectContext:(UIManagedDocument *)document{
     
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Contact"];
@@ -24,7 +40,7 @@
 
 #pragma mark - Contacts Database Creation
 
--(void)createContactsDatabase{
+-(void)accessContactsDatabaseWithCompletionHandler:(ContactsDatabaseReturned)contactsDatabaseReturned{
     
     // Create UIManagedDocument to access database
     NSURL *url = [[[NSFileManager defaultManager] URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask] lastObject];
@@ -44,10 +60,11 @@
             
             if (success) {
                 
-                [self databaseIsOpen];
+                contactsDatabaseReturned(YES, self);
                 
             } else {
-                NSLog(@"couldn’t open document at %@", url);
+                
+                contactsDatabaseReturned(NO, self);
             }
         }];
         
@@ -60,7 +77,8 @@
                            
                            if (success) {
                                
-                               [self databaseIsOpen];
+                               [self databaseIsNew];
+                               contactsDatabaseReturned(YES, self);
                                
                            } else {
                                NSLog(@"couldn’t create document at %@", url);
@@ -70,7 +88,7 @@
     
 }
 
--(void)databaseIsOpen{
+-(void)databaseIsNew{
     
     [self importAddressBookContactsToContactsDatabase];
     
@@ -132,80 +150,6 @@
             [contacts addObject:contact];
         }
         
-        
-        
-        /* Obtain name information
-         
-        int personID = ABRecordGetRecordID(person);
-        NSString *firstName = (__bridge NSString *)ABRecordCopyValue(person, kABPersonFirstNameProperty);
-        NSString *surname = (__bridge NSString *)ABRecordCopyValue(person, kABPersonLastNameProperty);
-        
-        NSString *fullName = @"";
-        
-        if(firstName){
-            
-            fullName = [fullName stringByAppendingString:firstName];
-            
-            if(surname)
-            {
-                fullName = [fullName stringByAppendingString:@" "];
-                fullName = [fullName stringByAppendingString:surname];
-            }
-            
-        } else if(surname)
-        {
-            fullName = [fullName stringByAppendingString:surname];
-        }
-        
-        
-        if(![fullName isEqualToString:@""]){
-            
-            NSLog(@"Full name: %@", fullName);
-            
-            // Create a contact for every phone entry
-            Contact *contact = [Contact contactWithName:fullName inContext:self.contactsDatabase.managedObjectContext];
-            
-            // Set ID
-            contact.addressBookID = [NSNumber numberWithInt:personID];
-            
-            //Set name initial
-            NSString *initial = [fullName substringToIndex:1];
-            NSString *capitalisedInitial = [initial capitalizedString];
-            
-            contact.nameInitial = capitalisedInitial;
-            
-            // Obtain the phone number for the contact
-            ABMultiValueRef phoneNumbers = ABRecordCopyValue(person, kABPersonPhoneProperty);
-            NSString* phone = nil;
-            if (ABMultiValueGetCount(phoneNumbers) > 0) {
-                
-                phone = (__bridge NSString *)(ABMultiValueCopyValueAtIndex(phoneNumbers, 0));
-                contact.phoneNumber = phone;
-            }
-            
-            // Obtain email information from record and then iterate through
-            ABMultiValueRef emails = ABRecordCopyValue(person, kABPersonEmailProperty);
-            
-            for (CFIndex j=0; j < ABMultiValueGetCount(emails); j++) {
-                
-                // For first email, add to existing contact
-                if(j==0){
-                    contact.email = (__bridge NSString*)ABMultiValueCopyValueAtIndex(emails, j);
-                } else {
-                    NSString* emailString = (__bridge NSString*)ABMultiValueCopyValueAtIndex(emails, j);
-                    
-                    Contact *duplicateContactWithSeparateEmail = [Contact contactWithName:fullName inContext:self.contactsDatabase.managedObjectContext];
-                    duplicateContactWithSeparateEmail.email = emailString;
-                    [contacts addObject:duplicateContactWithSeparateEmail];
-                }
-                
-            }
-            
-            [self.contactsDatabase.managedObjectContext save:nil];
-            [contacts addObject:contact];
-            
-            
-        }*/
     }
     
     self.newlyUpdatedContacts = contacts;
@@ -220,6 +164,37 @@
     //[self.contactsDatabase.managedObjectContext save:nil];
     
 }
+
+-(NSArray *)fetchContacts{
+    
+    // Retrieve all contacts
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Contact"];
+    request.sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
+    NSArray *allContacts = [self.contactsDatabase.managedObjectContext executeFetchRequest:request error:nil];
+    return allContacts;
+}
+
+-(NSString *)getName:(ShredderUser *)user{
+    
+    // A little bit of a hacky place for this possibly
+    // Find contact for a give PFUser
+    
+    NSString *name;
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Contact"];
+    request.predicate = [NSPredicate predicateWithFormat:@"parseID = %@",  user.pfUser.objectId];
+    NSArray *contacts = [self.contactsDatabase.managedObjectContext executeFetchRequest:request error:nil];
+    Contact *contact = [contacts lastObject];
+    if(contact){
+        user.contact = contact;
+        name = contact.name;
+    } else {
+        // Use phone number until custom name field included. TBC
+        name = user.pfUser.username;
+    }
+    
+    return name;
+}
+
 /*
 -(void)promptUserForPermissionToUploadContacts
 {

@@ -11,7 +11,13 @@
 // Typedef a block called ParseReturned which receives a contact and returns a BOOL
 typedef void (^ParseReturned) (BOOL success, NSError *error);
 
-typedef void (^ParseReturnedArray) (BOOL success, NSError *error, NSArray *array);
+typedef void (^ContactsDatabaseReturned) (BOOL success, id contactsDatabaseManager);
+
+typedef void (^ParseReturnedArray) (BOOL success, NSError *error, NSArray *objects);
+
+#define HEADER_FONT            [UIFont fontWithName:@"HelveticaNeue" size:18]
+
+#define IMPACT_FONT            [UIFont fontWithName:@"HelveticaNeue" size:20]
 
 @interface Blocks : NSObject
 

@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "AddressBookHelper.h"
+#import "Blocks.h"
+#import "ShredderUser.h"
 
 @class Contact;
 
@@ -29,12 +31,12 @@
 // Helper object to import contacts from Address Book
 @property (nonatomic, strong) AddressBookHelper *addressBookHelper;
 
--(void)createContactsDatabase;
+-(void)accessContactsDatabaseWithCompletionHandler:(ContactsDatabaseReturned)contactsDatabaseReturned;
 -(void)importAddressBookContacts;
 -(Contact *)retrieveContactwithParseID:(NSString *)parseID inManagedObjectContext:(UIManagedDocument *)document;
 
 -(void)updateContacts:(NSArray *)updatedContacts;
-
-
+-(NSString *)getName:(ShredderUser *)user;
+-(NSArray *)fetchContacts;
 
 @end
