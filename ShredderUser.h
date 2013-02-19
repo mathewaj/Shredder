@@ -21,6 +21,4 @@
 
 @property (nonatomic, strong) UIImage *profilePic;
 
--(NSString *)getName;
-
 @end

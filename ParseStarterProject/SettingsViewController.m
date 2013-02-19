@@ -7,6 +7,11 @@
 //
 
 #import "SettingsViewController.h"
+#import "MGBase.h"
+#import "MGBox.h"
+#import "MGTableBoxStyled.h"
+#import "MGLineStyled.h"
+#import "Blocks.h"
 
 @interface SettingsViewController ()
 
@@ -30,22 +35,34 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    if(![[NSUserDefaults standardUserDefaults] objectForKey:@"passwordLockSetting"])
-    {
-        [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:YES] forKey:@"passwordLockSetting"];
-    }
+    // Settings Box
+    MGTableBoxStyled *settingsSection = [MGTableBoxStyled box];
+    settingsSection.topMargin = 30;
+    [self.scrollView.boxes addObject:settingsSection];
     
-    self.passwordLockSwitch.on = [[[NSUserDefaults standardUserDefaults] objectForKey:@"passwordLockSetting"] boolValue];
+    // Settings 1: Password Lock
+    self.passwordLockSwitch = [self getPasswordLockSwitch];
+    MGLineStyled *setting1 = [MGLineStyled lineWithLeft:@"Password Lock" right:self.passwordLockSwitch size:CGSizeMake(304, 64)];
+    setting1.leftPadding = setting1.rightPadding = 16;
+    [settingsSection.topLines addObject:setting1];
     
-    if(![[NSUserDefaults standardUserDefaults] objectForKey:@"shreddingGraphicSetting"])
-    {
-        [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:YES] forKey:@"shreddingGraphicSetting"];
-    }
+    [self.scrollView layoutWithSpeed:0.3 completion:nil];
     
-    self.shreddingGraphicSwitch.on = [[[NSUserDefaults standardUserDefaults] objectForKey:@"shreddingGraphicSetting"] boolValue];
-
     
+        
 }
+- (IBAction)doneButtonPressed:(id)sender {
+
+        [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(UISwitch *)getPasswordLockSwitch{
+    
+    UISwitch *switchControl = [[UISwitch alloc] initWithFrame:CGRectMake(0, 0, 40, 30)];
+    switchControl.on = [[[NSUserDefaults standardUserDefaults] objectForKey:@"passwordLockSetting"] boolValue];
+    return switchControl;
+}
+
 - (IBAction)passwordSwitchChanged:(UISwitch *)sender {
     
     // Set user default to switch value
@@ -67,7 +84,7 @@
 
 - (void)viewDidUnload {
     [self setPasswordLockSwitch:nil];
-    [self setShreddingGraphicSwitch:nil];
+    [self setScrollView:nil];
     [super viewDidUnload];
 }
 @end

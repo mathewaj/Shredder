@@ -21,13 +21,16 @@
 -(void)replyButtonPressed:(MessageView *)sender;
 -(void)attachmentIconPressed:(MessageView *)sender;
 -(CGRect)retrieveScreenDimensions:(MessageView *)sender;
+-(void)showAttachmentView:(UIImageView *)attachmentView withBackgroundView:(UIImageView *)backgroundView;
+
+-(NSString *)getNameForUser:(PFObject *)user;
 
 @end
 
 @interface MessageView : MGTableBoxStyled
 
-- (id)initWithFrame:(CGRect)frame withEmptyMessage:(Message *)message forRecipient:(ShredderUser *)recipient;
-- (id)initWithFrame:(CGRect)frame withPopulatedMessagePermission:(MessagePermission *)messagePermission;
+- (id)initWithFrame:(CGRect)frame withEmptyMessage:(Message *)message forRecipient:(ShredderUser *) recipient andDelegate:(id <MessageViewDelegate>)delegate;
+- (id)initWithFrame:(CGRect)frame withPopulatedMessagePermission:(MessagePermission *)messagePermission andDelegate:(id <MessageViewDelegate>)delegate;
 
 -(void)updateAttachmentThumbnailView:(UIImage *)image;
 

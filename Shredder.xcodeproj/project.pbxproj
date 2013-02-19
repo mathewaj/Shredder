@@ -72,6 +72,19 @@
 		0BCDC1D916CDA56300C88278 /* MGTableBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BCDC1C816CDA56300C88278 /* MGTableBox.m */; };
 		0BCDC1DA16CDA56300C88278 /* MGTableBoxStyled.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BCDC1CA16CDA56300C88278 /* MGTableBoxStyled.m */; };
 		0BCDC1E116CE999D00C88278 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BCDC1E016CE999D00C88278 /* Message.m */; };
+		0BE5E77316D2ADCD0069F144 /* sad.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0BE5E77216D2ADCD0069F144 /* sad.jpg */; };
+		0BE5E77516D2AEFB0069F144 /* sad.gif in Resources */ = {isa = PBXBuildFile; fileRef = 0BE5E77416D2AEFB0069F144 /* sad.gif */; };
+		0BE5E78016D2E5890069F144 /* MessagesRibbon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BE5E77E16D2E5890069F144 /* MessagesRibbon.png */; };
+		0BE5E78116D2E5890069F144 /* MessagesRibbon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BE5E77F16D2E5890069F144 /* MessagesRibbon@2x.png */; };
+		0BE5E78416D2E6DF0069F144 /* ReportsRibbon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BE5E78216D2E6DF0069F144 /* ReportsRibbon.png */; };
+		0BE5E78516D2E6DF0069F144 /* ReportsRibbon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BE5E78316D2E6DF0069F144 /* ReportsRibbon@2x.png */; };
+		0BE5E79516D415790069F144 /* Clock@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BE5E79416D415790069F144 /* Clock@2x.png */; };
+		0BE5E79716D415B40069F144 /* Clock.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BE5E79616D415B40069F144 /* Clock.png */; };
+		0BE5E79916D43B740069F144 /* ShredReply@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BE5E79816D43B740069F144 /* ShredReply@2x.png */; };
+		0BE5E79E16D43F9E0069F144 /* ReplyButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BE5E79A16D43F9E0069F144 /* ReplyButton.png */; };
+		0BE5E79F16D43F9E0069F144 /* ReplyButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BE5E79B16D43F9E0069F144 /* ReplyButton@2x.png */; };
+		0BE5E7A016D43F9E0069F144 /* ShredButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BE5E79C16D43F9E0069F144 /* ShredButton.png */; };
+		0BE5E7A116D43F9E0069F144 /* ShredButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BE5E79D16D43F9E0069F144 /* ShredButton@2x.png */; };
 		0BEB004416C6CD7D0068ECDB /* NBNumberFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BEB003A16C6CD7D0068ECDB /* NBNumberFormat.m */; };
 		0BEB004516C6CD7D0068ECDB /* NBPhoneMetaData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BEB003C16C6CD7D0068ECDB /* NBPhoneMetaData.m */; };
 		0BEB004616C6CD7D0068ECDB /* NBPhoneNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BEB003E16C6CD7D0068ECDB /* NBPhoneNumber.m */; };
@@ -306,6 +319,19 @@
 		0BCDC1CA16CDA56300C88278 /* MGTableBoxStyled.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGTableBoxStyled.m; sourceTree = "<group>"; };
 		0BCDC1DF16CE999D00C88278 /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
 		0BCDC1E016CE999D00C88278 /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
+		0BE5E77216D2ADCD0069F144 /* sad.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sad.jpg; sourceTree = "<group>"; };
+		0BE5E77416D2AEFB0069F144 /* sad.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = sad.gif; sourceTree = "<group>"; };
+		0BE5E77E16D2E5890069F144 /* MessagesRibbon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MessagesRibbon.png; sourceTree = "<group>"; };
+		0BE5E77F16D2E5890069F144 /* MessagesRibbon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MessagesRibbon@2x.png"; sourceTree = "<group>"; };
+		0BE5E78216D2E6DF0069F144 /* ReportsRibbon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ReportsRibbon.png; sourceTree = "<group>"; };
+		0BE5E78316D2E6DF0069F144 /* ReportsRibbon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ReportsRibbon@2x.png"; sourceTree = "<group>"; };
+		0BE5E79416D415790069F144 /* Clock@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Clock@2x.png"; sourceTree = "<group>"; };
+		0BE5E79616D415B40069F144 /* Clock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Clock.png; sourceTree = "<group>"; };
+		0BE5E79816D43B740069F144 /* ShredReply@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ShredReply@2x.png"; sourceTree = "<group>"; };
+		0BE5E79A16D43F9E0069F144 /* ReplyButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ReplyButton.png; sourceTree = "<group>"; };
+		0BE5E79B16D43F9E0069F144 /* ReplyButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ReplyButton@2x.png"; sourceTree = "<group>"; };
+		0BE5E79C16D43F9E0069F144 /* ShredButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ShredButton.png; sourceTree = "<group>"; };
+		0BE5E79D16D43F9E0069F144 /* ShredButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ShredButton@2x.png"; sourceTree = "<group>"; };
 		0BEB003916C6CD7D0068ECDB /* NBNumberFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBNumberFormat.h; sourceTree = "<group>"; };
 		0BEB003A16C6CD7D0068ECDB /* NBNumberFormat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBNumberFormat.m; sourceTree = "<group>"; };
 		0BEB003B16C6CD7D0068ECDB /* NBPhoneMetaData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBPhoneMetaData.h; sourceTree = "<group>"; };
@@ -574,6 +600,8 @@
 				0BFE622A16CED6520087838D /* ContactsViewController.m */,
 				0B6D70E516CEF3F00039B3F2 /* MessageViewController.h */,
 				0B6D70E616CEF3F00039B3F2 /* MessageViewController.m */,
+				E76FF70F165FA2FA005F1081 /* SettingsViewController.h */,
+				E76FF710165FA2FA005F1081 /* SettingsViewController.m */,
 				E7A0175A165BB0A1003F1817 /* ShredderSlideMenuControllerViewController.h */,
 				E7A0175B165BB0A1003F1817 /* ShredderSlideMenuControllerViewController.m */,
 				E7F3B53F165833A700C99D62 /* AllMessagesViewController.h */,
@@ -598,8 +626,6 @@
 				E76FF707165F7CCF005F1081 /* ShredMessageViewController.m */,
 				0BB9E35316B0578D00BE9850 /* FetchedResultsTableControllerViewController.h */,
 				0BB9E35416B0578D00BE9850 /* FetchedResultsTableControllerViewController.m */,
-				E76FF70F165FA2FA005F1081 /* SettingsViewController.h */,
-				E76FF710165FA2FA005F1081 /* SettingsViewController.m */,
 				E7015B3A167B7F8F00843A73 /* MenuCell.h */,
 				E7015B3B167B7F9000843A73 /* MenuCell.m */,
 				E76FF702165F7C72005F1081 /* ShreddingEffectView.h */,
@@ -613,6 +639,19 @@
 		09ABC07813A1D52D009C3FCF /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				0BE5E79A16D43F9E0069F144 /* ReplyButton.png */,
+				0BE5E79B16D43F9E0069F144 /* ReplyButton@2x.png */,
+				0BE5E79C16D43F9E0069F144 /* ShredButton.png */,
+				0BE5E79D16D43F9E0069F144 /* ShredButton@2x.png */,
+				0BE5E79816D43B740069F144 /* ShredReply@2x.png */,
+				0BE5E79616D415B40069F144 /* Clock.png */,
+				0BE5E79416D415790069F144 /* Clock@2x.png */,
+				0BE5E77E16D2E5890069F144 /* MessagesRibbon.png */,
+				0BE5E77F16D2E5890069F144 /* MessagesRibbon@2x.png */,
+				0BE5E78216D2E6DF0069F144 /* ReportsRibbon.png */,
+				0BE5E78316D2E6DF0069F144 /* ReportsRibbon@2x.png */,
+				0BE5E77416D2AEFB0069F144 /* sad.gif */,
+				0BE5E77216D2ADCD0069F144 /* sad.jpg */,
 				0BADE87B16AF1B74004C73B5 /* ShredTop.png */,
 				0BADE87C16AF1B74004C73B5 /* ShredTop@2x.png */,
 				0BADE87F16AF1D2F004C73B5 /* ShredBackground.png */,
@@ -1072,6 +1111,19 @@
 				0BEB004F16C6EB4A0068ECDB /* PhoneNumberMetaDataForTesting.json in Resources */,
 				0BEB005016C6EB4A0068ECDB /* NBPhoneNumberMetadata.plist in Resources */,
 				0BEB005116C6EB4A0068ECDB /* NBPhoneNumberMetadataForTesting.plist in Resources */,
+				0BE5E77316D2ADCD0069F144 /* sad.jpg in Resources */,
+				0BE5E77516D2AEFB0069F144 /* sad.gif in Resources */,
+				0BE5E78016D2E5890069F144 /* MessagesRibbon.png in Resources */,
+				0BE5E78116D2E5890069F144 /* MessagesRibbon@2x.png in Resources */,
+				0BE5E78416D2E6DF0069F144 /* ReportsRibbon.png in Resources */,
+				0BE5E78516D2E6DF0069F144 /* ReportsRibbon@2x.png in Resources */,
+				0BE5E79516D415790069F144 /* Clock@2x.png in Resources */,
+				0BE5E79716D415B40069F144 /* Clock.png in Resources */,
+				0BE5E79916D43B740069F144 /* ShredReply@2x.png in Resources */,
+				0BE5E79E16D43F9E0069F144 /* ReplyButton.png in Resources */,
+				0BE5E79F16D43F9E0069F144 /* ReplyButton@2x.png in Resources */,
+				0BE5E7A016D43F9E0069F144 /* ShredButton.png in Resources */,
+				0BE5E7A116D43F9E0069F144 /* ShredButton@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

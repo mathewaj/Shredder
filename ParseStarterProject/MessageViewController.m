@@ -31,12 +31,17 @@
     
     [super viewDidLoad];
     
+    
+    
     // Hide back button
     
     self.scrollView = [MGScrollView scrollerWithSize:self.view.bounds.size];
     self.scrollView.keepFirstResponderAboveKeyboard = NO;
     self.scrollView.backgroundColor = [UIColor blackColor];
     [self.view addSubview:self.scrollView];
+    
+    // Set background
+    self.scrollView.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:iPhone568ImageNamed(@"background.png")]];
     
     if(self.isComposeMode){
         self.messageView = [self setUpComposeMessageView];
@@ -56,15 +61,14 @@
     // In compose mode, a blank message must be created to which permissions may be added
     self.message = [[Message alloc] initNewMessageWithShredderUserReceiver:self.contact];
     
-    MessageView *messageView = [[MessageView alloc] initWithFrame:CGRectZero withEmptyMessage:self.message forRecipient:self.contact];
-    messageView.delegate = self;
+    MessageView *messageView = [[MessageView alloc] initWithFrame:CGRectZero withEmptyMessage:self.message forRecipient:self.contact andDelegate:self];
     return messageView;
 }
 
 -(MessageView *)setUpShredMessageView{
     
     // In shred mode, a message permission has been set    
-    MessageView *messageView = [[MessageView alloc] initWithFrame:CGRectZero withPopulatedMessagePermission:self.messagePermission];
+    MessageView *messageView = [[MessageView alloc] initWithFrame:CGRectZero withPopulatedMessagePermission:self.messagePermission andDelegate:self];
     messageView.delegate = self;
     return messageView;
 }
@@ -117,29 +121,23 @@
 }
 -(void)shredButtonPressed:(MessageView *)sender{
     
-    // Animate shredding of message - TBC
+    // Shred Message
+    [self shredMessage:sender];
     
     // Pop View Controller
-    //[self.navigationController popViewControllerAnimated:YES];
     [self dismissModalViewControllerAnimated:YES];
-    
-    [ParseManager shredMessage:sender.messagePermission withCompletionBlock:^(BOOL success, NSError *error) {
-        // Message Shredder
-    }];
     
 }
 
 -(void)replyButtonPressed:(MessageView *)sender{
     
     // Shred Message
-    [ParseManager shredMessage:sender.message withCompletionBlock:^(BOOL success, NSError *error) {
-        // Message Shredder
-    }];
+    [self shredMessage:sender];
     
     // Remove current Message View
     [self.scrollView.boxes removeObject:self.messageView];
     [self.scrollView layoutWithSpeed:0.3 completion:nil];
-    
+        
     // Create new blank message for user
     self.messageView = [self setUpComposeMessageView];
     
@@ -147,6 +145,19 @@
     [self.scrollView.boxes addObject:self.messageView];
     [self.scrollView layoutWithSpeed:0.3 completion:nil];
     [self.scrollView scrollToView:self.messageView withMargin:8];
+    
+}
+
+-(void)shredMessage:(MessageView *)messageView{
+    
+    // Shredding Animation - TBC
+    
+    
+    
+    // Delete Message
+    [ParseManager shredMessage:messageView.messagePermission withCompletionBlock:^(BOOL success, NSError *error) {
+        // Message Shredder
+    }];
     
 }
 
@@ -164,7 +175,49 @@
 
 -(CGRect)retrieveScreenDimensions:(MessageView *)sender
 {
-    return self.view.bounds;
+    return [[UIScreen mainScreen] bounds];
+    //return self.view.bounds;
+}
+
+-(void)showAttachmentView:(UIImageView *)attachmentView withBackgroundView:(UIImageView *)backgroundView{
+    
+    // Retrieve screen dimensions from delegate
+    CGRect screenDimensions = [[UIScreen mainScreen] bounds];
+    CGPoint screenCentre = CGPointMake(screenDimensions.origin.x + (screenDimensions.size.width / 2), screenDimensions.origin.y + (screenDimensions.size.height / 2));    
+    
+    // Set frame of attachment view
+    // Prepare Image View
+    attachmentView.alpha = 1;
+    attachmentView.frame = CGRectMake(screenCentre.x, screenCentre.y, 0, 0);
+    
+    // Prepare obfuscation view
+    backgroundView = [[UIImageView alloc] initWithFrame:screenDimensions];
+    backgroundView.backgroundColor = [UIColor blackColor];
+    backgroundView.alpha = 0;
+    
+    
+    // Add views to main view
+    [self.view addSubview:backgroundView];
+    [self.view addSubview:attachmentView];
+    
+    [UIView animateWithDuration:0.5
+                     animations:^{
+                         
+                         attachmentView.frame = screenDimensions;
+                         backgroundView.alpha = 1;
+                         
+                     }
+                     completion:^(BOOL finished){
+                         
+                     }];
+    
+    
+}
+
+-(NSString *)getNameForUser:(PFUser *)user{
+    
+    NSString *name = [self.contactsDatabaseManager getNameForUser:user];
+    return name;
 }
 
 

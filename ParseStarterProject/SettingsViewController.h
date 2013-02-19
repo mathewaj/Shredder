@@ -7,10 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MGScrollView.h"
 
-@interface SettingsViewController : UITableViewController
+@interface SettingsViewController : UIViewController
 
-@property (weak, nonatomic) IBOutlet UISwitch *passwordLockSwitch;
+// Model: Default Settings
 
-@property (weak, nonatomic) IBOutlet UISwitch *shreddingGraphicSwitch;
+// View: Scroll View
+@property (weak, nonatomic) IBOutlet MGScrollView *scrollView;
+
+// View: Switch for Password Lock
+@property (strong, nonatomic) UISwitch *passwordLockSwitch;
+
+
+
 @end

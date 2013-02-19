@@ -22,21 +22,4 @@
     
 }
 
--(NSString *)getName{
-    
-    NSString *name;
-    
-    // If contact details are available
-    if(self.contact){
-        name = self.contact.name;
-    } else {
-        
-        // For now, just use phone number
-        name = [self.pfUser objectForKey:@"username"];
-    }
-    
-    return name;
-    
-}
-
 @end

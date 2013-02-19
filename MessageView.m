@@ -28,23 +28,27 @@
 
 #pragma mark - Custom Initialisers
 
-- (id)initWithFrame:(CGRect)frame withEmptyMessage:(Message *)message forRecipient:(ShredderUser *)recipient
+- (id)initWithFrame:(CGRect)frame withEmptyMessage:(Message *)message forRecipient:(ShredderUser *) recipient andDelegate:(id <MessageViewDelegate>)delegate
 {
     self = [super initWithFrame:frame];
     if (self) {
         self.message = message;
         self.contactee = recipient;
+        self.delegate = delegate;
+        self.topMargin = 50;
         [self setUpForComposeMessage];
     }
     return self;
 }
 
-- (id)initWithFrame:(CGRect)frame withPopulatedMessagePermission:(MessagePermission *)messagePermission;
+- (id)initWithFrame:(CGRect)frame withPopulatedMessagePermission:(MessagePermission *)messagePermission andDelegate:(id <MessageViewDelegate>)delegate;
 {
     self = [super initWithFrame:frame];
     if (self) {
         self.messagePermission = messagePermission;
         self.message = [[Message alloc] initPopulatedMessageWithPFObject:[messagePermission.messagePermission objectForKey:@"message"]];
+        self.delegate = delegate;
+        self.topMargin = 30;
         self.contactee = messagePermission.sender;
         [self setUpForShredMessage];
     }
@@ -60,7 +64,8 @@
     
     // Header Row contains Name, Attachment Button
     self.attachmentThumbnailView = [self getAttachmentIcon];
-    MGLineStyled *header = [MGLineStyled lineWithMultilineLeft:[self.contactee getName] right:self.attachmentThumbnailView width:rowSize.width minHeight:70];
+    NSString *recipientName = [self.delegate getNameForUser:[self.messagePermission.messagePermission objectForKey:@"recipient"]];
+    MGLineStyled *header = [MGLineStyled lineWithMultilineLeft:recipientName right:self.attachmentThumbnailView width:rowSize.width minHeight:70];
     header.leftPadding = header.rightPadding = 16;
     [self.topLines addObject:header];
     
@@ -68,7 +73,7 @@
     MGLineStyled *body = [MGLineStyled line];
     self.messageBodyTextView = [self getMessageBodyTextView];
     body.leftItems = [NSArray arrayWithObjects:self.messageBodyTextView, nil];
-    body.minHeight = 40;
+    body.minHeight = 150;
     [self.middleLines addObject:body];
     
     // Bottom Row contains Cancel and Send Buttons
@@ -85,31 +90,50 @@
     // a default row size
     CGSize rowSize = (CGSize){304, 60};
     
-    // Header Row contains Name, Date, Attachment
-    NSString *nameAndTimeDateString = [NSString stringWithFormat:@"%@\n\n%@", [self.contactee getName], [self.message sentTimeAndDateString]];
+    // Header: Row contains Name, Date, Attachment
+    NSString *senderName = [self.delegate getNameForUser:[self.messagePermission.messagePermission objectForKey:@"sender"]];
+    NSString *combinedNameTimeString = [NSString stringWithFormat:@"**%@**\n\n //%@//|mush", senderName, [self.message sentTimeAndDateString]];
     
-    // Check if message has attachment
+    // Header: Create clock icon
+    UIImage *clock = [UIImage imageNamed:@"Clock.png"];
+    
+    // Header: Get attachment view if available
     if([self.message.message objectForKey:@"attachment"]){
         self.attachmentThumbnailView = [self getAttachmentThumbnailImageView];
         self.attachmentView = [self getAttachmentImageView];
         [self loadImages];
     }
     
-    MGLineStyled *header = [MGLineStyled lineWithMultilineLeft:nameAndTimeDateString right:self.attachmentThumbnailView width:rowSize.width minHeight:100];
+    // Header: Add attachment view if available
+    MGLineStyled *header = [MGLineStyled lineWithMultilineLeft:combinedNameTimeString right:self.attachmentThumbnailView width:rowSize.width minHeight:100];
+    
+    /*MGLineStyled *header = [MGLineStyled line];
+    header.multilineLeft = @"**BOLD TEXT**\n//Italics Text//|mush";
+    header.rightItems = [NSArray arrayWithObject:self.attachmentThumbnailView];
+    header.width = rowSize.width;
+    header.minHeight = 100;*/
+    
+    
+    [header.leftItems insertObject:clock atIndex:0];
     header.leftPadding = header.rightPadding = 16;
+    
     [self.topLines addObject:header];
+    
     
     // Middle Row contains Message body text view
     MGLineStyled *body = [MGLineStyled line];
     body.multilineLeft = [self.message.message objectForKey:@"body"];
-    body.minHeight = 200;
+    body.minHeight = 250;
+    body.borderStyle = MGBorderNone;
     [self.middleLines addObject:body];
     
     // Bottom Row contains Shred and Reply Buttons
     MGLineStyled *footer = MGLineStyled.line;
-    footer.backgroundColor = [UIColor grayColor];
+    //footer.backgroundColor = [UIColor grayColor];
     footer.minHeight = 40;
-    footer.middleItems = [NSArray arrayWithObjects:[self getShredButton],[self getReplyButton], nil];
+    //footer.middleItems = [NSArray arrayWithObjects:[self getShredButton],[self getReplyButton], nil];
+    footer.middleItems = [self getButtons];
+    footer.borderStyle = MGBorderNone;
     [self.bottomLines addObject:footer];
     
 }
@@ -177,6 +201,21 @@
     [replyButton setTitle:@"Reply" forState:UIControlStateNormal];
     return replyButton;
 }
+
+-(NSArray *)getButtons{
+    
+    UIButton *shredButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 117, 47)];
+    [shredButton addTarget:self action:@selector(shredButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [shredButton setImage:[UIImage imageNamed:@"ShredButton.png"] forState:UIControlStateNormal];
+    UIButton *replyButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 117, 47)];
+    [replyButton addTarget:self action:@selector(replyButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [replyButton setImage:[UIImage imageNamed:@"ReplyButton.png"] forState:UIControlStateNormal];
+    
+    NSArray *array = [NSArray arrayWithObjects:shredButton, replyButton, nil];
+    return array;
+    
+}
+
 
 -(PFImageView *)getAttachmentIcon{
     
@@ -271,28 +310,30 @@
     
     if(!self.isAttachmentOpen){
         
-        NSLog(@"Mes Again!");
-        // Retrieve screen dimensions from delegate
         CGRect screenDimensions = [self.delegate retrieveScreenDimensions:self];
-        CGPoint screenCentre = CGPointMake(screenDimensions.origin.x + (screenDimensions.size.width / 2), screenDimensions.origin.y + (screenDimensions.size.height / 2));
+         
+        //[self.delegate showAttachmentView:self.attachmentView withBackgroundView:self.obfuscationView];
         
-        // Prepare Image View
-        self.attachmentView.alpha = 1;
-        self.attachmentView.frame = CGRectMake(screenCentre.x, screenCentre.y, 0, 0);
-        
-        // Prepare obfuscation view
-        self.obfuscationView = [[UIImageView alloc] initWithFrame:screenDimensions];
-        self.obfuscationView.backgroundColor = [UIColor blackColor];
-        self.obfuscationView.alpha = 0;
+        // New Dimensions
+        CGPoint screenCentre = CGPointMake(screenDimensions.size.width/2, screenDimensions.size.height/2);
+         
+         // Prepare Image View
+         self.attachmentView.alpha = 1;
+         self.attachmentView.frame = CGRectMake(screenCentre.x, screenCentre.y, 0, 0);
+         
+         // Prepare obfuscation view
+         self.obfuscationView = [[UIImageView alloc] initWithFrame:screenDimensions];
+         self.obfuscationView.backgroundColor = [UIColor blackColor];
+         self.obfuscationView.alpha = 0;
         
         // Add views to main view
-        [self addSubview:self.obfuscationView];
-        [self addSubview:self.attachmentView];
+        [self.superview addSubview:self.obfuscationView];
+        [self.superview addSubview:self.attachmentView];
         
         [UIView animateWithDuration:0.5
                          animations:^{
                              
-                             self.attachmentView.frame = screenDimensions;
+                             self.attachmentView.frame = CGRectMake(0, 0, screenDimensions.size.width, screenDimensions.size.height);
                              self.obfuscationView.alpha = 1;
                              
                          }

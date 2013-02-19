@@ -179,6 +179,24 @@
     return name;
 }
 
+-(NSString *)getNameForUser:(PFUser *)user{
+    
+    NSString *name;
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Contact"];
+    request.predicate = [NSPredicate predicateWithFormat:@"normalisedPhoneNumber = %@", user.username];
+    NSArray *contacts = [self.contactsDatabase.managedObjectContext executeFetchRequest:request error:nil];
+    Contact *contact = [contacts lastObject];
+    if(contact){
+        name = contact.name;
+    } else {
+        // Use phone number until custom name field included. TBC
+        name = user.username;
+    }
+    
+    return name;
+    
+}
+
 /*
 -(void)promptUserForPermissionToUploadContacts
 {

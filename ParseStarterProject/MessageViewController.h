@@ -11,6 +11,7 @@
 #import "MessagePermission.h"
 #import "Message.h"
 #import "ShredderUser.h"
+#import "ContactsDatabaseManager.h"
 #import "MGScrollView.h"
 #import "MessageView.h"
 
@@ -22,6 +23,9 @@
 
 // Model: Message
 @property (nonatomic, strong) Message *message;
+
+// Model: Contacts Database
+@property (nonatomic, strong) ContactsDatabaseManager *contactsDatabaseManager;
 
 // Model: Shredder User
 @property (nonatomic, strong) ShredderUser *contact;

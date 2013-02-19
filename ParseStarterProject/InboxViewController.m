@@ -42,6 +42,9 @@
 -(void)viewDidLoad{
     [super viewDidLoad];
     
+    // Set background
+    self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:iPhone568ImageNamed(@"background.png")]];
+    
     // Set Scroll View
     self.scrollView = [MGScrollView scrollerWithSize:self.view.bounds.size];
     [self.view addSubview:self.scrollView];
@@ -72,7 +75,7 @@
         self.messagesArray = objects;
         
         if (count == 2) {
-            [self loadMessages];
+            [self loadInboxTable];
         }
     }];
     
@@ -81,87 +84,143 @@
         count ++;
         self.reportsArray = objects;
         if (count == 2) {
-            [self loadMessages];
+            [self loadInboxTable];
         }
     }];
     
 }
 
--(void)loadMessages{
+-(void)loadInboxTable{
     
     [self.scrollView.boxes removeAllObjects];
     
-    // Set Messages Section
-    MGTableBoxStyled *section = [MGTableBoxStyled box];
-    [self.scrollView.boxes addObject:section];
+    // Create Messages Container
+    MGTableBoxStyled *messagesSection = [MGTableBoxStyled box];
+    messagesSection.topMargin = 50;
+    [self.scrollView.boxes addObject:messagesSection];
     
-    // Set Message Rows
-    CGSize rowSize = (CGSize){304, 40};
-    for(int i=0;i<[self.messagesArray count];i++){
+    // If there are no messages, insert a place holder box
+    if([self.messagesArray count] == 0){
         
-        // For each message create a table row
-        MessagePermission *messagePermission = [self.messagesArray objectAtIndex:i];
+        [messagesSection.topLines addObject:[self getPlaceholderBox]];
         
-        MGLineStyled *header = [MGLineStyled lineWithLeft:[self.contactsDatabaseManager getName:[messagePermission.messagePermission objectForKey:@"sender"]] right:nil size:rowSize];
-        header.leftPadding = header.rightPadding = 16;
+    } else {
         
-        __weak id wheader = header;
-        
-        [section.topLines addObject:header];
-        header.onTap = ^{
+        // Populate Message Rows
+        for(int i=0;i<[self.messagesArray count];i++){
             
-            // Remove message
-            [section.topLines removeObject:wheader];
-
-            // Set flag and perform segue
-            [self setComposeRequest:NO];
-            [section layoutWithSpeed:0.5 completion:^{
-                [self performSegueWithIdentifier:@"Message" sender:messagePermission];
-            }];
-            [self.scrollView layoutWithSpeed:0.5 completion:nil];
+            MessagePermission *myReceivedMessagePermissions = [self.messagesArray objectAtIndex:i];
+            [self addMessageBoxForMessagePermission:myReceivedMessagePermissions inSection:messagesSection]; 
             
-        };
+        }
+        
     }
     
-    [self loadReports];
-    
-}
-
--(void)loadReports{
-    
     // Set Reports Section
-    MGTableBoxStyled *section = [MGTableBoxStyled box];
-    [self.scrollView.boxes addObject:section];
+    MGTableBoxStyled *reportsSection = [MGTableBoxStyled box];
+    reportsSection.topMargin = 50;
+    [self.scrollView.boxes addObject:reportsSection];
     
-    // Set Message Rows
-    CGSize rowSize = (CGSize){304, 40};
+    // Set Report Rows
     for(int i=0;i<[self.reportsArray count];i++){
         
-        // For each message create a table row
-        MessagePermission *messagePermission = [self.reportsArray objectAtIndex:i];
+        MessagePermission *myReceivedReportPermissions = [self.reportsArray objectAtIndex:i];
+        [self addReportsBoxForMessagePermission:myReceivedReportPermissions inSection:reportsSection];
         
-        MGLineStyled *header = [MGLineStyled lineWithLeft:[self.contactsDatabaseManager getName:[messagePermission.messagePermission objectForKey:@"recipient"]] right:nil size:rowSize];
-        header.leftPadding = header.rightPadding = 16;
-        
-        __weak id wheader = header;
-        
-        [section.topLines addObject:header];
-        header.onTap = ^{
-            
-            // Remove message
-            [section.topLines removeObject:wheader];
-            [self.scrollView layoutWithSpeed:0.5 completion:nil];
-            
-            [ParseManager deleteReport:messagePermission withCompletionBlock:^(BOOL success, NSError *error) {
-                // Handle return - TBC
-            }];
-            
-        };
     }
     
     [self.scrollView layoutWithSpeed:0.3 completion:nil];
+
+    // Add Ribbons to container boxes
+    [messagesSection addSubview:[self getMessagesRibbon]];
+    [reportsSection addSubview:[self getReportsRibbon]];
+    
     
 }
+
+#pragma mark - Views
+
+-(MGLineStyled *)getPlaceholderBox{
+    
+    CGSize rowSize = (CGSize){304, 60};
+    
+    MGLineStyled *placeholder = [MGLineStyled lineWithSize:rowSize];
+    placeholder.minHeight = rowSize.height;
+    placeholder.middleItems = [NSArray arrayWithObjects:[UIImage imageNamed:@"sad.gif" ],@"      Your inbox is empty!", nil];
+    return placeholder;
+}
+
+-(UIImageView *)getMessagesRibbon{
+    
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"MessagesRibbon.png"]];
+    imageView.origin = CGPointMake(-8, -18);
+    return imageView;
+    
+}
+
+-(UIImageView *)getReportsRibbon{
+    
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ReportsRibbon.png"]];
+    imageView.origin = CGPointMake(144, -18);
+    return imageView;
+    
+}
+
+-(MGLineStyled *)addMessageBoxForMessagePermission:(MessagePermission *)messagePermission inSection:(MGTableBoxStyled *)section
+{
+    CGSize rowSize = (CGSize){250, 60};
+    
+    MGLineStyled *messageRow = [MGLineStyled lineWithLeft:[self.contactsDatabaseManager getName:[messagePermission.messagePermission objectForKey:@"sender"]] right:nil size:rowSize];
+    messageRow.leftPadding = messageRow.rightPadding = 16;
+    
+    __weak id wmessageRow = messageRow;
+    
+    [section.topLines addObject:messageRow];
+    
+    messageRow.onTap = ^{
+        
+        // Remove message
+        [section.topLines removeObject:wmessageRow];
+        
+        // Set flag and perform segue
+        [self setComposeRequest:NO];
+        [section layoutWithSpeed:0.5 completion:^{
+            [self performSegueWithIdentifier:@"Message" sender:messagePermission];
+        }];
+        //[self.scrollView layoutWithSpeed:0.5 completion:nil];
+        
+    };
+    
+    return messageRow;
+}
+
+-(MGLineStyled *)addReportsBoxForMessagePermission:(MessagePermission *)messagePermission inSection:(MGTableBoxStyled *)section
+{
+    CGSize rowSize = (CGSize){250, 60};
+    
+    MGLineStyled *reportRow = [MGLineStyled lineWithLeft:[self.contactsDatabaseManager getName:[messagePermission.messagePermission objectForKey:@"recipient"]] right:nil size:rowSize];
+    reportRow.leftPadding = reportRow.rightPadding = 16;
+    
+    __weak id wreportRow = reportRow;
+    
+    [section.topLines addObject:reportRow];
+    
+    reportRow.onTap = ^{
+        
+        // Remove message
+        [section.topLines removeObject:wreportRow];
+        [self.scrollView layoutWithSpeed:0.3 completion:nil];
+        // Also remove header if last report, TBC
+        
+        [ParseManager deleteReport:messagePermission withCompletionBlock:^(BOOL success, NSError *error) {
+            // Handle return - TBC
+        }];
+        
+    };
+    
+    return reportRow;
+}
+
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     
@@ -178,6 +237,9 @@
         MessageViewController *vc = (MessageViewController *)segue.destinationViewController;
         // Check whether compose or shred request
         vc.composeMode = self.isComposeRequest;
+        
+        // Pass on access to contacts database
+        vc.contactsDatabaseManager = self.contactsDatabaseManager;
         
         if(self.isComposeRequest){
             vc.contact = (ShredderUser *)sender;
