@@ -11,9 +11,12 @@
 #import "MessagePermission.h"
 #import "Message.h"
 #import "ShredderUser.h"
+#import "ShreddingEffectView.h"
 #import "ContactsDatabaseManager.h"
 #import "MGScrollView.h"
 #import "MessageView.h"
+#import "MGBox.h"
+
 
 
 @interface MessageViewController : UIViewController <MessageViewDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
@@ -45,11 +48,17 @@
 // View: MGScrollView
 @property(nonatomic, strong) MGScrollView *scrollView;
 
+// View: MGBox
+@property(nonatomic, strong) MGScrollView *containerView;
+
 // View: MessageView
 @property (nonatomic, strong) MessageView *messageView;
 
 // View: Send Button Status
 @property (nonatomic, assign, getter=isSendButtonPressed) BOOL isSendButtonPressed;
+
+// View: Shredding Animation
+@property (strong, nonatomic) ShreddingEffectView *shreddingEffectView;
 
 
 @end

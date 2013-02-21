@@ -35,6 +35,11 @@
 		0B663AE916C69FF4007B8C10 /* Contact.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B663AE816C69FF4007B8C10 /* Contact.m */; };
 		0B6D70E716CEF3F00039B3F2 /* MessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B6D70E616CEF3F00039B3F2 /* MessageViewController.m */; };
 		0B6D70EB16CEF6930039B3F2 /* MessageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B6D70EA16CEF6930039B3F2 /* MessageView.m */; };
+		0B8453E216D58CDD00621165 /* CancelButtonGreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B8453E016D58CDD00621165 /* CancelButtonGreen.png */; };
+		0B8453E316D58CDD00621165 /* CancelButtonGreen@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B8453E116D58CDD00621165 /* CancelButtonGreen@2x.png */; };
+		0B8453E616D58CF300621165 /* SendButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B8453E416D58CF300621165 /* SendButton.png */; };
+		0B8453E716D58CF300621165 /* SendButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B8453E516D58CF300621165 /* SendButton@2x.png */; };
+		0B8453EA16D69C1500621165 /* ContactsViewControllerII.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B8453E916D69C1500621165 /* ContactsViewControllerII.m */; };
 		0BADE87716AF1B47004C73B5 /* ShredBackground-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BADE87416AF1B47004C73B5 /* ShredBackground-568h@2x.png */; };
 		0BADE87D16AF1B74004C73B5 /* ShredTop.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BADE87B16AF1B74004C73B5 /* ShredTop.png */; };
 		0BADE87E16AF1B74004C73B5 /* ShredTop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BADE87C16AF1B74004C73B5 /* ShredTop@2x.png */; };
@@ -255,6 +260,12 @@
 		0B6D70E616CEF3F00039B3F2 /* MessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageViewController.m; sourceTree = "<group>"; };
 		0B6D70E916CEF6930039B3F2 /* MessageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageView.h; sourceTree = "<group>"; };
 		0B6D70EA16CEF6930039B3F2 /* MessageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageView.m; sourceTree = "<group>"; };
+		0B8453E016D58CDD00621165 /* CancelButtonGreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CancelButtonGreen.png; sourceTree = "<group>"; };
+		0B8453E116D58CDD00621165 /* CancelButtonGreen@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CancelButtonGreen@2x.png"; sourceTree = "<group>"; };
+		0B8453E416D58CF300621165 /* SendButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SendButton.png; sourceTree = "<group>"; };
+		0B8453E516D58CF300621165 /* SendButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SendButton@2x.png"; sourceTree = "<group>"; };
+		0B8453E816D69C1500621165 /* ContactsViewControllerII.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactsViewControllerII.h; sourceTree = "<group>"; };
+		0B8453E916D69C1500621165 /* ContactsViewControllerII.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactsViewControllerII.m; sourceTree = "<group>"; };
 		0BADE87416AF1B47004C73B5 /* ShredBackground-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ShredBackground-568h@2x.png"; sourceTree = "<group>"; };
 		0BADE87B16AF1B74004C73B5 /* ShredTop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ShredTop.png; sourceTree = "<group>"; };
 		0BADE87C16AF1B74004C73B5 /* ShredTop@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ShredTop@2x.png"; sourceTree = "<group>"; };
@@ -598,6 +609,8 @@
 				0BFE622716CEA3150087838D /* InboxViewController.m */,
 				0BFE622916CED6520087838D /* ContactsViewController.h */,
 				0BFE622A16CED6520087838D /* ContactsViewController.m */,
+				0B8453E816D69C1500621165 /* ContactsViewControllerII.h */,
+				0B8453E916D69C1500621165 /* ContactsViewControllerII.m */,
 				0B6D70E516CEF3F00039B3F2 /* MessageViewController.h */,
 				0B6D70E616CEF3F00039B3F2 /* MessageViewController.m */,
 				E76FF70F165FA2FA005F1081 /* SettingsViewController.h */,
@@ -639,6 +652,10 @@
 		09ABC07813A1D52D009C3FCF /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				0B8453E416D58CF300621165 /* SendButton.png */,
+				0B8453E516D58CF300621165 /* SendButton@2x.png */,
+				0B8453E016D58CDD00621165 /* CancelButtonGreen.png */,
+				0B8453E116D58CDD00621165 /* CancelButtonGreen@2x.png */,
 				0BE5E79A16D43F9E0069F144 /* ReplyButton.png */,
 				0BE5E79B16D43F9E0069F144 /* ReplyButton@2x.png */,
 				0BE5E79C16D43F9E0069F144 /* ShredButton.png */,
@@ -1124,6 +1141,10 @@
 				0BE5E79F16D43F9E0069F144 /* ReplyButton@2x.png in Resources */,
 				0BE5E7A016D43F9E0069F144 /* ShredButton.png in Resources */,
 				0BE5E7A116D43F9E0069F144 /* ShredButton@2x.png in Resources */,
+				0B8453E216D58CDD00621165 /* CancelButtonGreen.png in Resources */,
+				0B8453E316D58CDD00621165 /* CancelButtonGreen@2x.png in Resources */,
+				0B8453E616D58CF300621165 /* SendButton.png in Resources */,
+				0B8453E716D58CF300621165 /* SendButton@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1201,6 +1222,7 @@
 				0BFE622B16CED6520087838D /* ContactsViewController.m in Sources */,
 				0B6D70E716CEF3F00039B3F2 /* MessageViewController.m in Sources */,
 				0B6D70EB16CEF6930039B3F2 /* MessageView.m in Sources */,
+				0B8453EA16D69C1500621165 /* ContactsViewControllerII.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

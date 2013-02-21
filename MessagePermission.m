@@ -71,4 +71,14 @@
     
 }
 
+-(NSString *)sentTimeAndDateString{
+    
+    NSString *dateString = [NSDateFormatter localizedStringFromDate:self.messagePermission.createdAt
+                                                          dateStyle:NSDateFormatterShortStyle
+                                                          timeStyle:NSDateFormatterShortStyle];
+    
+    return dateString;
+    
+}
+
 @end

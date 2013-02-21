@@ -29,4 +29,6 @@
 
 +(void)shredMessagePermission:(MessagePermission *)message;
 
+-(NSString *)sentTimeAndDateString;
+
 @end

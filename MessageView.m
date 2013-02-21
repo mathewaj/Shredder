@@ -72,15 +72,16 @@
     // Middle Row contains Message body text view    
     MGLineStyled *body = [MGLineStyled line];
     self.messageBodyTextView = [self getMessageBodyTextView];
-    body.leftItems = [NSArray arrayWithObjects:self.messageBodyTextView, nil];
-    body.minHeight = 150;
+    body.leftItems = [NSArray arrayWithObject:self.messageBodyTextView];
+    body.minHeight = 250;
+    body.borderStyle = MGBorderNone;
     [self.middleLines addObject:body];
     
     // Bottom Row contains Cancel and Send Buttons
     MGLineStyled *footer = MGLineStyled.line;
-    footer.backgroundColor = [UIColor grayColor];
     footer.minHeight = 40;
-    footer.middleItems = [NSArray arrayWithObjects:[self getCancelButton],[self getSendButton], nil];
+    footer.middleItems = [self getComposeConfigButtons];
+    footer.borderStyle = MGBorderNone;
     [self.bottomLines addObject:footer];
     
 }
@@ -132,7 +133,7 @@
     //footer.backgroundColor = [UIColor grayColor];
     footer.minHeight = 40;
     //footer.middleItems = [NSArray arrayWithObjects:[self getShredButton],[self getReplyButton], nil];
-    footer.middleItems = [self getButtons];
+    footer.middleItems = [self getShredConfigButtons];
     footer.borderStyle = MGBorderNone;
     [self.bottomLines addObject:footer];
     
@@ -202,7 +203,21 @@
     return replyButton;
 }
 
--(NSArray *)getButtons{
+-(NSMutableArray *)getComposeConfigButtons{
+    
+    UIButton *cancelButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 117, 47)];
+    [cancelButton addTarget:self action:@selector(cancelButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [cancelButton setImage:[UIImage imageNamed:@"CancelButtonGreen.png"] forState:UIControlStateNormal];
+    UIButton *sendButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 117, 47)];
+    [sendButton addTarget:self action:@selector(sendButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [sendButton setImage:[UIImage imageNamed:@"SendButton.png"] forState:UIControlStateNormal];
+    
+    NSMutableArray *array = [NSMutableArray arrayWithObjects:cancelButton, sendButton, nil];
+    return array;
+    
+}
+
+-(NSMutableArray *)getShredConfigButtons{
     
     UIButton *shredButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 117, 47)];
     [shredButton addTarget:self action:@selector(shredButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
@@ -211,7 +226,7 @@
     [replyButton addTarget:self action:@selector(replyButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [replyButton setImage:[UIImage imageNamed:@"ReplyButton.png"] forState:UIControlStateNormal];
     
-    NSArray *array = [NSArray arrayWithObjects:shredButton, replyButton, nil];
+    NSMutableArray *array = [NSMutableArray arrayWithObjects:shredButton, replyButton, nil];
     return array;
     
 }
@@ -269,7 +284,7 @@
 }
 
 -(void)sendButtonPressed:(UIButton *)sender{
-    
+        
     // Disable multiple presses
     sender.enabled = NO;
     

@@ -10,6 +10,7 @@
 #import "ParseManager.h"
 #import "MGLineStyled.h"
 #import "UIImage+ResizeAdditions.h"
+#import "ContactsViewControllerII.h"
 
 @interface MessageViewController ()
 
@@ -31,18 +32,16 @@
     
     [super viewDidLoad];
     
-    
-    
-    // Hide back button
-    
-    self.scrollView = [MGScrollView scrollerWithSize:self.view.bounds.size];
-    self.scrollView.keepFirstResponderAboveKeyboard = NO;
-    self.scrollView.backgroundColor = [UIColor blackColor];
-    [self.view addSubview:self.scrollView];
+    // Set up container view
+    self.containerView = [MGBox boxWithSize:self.view.bounds.size];
+    self.containerView.backgroundColor = [UIColor blackColor];
+    self.containerView.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:self.containerView];
     
     // Set background
-    self.scrollView.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:iPhone568ImageNamed(@"background.png")]];
+    self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:iPhone568ImageNamed(@"background.png")]];
     
+    // Set up message view based on message mode
     if(self.isComposeMode){
         self.messageView = [self setUpComposeMessageView];
     } else {
@@ -51,17 +50,18 @@
     
     self.contact = self.messageView.contactee;
     
-    [self.scrollView.boxes addObject:self.messageView];
-    [self.scrollView layoutWithSpeed:0.3 completion:nil];
-    [self.scrollView scrollToView:self.messageView withMargin:8];
+    [self.containerView.boxes addObject:self.messageView];
+    [self.containerView layoutWithSpeed:0.3 completion:nil];
 }
 
 -(MessageView *)setUpComposeMessageView{
     
+    
+    
     // In compose mode, a blank message must be created to which permissions may be added
     self.message = [[Message alloc] initNewMessageWithShredderUserReceiver:self.contact];
     
-    MessageView *messageView = [[MessageView alloc] initWithFrame:CGRectZero withEmptyMessage:self.message forRecipient:self.contact andDelegate:self];
+    MessageView *messageView = [[MessageView alloc] initWithFrame:CGRectMake(0, 0, 300, 400) withEmptyMessage:self.message forRecipient:self.contact andDelegate:self];
     return messageView;
 }
 
@@ -83,7 +83,9 @@
 
 -(void)cancelButtonPressed:(MessageView *)sender{
     
-    [self dismissModalViewControllerAnimated:YES];
+    // Show contacts view
+    [self performSegueWithIdentifier:@"SelectContact" sender:self];
+    //[self dismissModalViewControllerAnimated:YES];
     
 }
 -(void)sendButtonPressed:(Message *)messageToBeSent{
@@ -91,6 +93,7 @@
     if(!self.isSendButtonPressed){
         
         // Animate sending of message - TBC
+        
         
         // Pop view controller
         [self dismissModalViewControllerAnimated:YES];
@@ -122,42 +125,120 @@
 -(void)shredButtonPressed:(MessageView *)sender{
     
     // Shred Message
-    [self shredMessage:sender];
+    [self shredMessage:sender withCompletionBlock:^{
+        
+        // Pop View Controller
+        [self dismissModalViewControllerAnimated:YES];
+    }];
     
-    // Pop View Controller
-    [self dismissModalViewControllerAnimated:YES];
+    
     
 }
 
 -(void)replyButtonPressed:(MessageView *)sender{
     
     // Shred Message
-    [self shredMessage:sender];
-    
-    // Remove current Message View
-    [self.scrollView.boxes removeObject:self.messageView];
-    [self.scrollView layoutWithSpeed:0.3 completion:nil];
+    [self shredMessage:sender withCompletionBlock:^{
         
-    // Create new blank message for user
-    self.messageView = [self setUpComposeMessageView];
-    
-    // Present blank message view
-    [self.scrollView.boxes addObject:self.messageView];
-    [self.scrollView layoutWithSpeed:0.3 completion:nil];
-    [self.scrollView scrollToView:self.messageView withMargin:8];
-    
+        // Reset container view location above window
+        CGRect initialFrame = self.containerView.frame;
+        CGRect newFrame = initialFrame;
+        newFrame.origin.y += 600;
+        initialFrame.origin.y += 1200;
+        self.containerView.frame = initialFrame;
+        
+        // Create new blank message and add to view
+        self.contact = self.messageView.contactee;
+        self.messageView = [self setUpComposeMessageView];
+        [self.containerView.boxes addObject:self.messageView];
+        [self.containerView layoutWithSpeed:2 completion:^{
+            
+            // Animate into view
+            [UIView animateWithDuration:0.5
+                                  delay:0
+                                options:UIViewAnimationOptionCurveEaseIn
+                             animations:^{
+                                 
+                                 self.containerView.frame = newFrame;
+                                 
+                                 
+                             } completion:^(BOOL finished) {
+                                 
+                                 [self.shreddingEffectView removeFromSuperview];
+                                 
+                             }];
+            
+            //[self.containerView.boxes addObject:self.messageView];
+            //[self.containerView layoutWithSpeed:0.3 completion:nil];
+            
+            
+        }];
+     
+    }];
+        
 }
 
--(void)shredMessage:(MessageView *)messageView{
+-(void)shredMessage:(MessageView *)messageView withCompletionBlock:(void (^)(void))completionBlock{
     
-    // Shredding Animation - TBC
+    
+    // Remove current Message View
+    CGRect oldFrame = self.containerView.frame;
+    CGRect newFrame = oldFrame;
+    newFrame.origin.y -= 600;
+    
+    // Play sound and add graphic
+    SystemSoundID chainsawId;
+    NSString *chainsaw = [[NSBundle mainBundle]
+                          pathForResource:@"chainsaw-02" ofType:@"wav"];
+    NSURL *chainsawURL = [NSURL fileURLWithPath:chainsaw];
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef)chainsawURL, &chainsawId);
+    AudioServicesPlaySystemSound(chainsawId);
+    
+
+    [UIView animateWithDuration:0.5
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         
+                         self.containerView.frame = newFrame;
+                         
+        
+    } completion:^(BOOL finished) {
+        
+        // Shredding Animation - TBC
+        [self showShreddingMessageAnimationWithCompletionBlock:completionBlock];
+        [self.containerView.boxes removeObject:self.messageView];
+        [self.containerView.boxes removeAllObjects];
+        completionBlock();
+
+    }];
+    
+    
     
     
     
     // Delete Message
-    [ParseManager shredMessage:messageView.messagePermission withCompletionBlock:^(BOOL success, NSError *error) {
+    /*[ParseManager shredMessage:messageView.messagePermission withCompletionBlock:^(BOOL success, NSError *error) {
         // Message Shredder
-    }];
+    }];*/
+    
+}
+
+-(void)showShreddingMessageAnimationWithCompletionBlock:(void (^)(void))completionBlock{
+    
+    self.shreddingEffectView = [[ShreddingEffectView alloc] initWithFrame:[self retrieveScreenDimensions:nil]];
+    [self.view addSubview:self.shreddingEffectView];
+    
+    self.shreddingEffectView.confettiEmitter.birthRate = 20;
+    
+    /* If attachment -> confetti multi-coloured
+    if([self.message objectForKey:@"attachedImage"])
+    {
+        self.shreddingEffectView.confettiColour.birthRate = 20;
+        
+    }*/
+    
+    [self.shreddingEffectView decayOverTime:1];
     
 }
 
@@ -301,6 +382,20 @@
     [ParseManager startUploadingImages:self.images];
 
     return YES;
+    
+}
+
+#pragma mark-
+#pragma mark Segue Control
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    
+    if([segue.identifier isEqualToString:@"SelectContact"]){
+        
+        ContactsViewControllerII *vc = (ContactsViewControllerII *)segue.destinationViewController;
+        vc.contactsDatabaseManager = self.contactsDatabaseManager;
+        
+    }
     
 }
 

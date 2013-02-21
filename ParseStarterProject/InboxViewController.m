@@ -170,7 +170,12 @@
 {
     CGSize rowSize = (CGSize){250, 60};
     
-    MGLineStyled *messageRow = [MGLineStyled lineWithLeft:[self.contactsDatabaseManager getName:[messagePermission.messagePermission objectForKey:@"sender"]] right:nil size:rowSize];
+    // Create attachment icon - TBC
+    
+    
+    //MGLineStyled *messageRow = [MGLineStyled lineWithLeft:[self.contactsDatabaseManager getName:[messagePermission.messagePermission objectForKey:@"sender"]] right:nil size:rowSize];
+    NSString *messageHeader = [NSString stringWithFormat:@"**%@**\n//%@//|mush", [self.contactsDatabaseManager getName:[messagePermission.messagePermission objectForKey:@"sender"]], [messagePermission sentTimeAndDateString]];
+    MGLineStyled *messageRow = [MGLineStyled lineWithMultilineLeft:messageHeader right:nil width:rowSize.width minHeight:rowSize.height];
     messageRow.leftPadding = messageRow.rightPadding = 16;
     
     __weak id wmessageRow = messageRow;
