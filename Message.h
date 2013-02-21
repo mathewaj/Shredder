@@ -6,13 +6,14 @@
 //
 //
 
-#import <Parse/Parse.h>
+#import "ParseManager.h"
 #import "ShredderUser.h"
+#import "Contact.h"
 
 @interface Message : NSObject
 
 // Creating Message Objects
--(id)initNewMessageWithShredderUserReceiver:(ShredderUser *)user;
+-(id)initNewMessageWithShredderUserReceiver:(PFUser *)user;
 -(id)initPopulatedMessageWithPFObject:(PFObject *)onlineMessage;
 
 // Converting PFMessages from Parse to Message Objects

@@ -11,6 +11,7 @@
 #import "ShredderUser.h"
 #import "Message.h"
 #import "MessagePermission.h"
+#import <Parse/Parse.h>
 
 @interface ParseManager : NSObject <UIAlertViewDelegate>
 
@@ -28,13 +29,14 @@
 
 +(void)retrieveAllReportsForCurrentUser:(ShredderUser *)user withCompletionBlock:(ParseReturnedArray)parseReturnedArray;
 
-+(void)sendMessage:(Message *)message withPermission:(MessagePermission *)messagePermission withCompletionBlock:(ParseReturned)parseReturned;
 +(void)sendMessage:(MessagePermission *)messagePermission withCompletionBlock:(ParseReturned)parseReturned;
 //+(void)shredMessage:(Message *)message withCompletionBlock:(ParseReturned)parseReturned;
 +(void)shredMessage:(MessagePermission *)messagePermission withCompletionBlock:(ParseReturned)parseReturned;
-+(void)deleteReport:(MessagePermission *)messagePermission withCompletionBlock:(ParseReturned)parseReturned;
++(void)deleteReport:(PFObject *)messagePermission withCompletionBlock:(ParseReturned)parseReturned;
++(PFObject *)attachImages:(NSArray *)images toMessage:(PFObject *)message;
 
-+(Message *)createMessagePermissionsForMessage:(Message *)message;
++(PFObject *)createNewMessageForShredderUserRecipient:(PFUser *)recipient;
++(PFObject *)createMessagePermissionForMessage:(PFObject *)message andShredderUserRecipient:(PFUser *)recipient;
 
 #pragma mark - Contact Methods
 

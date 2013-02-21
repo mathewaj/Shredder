@@ -8,9 +8,19 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
+#import <MessageUI/MessageUI.h>
 #import "ContactsDatabaseManager.h"
+#import "Contact.h"
+#import "ParseManager.h"
 
-@interface ContactsViewControllerII : UITableViewController <UISearchBarDelegate, NSFetchedResultsControllerDelegate, UISearchDisplayDelegate>
+@protocol ContactsViewControllerIIDelegate <NSObject>
+
+// Control: Choose Receiver and inform delegate
+-(void)didSelectShredderContact:(PFUser *)shredderUser;
+
+@end
+
+@interface ContactsViewControllerII : UIViewController <UISearchBarDelegate, NSFetchedResultsControllerDelegate, UISearchDisplayDelegate, UITableViewDelegate, UITableViewDataSource, MFMessageComposeViewControllerDelegate>
 {
     // other class ivars
     
@@ -36,5 +46,8 @@
 
 // Model is the contacts database
 @property (nonatomic, strong) ContactsDatabaseManager *contactsDatabaseManager;
+
+
+@property (nonatomic, weak) id <ContactsViewControllerIIDelegate> delegate;
 
 @end

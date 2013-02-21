@@ -7,7 +7,6 @@
 //
 
 #import "ParseManager.h"
-#import <Parse/Parse.h>
 #import <CoreData/CoreData.h>
 #import "Contact.h"
 
@@ -80,8 +79,7 @@
         
         if (!error) {
             NSLog(@"Messages Found: %i", [objects count]);
-            NSArray *messagePermissionsArray = [MessagePermission convertPFObjectArraytoMessagePermissionsArray:objects];
-            parseReturnedArray(YES, error, messagePermissionsArray);
+            parseReturnedArray(YES, error, objects);
         } else {
             // Log details of the failure
             parseReturnedArray(NO, error, objects);
@@ -96,12 +94,12 @@
     [query whereKey:@"sender" equalTo:user];
     [query whereKey:@"permissionShredded" equalTo:[NSNumber numberWithBool:YES]];
     [query includeKey:@"recipient"];
+    [query includeKey:@"message"];
     [query orderByDescending:@"createdAt"];
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
-            NSArray *messagePermissionsArray = [MessagePermission convertPFObjectArraytoMessagePermissionsArray:objects];
-            parseReturnedArray(YES, error, messagePermissionsArray);
+            parseReturnedArray(YES, error, objects);
         } else {
             // Log details of the failure
             parseReturnedArray(NO, error, objects);
@@ -110,85 +108,16 @@
     
 }
 
-+(void)sendMessage:(Message *)message withPermission:(MessagePermission *)messagePermission withCompletionBlock:(ParseReturned)parseReturned{
-    
-    /*PFObject *pfMessage = message.message;
-    
-    
-    // At this stage set the other side of the relationship
-    PFObject *pfmessagePermission = message.messagePermission.messagePermission;
-    [pfmessagePermission setObject:message.message forKey:@"message"];
-        
-    [pfMessage saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
-        
-        if(succeeded){
-            
-            PUSH NOTIFICATIONS _ TBC
-            
-             Create our installation query
-            PFQuery *pushQuery = [PFInstallation query];
-            [pushQuery whereKey:@"owner" equalTo:message.user.pfUser];
-            
-            
-            
-            // Send push notification to query
-            PFPush *push = [[PFPush alloc] init];
-            [push setQuery:pushQuery];
-            NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
-                                  @"You have received a message on Shredder", @"alert",
-                                  @"Increment", @"badge",
-                                  @"chainsaw-02.wav", @"sound",
-                                  nil];
-            [push setData:data];
-            [push sendPushInBackground];
-        } else {
-            
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Alert" message:@"Your message did not send. Please try again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [alert show];
-           
-        } else {
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-        }
-        
-        //[[UIApplication sharedApplication] endBackgroundTask:backgroundTaskID];
-    }]; 
-    
-    */
-}
 
-+(void)sendMessage:(MessagePermission *)messagePermission withCompletionBlock:(ParseReturned)parseReturned{
++(void)sendMessage:(PFObject *)messagePermission withCompletionBlock:(ParseReturned)parseReturned{
     
-    PFObject *pfMessagePermission = messagePermission.messagePermission;
-    
-    [pfMessagePermission saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+    [messagePermission saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         
         parseReturned(succeeded, error);
         
     }];
     
-    
 }
-/*
-+(Message *)createMessagePermissionsForMessage:(Message *)message{
-    
-    // Create Message Permissions for given message
-    // These cannot rely on the message still being present so must incorporate all the info
-    PFObject *messagePermission = [PFObject objectWithClassName:@"MessagePermission"];
-    [messagePermission setObject:message.message forKey:@"message"];
-    [messagePermission setObject:[PFUser currentUser] forKey:@"sender"];
-    [messagePermission setObject:message.user.pfUser forKey:@"recipient"];
-    [messagePermission setObject:[NSNumber numberWithBool:NO] forKey:@"permissionShredded"];
-    [message.message setObject:messagePermission forKey:@"permissions"];
-    
-    // Set Access
-    // Set Access
-    PFACL *messagePermissionACL = [PFACL ACL];
-    [messagePermissionACL setReadAccess:YES forUser:[PFUser currentUser]];
-    [messagePermissionACL setWriteAccess:YES forUser:[PFUser currentUser]];
-    [messagePermissionACL setReadAccess:YES forUser:message.user.pfUser];
-    [messagePermissionACL setWriteAccess:YES forUser:message.user.pfUser];
-    return message;
-}*/
 
 +(void)shredMessage:(MessagePermission *)messagePermission withCompletionBlock:(ParseReturned)parseReturned{
     
@@ -221,13 +150,66 @@
     
 }
 
-+(void)deleteReport:(MessagePermission *)messagePermission withCompletionBlock:(ParseReturned)parseReturned{
++(void)deleteReport:(PFObject *)messagePermission withCompletionBlock:(ParseReturned)parseReturned{
     
-    PFObject *onlineMessagePermission = messagePermission.messagePermission;
-    [onlineMessagePermission deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+    [messagePermission deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         parseReturned(succeeded, error);
     }];
     
+    
+}
+
++(PFObject *)createNewMessageForShredderUserRecipient:(PFUser *)recipient{
+    
+    PFObject *blankMessage = [PFObject objectWithClassName:@"Message"];
+    [blankMessage setObject:[PFUser currentUser] forKey:@"sender"];
+    [blankMessage setObject:recipient forKey:@"recipient"];
+    
+    // Set Access
+    PFACL *messageACL = [PFACL ACL];
+    [messageACL setReadAccess:YES forUser:[PFUser currentUser]];
+    [messageACL setWriteAccess:YES forUser:[PFUser currentUser]];
+    [messageACL setReadAccess:YES forUser:recipient];
+    [messageACL setWriteAccess:YES forUser:recipient];
+    
+    blankMessage.ACL = messageACL;
+    
+    return blankMessage;
+    
+}
+
++(PFObject *)createMessagePermissionForMessage:(PFObject *)message andShredderUserRecipient:(PFUser *)recipient{
+    
+    // Create Message Permissions
+    // These cannot rely on the message still being present so must incorporate all the info
+    PFObject *messagePermission = [PFObject objectWithClassName:@"MessagePermission"];
+    [messagePermission setObject:[PFUser currentUser] forKey:@"sender"];
+    [messagePermission setObject:recipient forKey:@"recipient"];
+    [messagePermission setObject:[NSNumber numberWithBool:NO] forKey:@"permissionShredded"];
+    
+    // Set Access
+    // Set Access
+    PFACL *messagePermissionACL = [PFACL ACL];
+    [messagePermissionACL setReadAccess:YES forUser:[PFUser currentUser]];
+    [messagePermissionACL setWriteAccess:YES forUser:[PFUser currentUser]];
+    [messagePermissionACL setReadAccess:YES forUser:recipient];
+    [messagePermissionACL setWriteAccess:YES forUser:recipient];
+    
+    [messagePermission setObject:message forKey:@"message"];
+    
+    return messagePermission;
+    
+}
+
++(PFObject *)attachImages:(NSArray *)images toMessage:(PFObject *)message{
+    
+    PFFile *photoFile = [images objectAtIndex:0];
+    PFFile *thumbnailFile = [images objectAtIndex:1];
+    
+    [message setObject:thumbnailFile forKey:@"attachmentThumbnail"];
+    [message setObject:photoFile forKey:@"attachment"];
+    
+    return message;
     
 }
 

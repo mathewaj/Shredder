@@ -8,11 +8,15 @@
 
 #import "ContactsViewControllerII.h"
 
+
 @interface ContactsViewControllerII ()
 
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, retain) NSFetchedResultsController *searchFetchedResultsController;
-@property (nonatomic, retain) UISearchDisplayController *mySearchDisplayController;
+//@property (nonatomic, retain) UISearchDisplayController *mySearchDisplayController;
+@property (strong, nonatomic) IBOutlet UISearchDisplayController *mySearchDisplayController;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+
 
 @end
 
@@ -37,6 +41,21 @@
 - (void)fetchedResultsController:(NSFetchedResultsController *)fetchedResultsController configureCell:(UITableViewCell *)theCell atIndexPath:(NSIndexPath *)theIndexPath
 {
     Contact *contact = [fetchedResultsController objectAtIndexPath:theIndexPath];
+    
+    if([contact.signedUp isEqualToNumber:[NSNumber numberWithBool:YES]])
+    {
+        /*UIImageView *imv = [[UIImageView alloc]initWithFrame:CGRectMake(220,1,40,42)];
+        imv.image=[UIImage imageNamed:@"greenShredderStripped.png"];
+        [theCell.contentView addSubview:imv];*/
+        theCell.imageView.image = [UIImage imageNamed:@"greenShredderStripped.png"];
+        
+    } else {
+        
+        //[[theCell.contentView subviews]
+        //makeObjectsPerformSelector:@selector(removeFromSuperview)];
+        theCell.imageView.image = nil;
+    }
+    
     theCell.textLabel.text = contact.name;
 }
 
@@ -204,12 +223,12 @@
 - (void)loadView
 {
     [super loadView];
-    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 44.0)];
-    searchBar.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
-    searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
-    self.tableView.tableHeaderView = searchBar;
+    //UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 44.0)];
+    //searchBar.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
+    //searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
+    //self.tableView.tableHeaderView = searchBar;
     
-    self.mySearchDisplayController = [[UISearchDisplayController alloc] initWithSearchBar:searchBar contentsController:self];
+    //self.mySearchDisplayController
     self.mySearchDisplayController.delegate = self;
     self.mySearchDisplayController.searchResultsDataSource = self;
     self.mySearchDisplayController.searchResultsDelegate = self;
@@ -240,6 +259,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    // Set table
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
     
     // restore search settings if they were saved in didReceiveMemoryWarning.
     if (self.savedSearchTerm)
@@ -340,5 +363,96 @@
     _searchFetchedResultsController = [self newFetchedResultsControllerWithSearch:self.searchDisplayController.searchBar.text];
     return _searchFetchedResultsController;
 }
+
+- (void)viewDidUnload {
+    [self setMySearchDisplayController:nil];
+    [self setMySearchDisplayController:nil];
+    [self setTableView:nil];
+    [super viewDidUnload];
+}
+
+#pragma mark-
+#pragma mark Control
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {    
+    
+    Contact *contact = [[self fetchedResultsControllerForTableView:tableView] objectAtIndexPath:indexPath];
+    
+    if(contact.parseID){
+        
+        // If Shredder Contact, confirm user and return to delegate
+        [ParseManager shredderUserForContact:contact withCompletionBlock:^(BOOL success, NSError *error, NSArray *objects) {
+            if(success){
+                PFUser *shredderUser = [objects lastObject]; // handle if more than one - TBC
+                [self.delegate didSelectShredderContact:shredderUser];
+                [self dismissViewControllerAnimated:YES completion:nil];
+            } else {
+                // Handle - TBC
+            }
+        }];
+        
+    } else {
+        
+        // If Non Shredder Contact, present text view
+        [self sendInviteToNonShredderUser:contact];
+        
+    }
+    
+}
+- (IBAction)cancelButtonPressed:(id)sender {
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+}
+
+#pragma mark - Message Composer Methods
+
+-(void)sendInviteToNonShredderUser:(Contact *)contact{
+    
+    MFMessageComposeViewController *messanger = [[MFMessageComposeViewController alloc] init];
+    messanger.messageComposeDelegate = self;
+    NSArray *toRecipients = [NSArray arrayWithObject:contact.phoneNumber];
+    [messanger setRecipients:toRecipients];
+    NSString *messageBody = [NSString stringWithFormat:@"I'd like to send you a confidential message on the new private messaging app Shredder. Please download it from the App Store now!\nitms://itunes.com/apps/Shredder"];
+    [messanger setBody:messageBody];
+    [self presentModalViewController:messanger animated:YES];
+}
+
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result{
+    
+    switch (result)
+    {
+        case MessageComposeResultCancelled: {
+            UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Cancelled"
+                                                                message:@"You have cancelled the message"
+                                                               delegate:self
+                                                      cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alertView show];
+            
+        }
+            
+            
+            break;
+        case MessageComposeResultSent:
+        {
+            UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Message Sent"
+                                                                message:nil
+                                                               delegate:self
+                                                      cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alertView show];
+            
+        }
+            
+            break;
+        default:
+            NSLog(@"Message not sent.");
+            break;
+    }
+    // Remove the mail view
+    
+    [self dismissModalViewControllerAnimated:YES];
+    
+}
+
 
 @end

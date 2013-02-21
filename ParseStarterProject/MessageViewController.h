@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <Parse/Parse.h>
+#import "ParseManager.h"
+#import "ContactsViewControllerII.h"
 #import "MessagePermission.h"
 #import "Message.h"
 #import "ShredderUser.h"
+#import "Contact.h"
 #import "ShreddingEffectView.h"
 #import "ContactsDatabaseManager.h"
 #import "MGScrollView.h"
@@ -19,19 +21,19 @@
 
 
 
-@interface MessageViewController : UIViewController <MessageViewDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+@interface MessageViewController : UIViewController <MessageViewDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, ContactsViewControllerIIDelegate>
 
 // Model: Message Permission
-@property (nonatomic, strong) MessagePermission *messagePermission;
+@property (nonatomic, strong) PFObject *messagePermission;
 
 // Model: Message
-@property (nonatomic, strong) Message *message;
+@property (nonatomic, strong) PFObject *message;
+
+// Model: Shredder User
+@property (nonatomic, strong) PFUser *contact;
 
 // Model: Contacts Database
 @property (nonatomic, strong) ContactsDatabaseManager *contactsDatabaseManager;
-
-// Model: Shredder User
-@property (nonatomic, strong) ShredderUser *contact;
 
 // Model: Compose or Shred
 @property (nonatomic, assign, getter=isComposeMode) BOOL composeMode;

@@ -9,13 +9,12 @@
 #import "InboxViewController.h"
 #import "MessageViewController.h"
 #import "ParseManager.h"
-#import "Message.h"
-#import "MessagePermission.h"
 #import "ShredderUser.h"
 #import "MGBase.h"
 #import "MGBox.h"
 #import "MGTableBoxStyled.h"
 #import "MGLineStyled.h"
+#import "Converter.h"
 
 @interface InboxViewController ()
 
@@ -109,8 +108,8 @@
         // Populate Message Rows
         for(int i=0;i<[self.messagesArray count];i++){
             
-            MessagePermission *myReceivedMessagePermissions = [self.messagesArray objectAtIndex:i];
-            [self addMessageBoxForMessagePermission:myReceivedMessagePermissions inSection:messagesSection]; 
+            PFObject *receivedMessagePermission = [self.messagesArray objectAtIndex:i];
+            [self addMessageBoxForMessagePermission:receivedMessagePermission inSection:messagesSection]; 
             
         }
         
@@ -124,8 +123,8 @@
     // Set Report Rows
     for(int i=0;i<[self.reportsArray count];i++){
         
-        MessagePermission *myReceivedReportPermissions = [self.reportsArray objectAtIndex:i];
-        [self addReportsBoxForMessagePermission:myReceivedReportPermissions inSection:reportsSection];
+        PFObject *receivedReportsPermission = [self.reportsArray objectAtIndex:i];
+        [self addReportsBoxForMessagePermission:receivedReportsPermission inSection:reportsSection];
         
     }
     
@@ -166,15 +165,15 @@
     
 }
 
--(MGLineStyled *)addMessageBoxForMessagePermission:(MessagePermission *)messagePermission inSection:(MGTableBoxStyled *)section
+-(MGLineStyled *)addMessageBoxForMessagePermission:(PFObject *)messagePermission inSection:(MGTableBoxStyled *)section
 {
     CGSize rowSize = (CGSize){250, 60};
     
     // Create attachment icon - TBC
-    
-    
-    //MGLineStyled *messageRow = [MGLineStyled lineWithLeft:[self.contactsDatabaseManager getName:[messagePermission.messagePermission objectForKey:@"sender"]] right:nil size:rowSize];
-    NSString *messageHeader = [NSString stringWithFormat:@"**%@**\n//%@//|mush", [self.contactsDatabaseManager getName:[messagePermission.messagePermission objectForKey:@"sender"]], [messagePermission sentTimeAndDateString]];
+    NSString *name = [self.contactsDatabaseManager getName:[messagePermission objectForKey:@"sender"]];
+    NSString *timeAndDate = [Converter timeAndDateStringFromDate:messagePermission.createdAt];
+
+    NSString *messageHeader = [NSString stringWithFormat:@"**%@**\n//%@//|mush", name, timeAndDate];
     MGLineStyled *messageRow = [MGLineStyled lineWithMultilineLeft:messageHeader right:nil width:rowSize.width minHeight:rowSize.height];
     messageRow.leftPadding = messageRow.rightPadding = 16;
     
@@ -199,11 +198,15 @@
     return messageRow;
 }
 
--(MGLineStyled *)addReportsBoxForMessagePermission:(MessagePermission *)messagePermission inSection:(MGTableBoxStyled *)section
+-(MGLineStyled *)addReportsBoxForMessagePermission:(PFObject *)messagePermission inSection:(MGTableBoxStyled *)section
 {
     CGSize rowSize = (CGSize){250, 60};
     
-    MGLineStyled *reportRow = [MGLineStyled lineWithLeft:[self.contactsDatabaseManager getName:[messagePermission.messagePermission objectForKey:@"recipient"]] right:nil size:rowSize];
+    NSString *name = [self.contactsDatabaseManager getName:[messagePermission objectForKey:@"recipient"]];
+    NSString *timeAndDate = [Converter timeAndDateStringFromDate:messagePermission.createdAt];
+    NSString *messageHeader = [NSString stringWithFormat:@"**%@**\n//%@//|mush", name, timeAndDate];
+    
+    MGLineStyled *reportRow = [MGLineStyled lineWithLeft:messageHeader right:nil size:rowSize];
     reportRow.leftPadding = reportRow.rightPadding = 16;
     
     __weak id wreportRow = reportRow;
@@ -247,10 +250,10 @@
         vc.contactsDatabaseManager = self.contactsDatabaseManager;
         
         if(self.isComposeRequest){
-            vc.contact = (ShredderUser *)sender;
+            
         } else {
             
-            vc.messagePermission = (MessagePermission *)sender;
+            vc.messagePermission = (PFObject *)sender;
             
         }
         
@@ -263,6 +266,18 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+#pragma mark-
+#pragma mark Control
+
+- (IBAction)didPressComposeMessage:(id)sender {
+    
+    // Set flag for compose mode
+    [self setComposeRequest:YES];
+    [self performSegueWithIdentifier:@"Message" sender:self];
+    
+}
+
 
 -(void)didSelectShredderUser:(ShredderUser *)user{
     

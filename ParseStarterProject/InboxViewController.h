@@ -23,19 +23,15 @@
 @property (nonatomic, strong) ContactsDatabaseManager *contactsDatabaseManager;
 
 // Control: Open Settings Page
--(IBAction)presentSettingsPage:(id)sender;
 
 // Control Model: Compose or Shred
 @property (nonatomic, assign, getter=isComposeRequest) BOOL composeRequest;
 
 // Control: Compose Message
--(IBAction)presentComposeMessagePage:(id)sender;
+- (IBAction)didPressComposeMessage:(id)sender;
 
 // Control: View Message Detail
--(IBAction)viewMessageDetail:(id)sender;
 
-// Control: View Message Permission Detail
-// TO BE IMPLEMENTED
 
 // View: Scroll View
 @property (nonatomic, strong) MGScrollView *scrollView;

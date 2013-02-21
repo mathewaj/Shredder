@@ -7,7 +7,6 @@
 //
 
 #import "MessageViewController.h"
-#import "ParseManager.h"
 #import "MGLineStyled.h"
 #import "UIImage+ResizeAdditions.h"
 #import "ContactsViewControllerII.h"
@@ -43,25 +42,39 @@
     
     // Set up message view based on message mode
     if(self.isComposeMode){
-        self.messageView = [self setUpComposeMessageView];
+        
+        // Compose Mode so request contact
+        [self requestContact];
+        
     } else {
         self.messageView = [self setUpShredMessageView];
+        [self showMessageView];
     }
     
-    self.contact = self.messageView.contactee;
-    
-    [self.containerView.boxes addObject:self.messageView];
-    [self.containerView layoutWithSpeed:0.3 completion:nil];
 }
 
--(MessageView *)setUpComposeMessageView{
+-(void)requestContact{
+    
+    [self performSegueWithIdentifier:@"SelectContact" sender:self];
+    
+}
+
+-(void)showMessageView{
+    
+    [self.containerView.boxes removeAllObjects];
+    [self.containerView.boxes addObject:self.messageView];
+    [self.containerView layoutWithSpeed:0.3 completion:nil];
     
     
+}
+
+
+-(MessageView *)setUpComposeMessageViewForRecipient:(PFUser *)recipient{
+        
+    self.message = [ParseManager createNewMessageForShredderUserRecipient:recipient];
     
-    // In compose mode, a blank message must be created to which permissions may be added
-    self.message = [[Message alloc] initNewMessageWithShredderUserReceiver:self.contact];
+    MessageView *messageView = [[MessageView alloc] initWithFrame:CGRectMake(0, 0, 300, 400) withEmptyMessage:self.message forRecipient:recipient andDelegate:self];
     
-    MessageView *messageView = [[MessageView alloc] initWithFrame:CGRectMake(0, 0, 300, 400) withEmptyMessage:self.message forRecipient:self.contact andDelegate:self];
     return messageView;
 }
 
@@ -88,7 +101,7 @@
     //[self dismissModalViewControllerAnimated:YES];
     
 }
--(void)sendButtonPressed:(Message *)messageToBeSent{
+-(void)sendButtonPressed:(PFObject *)messageToBeSent{
     
     if(!self.isSendButtonPressed){
         
@@ -100,13 +113,12 @@
         
         // Attach any images
         if(self.images){
-            [messageToBeSent attachImages:self.images];
+            
+            self.message = [ParseManager attachImages:self.images toMessage:self.message];
         }
         
         // Create message permissions
-        MessagePermission *permission = [[MessagePermission alloc] initNewMessagePermissionWithShredderUserReceiver:self.contact];
-        
-        [permission.messagePermission setObject:messageToBeSent.message forKey:@"message"];
+        PFObject *permission = [ParseManager createMessagePermissionForMessage:messageToBeSent andShredderUserRecipient:self.contact];
         
         // Create Message Permission from message info
         [ParseManager sendMessage:permission withCompletionBlock:^(BOOL success, NSError *error) {
@@ -119,9 +131,8 @@
         
     }
     
-    
-    
 }
+
 -(void)shredButtonPressed:(MessageView *)sender{
     
     // Shred Message
@@ -394,8 +405,21 @@
         
         ContactsViewControllerII *vc = (ContactsViewControllerII *)segue.destinationViewController;
         vc.contactsDatabaseManager = self.contactsDatabaseManager;
+        vc.delegate = self;
         
     }
+    
+}
+
+#pragma mark-
+#pragma mark Contact Controller Delegate
+
+-(void)didSelectShredderContact:(PFUser *)shredderUser{
+    
+    // Create new message and message view for Shredder contact
+    self.messageView = [self setUpComposeMessageViewForRecipient:shredderUser];
+    self.contact = shredderUser;
+    [self showMessageView];
     
 }
 

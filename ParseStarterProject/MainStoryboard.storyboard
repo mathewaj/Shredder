@@ -1213,8 +1213,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="compose" id="JUR-aA-kGI">
                             <connections>
-                                <action selector="presentComposeMessagePage:" destination="Kcr-hI-UA2" id="W8r-Sg-owT"/>
-                                <segue destination="UyB-dg-6R7" kind="modal" identifier="SelectContact" id="sIA-Th-TZ3"/>
+                                <action selector="didPressComposeMessage:" destination="Kcr-hI-UA2" id="AmP-TJ-gio"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -1252,7 +1251,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Message Detail" id="Eor-TW-9cV"/>
                     <connections>
-                        <segue destination="lGs-an-lJn" kind="modal" identifier="SelectContact" modalTransitionStyle="coverVertical" id="wZm-Yk-CJa"/>
+                        <segue destination="Mor-67-6kk" kind="modal" identifier="SelectContact" id="Z3Z-ic-3lI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aKo-dU-LCJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1260,33 +1259,62 @@
             <point key="canvasLocation" x="-336" y="84"/>
         </scene>
         <!--Contacts View ControllerII-->
-        <scene sceneID="qFs-Yk-J4B">
+        <scene sceneID="5SB-7Q-sfN">
             <objects>
-                <tableViewController id="lGs-an-lJn" customClass="ContactsViewControllerII" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="eG8-j3-Ka9">
+                <viewController id="Mor-67-6kk" customClass="ContactsViewControllerII" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="18U-wg-eDL">
                         <rect key="frame" x="0.0" y="20" width="320" height="548"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Contact Cell" id="B74-iL-WeU">
-                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="lGs-an-lJn" id="1Ju-li-wiF"/>
-                            <outlet property="delegate" destination="lGs-an-lJn" id="ebK-Bh-DGx"/>
-                        </connections>
-                    </tableView>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="hTB-NH-OBj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="2I5-Iq-ihK">
+                                <rect key="frame" x="0.0" y="87" width="320" height="461"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                            <searchBar contentMode="redraw" id="uvC-Cs-18J">
+                                <rect key="frame" x="0.0" y="43" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="Mor-67-6kk" id="4q4-wj-clM"/>
+                                </connections>
+                            </searchBar>
+                            <navigationBar contentMode="scaleToFill" id="baA-1q-n5G">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <items>
+                                    <navigationItem title="Contacts" id="9rz-yc-9jE">
+                                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="sqf-sJ-Oob">
+                                            <connections>
+                                                <action selector="cancelButtonPressed:" destination="Mor-67-6kk" id="ERx-xG-DNU"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="mySearchDisplayController" destination="94H-nl-6jK" id="egg-zC-geM"/>
+                        <outlet property="searchDisplayController" destination="94H-nl-6jK" id="hpE-bs-2Zv"/>
+                        <outlet property="tableView" destination="2I5-Iq-ihK" id="UjN-8Y-NGm"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nXc-4H-bx3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="94H-nl-6jK">
+                    <connections>
+                        <outlet property="delegate" destination="Mor-67-6kk" id="u9z-1s-5Q5"/>
+                        <outlet property="searchBar" destination="uvC-Cs-18J" id="u93-54-XRe"/>
+                        <outlet property="searchContentsController" destination="Mor-67-6kk" id="73U-XB-MhD"/>
+                        <outlet property="searchResultsDataSource" destination="Mor-67-6kk" id="IPM-RA-nQl"/>
+                        <outlet property="searchResultsDelegate" destination="Mor-67-6kk" id="l8d-q2-pqN"/>
+                    </connections>
+                </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="-336" y="762"/>
+            <point key="canvasLocation" x="-336" y="752"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="5Ym-6x-pGX">

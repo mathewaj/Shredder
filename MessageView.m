@@ -28,7 +28,7 @@
 
 #pragma mark - Custom Initialisers
 
-- (id)initWithFrame:(CGRect)frame withEmptyMessage:(Message *)message forRecipient:(ShredderUser *) recipient andDelegate:(id <MessageViewDelegate>)delegate
+- (id)initWithFrame:(CGRect)frame withEmptyMessage:(PFObject *)message forRecipient:(PFUser *) recipient andDelegate:(id <MessageViewDelegate>)delegate
 {
     self = [super initWithFrame:frame];
     if (self) {
@@ -41,15 +41,15 @@
     return self;
 }
 
-- (id)initWithFrame:(CGRect)frame withPopulatedMessagePermission:(MessagePermission *)messagePermission andDelegate:(id <MessageViewDelegate>)delegate;
+- (id)initWithFrame:(CGRect)frame withPopulatedMessagePermission:(PFObject *)messagePermission andDelegate:(id <MessageViewDelegate>)delegate
 {
     self = [super initWithFrame:frame];
     if (self) {
         self.messagePermission = messagePermission;
-        self.message = [[Message alloc] initPopulatedMessageWithPFObject:[messagePermission.messagePermission objectForKey:@"message"]];
+        self.message = [messagePermission objectForKey:@"message"];
         self.delegate = delegate;
         self.topMargin = 30;
-        self.contactee = messagePermission.sender;
+        self.contactee = [messagePermission objectForKey:@"sender"];
         [self setUpForShredMessage];
     }
     return self;
@@ -64,7 +64,7 @@
     
     // Header Row contains Name, Attachment Button
     self.attachmentThumbnailView = [self getAttachmentIcon];
-    NSString *recipientName = [self.delegate getNameForUser:[self.messagePermission.messagePermission objectForKey:@"recipient"]];
+    NSString *recipientName = [self.delegate getNameForUser:self.contactee];
     MGLineStyled *header = [MGLineStyled lineWithMultilineLeft:recipientName right:self.attachmentThumbnailView width:rowSize.width minHeight:70];
     header.leftPadding = header.rightPadding = 16;
     [self.topLines addObject:header];
@@ -92,14 +92,14 @@
     CGSize rowSize = (CGSize){304, 60};
     
     // Header: Row contains Name, Date, Attachment
-    NSString *senderName = [self.delegate getNameForUser:[self.messagePermission.messagePermission objectForKey:@"sender"]];
-    NSString *combinedNameTimeString = [NSString stringWithFormat:@"**%@**\n\n //%@//|mush", senderName, [self.message sentTimeAndDateString]];
+    NSString *senderName = [self.delegate getNameForUser:self.contactee];
+    NSString *combinedNameTimeString = [NSString stringWithFormat:@"**%@**\n\n //%@//|mush", senderName, [Converter timeAndDateStringFromDate:self.messagePermission.createdAt]];
     
     // Header: Create clock icon
     UIImage *clock = [UIImage imageNamed:@"Clock.png"];
     
     // Header: Get attachment view if available
-    if([self.message.message objectForKey:@"attachment"]){
+    if([self.message objectForKey:@"attachment"]){
         self.attachmentThumbnailView = [self getAttachmentThumbnailImageView];
         self.attachmentView = [self getAttachmentImageView];
         [self loadImages];
@@ -123,7 +123,7 @@
     
     // Middle Row contains Message body text view
     MGLineStyled *body = [MGLineStyled line];
-    body.multilineLeft = [self.message.message objectForKey:@"body"];
+    body.multilineLeft = [self.message objectForKey:@"body"];
     body.minHeight = 250;
     body.borderStyle = MGBorderNone;
     [self.middleLines addObject:body];
@@ -247,7 +247,7 @@
     attachmentView.contentMode = UIViewContentModeScaleAspectFit;
     attachmentView.userInteractionEnabled = YES;
     
-    attachmentView.file = (PFFile *)[self.message.message objectForKey:@"attachmentThumbnail"];
+    attachmentView.file = (PFFile *)[self.message objectForKey:@"attachmentThumbnail"];
     
     attachmentView.userInteractionEnabled = YES;
     //UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(attachmentImagePressed:)];
@@ -264,7 +264,7 @@
     attachmentView.contentMode = UIViewContentModeScaleAspectFit;
     attachmentView.userInteractionEnabled = YES;
     
-    attachmentView.file = (PFFile *)[self.message.message objectForKey:@"attachment"];
+    attachmentView.file = (PFFile *)[self.message objectForKey:@"attachment"];
     
     attachmentView.userInteractionEnabled = YES;
     //UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(attachmentImagePressed:)];
@@ -289,7 +289,7 @@
     sender.enabled = NO;
     
     // Save info to message
-    [self.message.message setObject:self.messageBodyTextView.text forKey:@"body"];
+    [self.message setObject:self.messageBodyTextView.text forKey:@"body"];
     
     // Fire delegate
     [self.delegate sendButtonPressed:self.message];

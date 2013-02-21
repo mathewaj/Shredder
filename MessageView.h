@@ -7,16 +7,18 @@
 //
 
 #import "MGTableBoxStyled.h"
+#import "ParseManager.h"
 #import "Message.h"
 #import "ShredderUser.h"
 #import "MessagePermission.h"
+#import "Converter.h"
 
 @class MessageView;
 
 @protocol MessageViewDelegate <NSObject>
 
 -(void)cancelButtonPressed:(MessageView *)sender;
--(void)sendButtonPressed:(Message *)messageToBeSent;
+-(void)sendButtonPressed:(PFObject *)messageToBeSent;
 -(void)shredButtonPressed:(MessageView *)sender;
 -(void)replyButtonPressed:(MessageView *)sender;
 -(void)attachmentIconPressed:(MessageView *)sender;
@@ -29,19 +31,19 @@
 
 @interface MessageView : MGTableBoxStyled
 
-- (id)initWithFrame:(CGRect)frame withEmptyMessage:(Message *)message forRecipient:(ShredderUser *) recipient andDelegate:(id <MessageViewDelegate>)delegate;
-- (id)initWithFrame:(CGRect)frame withPopulatedMessagePermission:(MessagePermission *)messagePermission andDelegate:(id <MessageViewDelegate>)delegate;
+- (id)initWithFrame:(CGRect)frame withEmptyMessage:(PFObject *)message forRecipient:(PFUser *) recipient andDelegate:(id <MessageViewDelegate>)delegate;
+- (id)initWithFrame:(CGRect)frame withPopulatedMessagePermission:(PFObject *)messagePermission andDelegate:(id <MessageViewDelegate>)delegate;
 
 -(void)updateAttachmentThumbnailView:(UIImage *)image;
 
 // Model: Message
-@property (nonatomic, strong) Message *message;
+@property (nonatomic, strong) PFObject *message;
 
 // Model: Message Permission
-@property (nonatomic, strong) MessagePermission *messagePermission;
+@property (nonatomic, strong) PFObject *messagePermission;
 
 // Model: Shredder User Contactee
-@property (nonatomic, strong) ShredderUser *contactee;
+@property (nonatomic, strong) PFUser *contactee;
 
 // Subviews:
 @property (nonatomic, strong) UITextView *messageBodyTextView;

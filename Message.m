@@ -11,21 +11,21 @@
 
 @implementation Message
 
--(id)initNewMessageWithShredderUserReceiver:(ShredderUser *)recipient{
+-(id)initNewMessageWithShredderUserReceiver:(PFUser *)recipient{
     
     self = [super init];
     if (self) {
         
         PFObject *pfMessage = [PFObject objectWithClassName:@"Message"];
         [pfMessage setObject:[PFUser currentUser] forKey:@"sender"];
-        [pfMessage setObject:recipient.pfUser forKey:@"recipient"];
+        [pfMessage setObject:recipient forKey:@"recipient"];
         
         // Set Access
         PFACL *messageACL = [PFACL ACL];
         [messageACL setReadAccess:YES forUser:[PFUser currentUser]];
         [messageACL setWriteAccess:YES forUser:[PFUser currentUser]];
-        [messageACL setReadAccess:YES forUser:recipient.pfUser];
-        [messageACL setWriteAccess:YES forUser:recipient.pfUser];
+        [messageACL setReadAccess:YES forUser:recipient];
+        [messageACL setWriteAccess:YES forUser:recipient];
         
         pfMessage.ACL = messageACL;
         
