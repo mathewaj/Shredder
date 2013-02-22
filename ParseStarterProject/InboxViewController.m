@@ -9,7 +9,6 @@
 #import "InboxViewController.h"
 #import "MessageViewController.h"
 #import "ParseManager.h"
-#import "ShredderUser.h"
 #import "MGBase.h"
 #import "MGBox.h"
 #import "MGTableBoxStyled.h"
@@ -31,14 +30,13 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        
-                
-        
+
     }
     return self;
 }
 
 -(void)viewDidLoad{
+    
     [super viewDidLoad];
     
     // Set background
@@ -49,7 +47,19 @@
     [self.view addSubview:self.scrollView];
     
     // Set up the tables
-    [self loadTables];
+    
+    // Create Messages Container
+    self.messagesContainer = [MGTableBoxStyled box];
+    self.messagesContainer.topMargin = 50;
+    [self.scrollView.boxes addObject:self.messagesContainer];
+    
+    // Set Reports Section
+    self.reportsContainer = [MGTableBoxStyled box];
+    self.reportsContainer.topMargin = 50;
+    [self.scrollView.boxes addObject:self.reportsContainer];
+    
+    // Listen for new messages
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appReceivedMessage) name:@"ReloadMessagesTable" object:nil];
     
 }
 
@@ -58,12 +68,19 @@
 {
     [super viewDidAppear:animated];
     
-    [self loadTables];
-	
+    [self checkForMessages];
+    
+}
+
+-(void)appReceivedMessage
+{
+    // Check messages when push received
+    [self checkForMessages];
+    NSLog(@"Got Push!");
 }
 
 
--(void)loadTables{
+-(void)checkForMessages{
     
     // Track return of blocks
     __block int count = 0;
@@ -74,34 +91,48 @@
         self.messagesArray = objects;
         
         if (count == 2) {
-            [self loadInboxTable];
+            [self checkForNewMessages];
         }
     }];
     
     // Retrieve Reports Array from Parse
-    [ParseManager retrieveAllReportsForCurrentUser:(ShredderUser *)[PFUser currentUser] withCompletionBlock:^(BOOL success, NSError *error, NSArray *objects){
+    [ParseManager retrieveAllReportsForCurrentUser:[PFUser currentUser] withCompletionBlock:^(BOOL success, NSError *error, NSArray *objects){
         count ++;
         self.reportsArray = objects;
         if (count == 2) {
-            [self loadInboxTable];
+            [self checkForNewMessages];
         }
     }];
     
 }
 
+-(void)checkForNewMessages{
+    
+    if(self.existingMessagesArray != self.messagesArray || self.existingReportsArray != self.reportsArray){
+        
+        self.existingMessagesArray = self.messagesArray;
+        self.existingReportsArray = self.reportsArray;
+        
+        [self.messagesContainer.topLines removeAllObjects];
+        [self.reportsContainer.topLines removeAllObjects];
+        
+        [self loadInboxTable];
+        
+    } else {
+        
+        // No change
+        
+    }
+    
+}
+
 -(void)loadInboxTable{
     
-    [self.scrollView.boxes removeAllObjects];
-    
-    // Create Messages Container
-    MGTableBoxStyled *messagesSection = [MGTableBoxStyled box];
-    messagesSection.topMargin = 50;
-    [self.scrollView.boxes addObject:messagesSection];
     
     // If there are no messages, insert a place holder box
     if([self.messagesArray count] == 0){
         
-        [messagesSection.topLines addObject:[self getPlaceholderBox]];
+        [self.messagesContainer.topLines addObject:[self getPlaceholderBox]];
         
     } else {
         
@@ -109,35 +140,44 @@
         for(int i=0;i<[self.messagesArray count];i++){
             
             PFObject *receivedMessagePermission = [self.messagesArray objectAtIndex:i];
-            [self addMessageBoxForMessagePermission:receivedMessagePermission inSection:messagesSection]; 
-            
+            [self addMessageBoxForMessagePermission:receivedMessagePermission inSection:self.messagesContainer]; 
         }
         
     }
-    
-    // Set Reports Section
-    MGTableBoxStyled *reportsSection = [MGTableBoxStyled box];
-    reportsSection.topMargin = 50;
-    [self.scrollView.boxes addObject:reportsSection];
+
     
     // Set Report Rows
     for(int i=0;i<[self.reportsArray count];i++){
         
         PFObject *receivedReportsPermission = [self.reportsArray objectAtIndex:i];
-        [self addReportsBoxForMessagePermission:receivedReportsPermission inSection:reportsSection];
+        [self addReportsBoxForMessagePermission:receivedReportsPermission inSection:self.reportsContainer];
         
     }
     
-    [self.scrollView layoutWithSpeed:0.3 completion:nil];
-
-    // Add Ribbons to container boxes
-    [messagesSection addSubview:[self getMessagesRibbon]];
-    [reportsSection addSubview:[self getReportsRibbon]];
+    [self layoutInboxScrollView];
     
     
 }
 
 #pragma mark - Views
+
+-(void)layoutInboxScrollView{
+    
+    [self.scrollView layoutWithSpeed:0.3 completion:nil];
+    
+    // Add Ribbons to container boxes
+    [self.messagesContainer addSubview:[self getMessagesRibbon]];
+    
+    if([self.reportsArray count] !=0 ){
+        self.reportsRibbon = [self getReportsRibbon];
+        [self.reportsContainer addSubview:self.reportsRibbon];
+    } else {
+        
+    }
+    
+    
+    
+}
 
 -(MGLineStyled *)getPlaceholderBox{
     
@@ -167,15 +207,23 @@
 
 -(MGLineStyled *)addMessageBoxForMessagePermission:(PFObject *)messagePermission inSection:(MGTableBoxStyled *)section
 {
-    CGSize rowSize = (CGSize){250, 60};
+    CGSize rowSize = (CGSize){304, 60};
     
-    // Create attachment icon - TBC
-    NSString *name = [self.contactsDatabaseManager getName:[messagePermission objectForKey:@"sender"]];
+    NSString *name = [self.contactsDatabaseManager getNameForUser:[messagePermission objectForKey:@"sender"]];
     NSString *timeAndDate = [Converter timeAndDateStringFromDate:messagePermission.createdAt];
 
     NSString *messageHeader = [NSString stringWithFormat:@"**%@**\n//%@//|mush", name, timeAndDate];
-    MGLineStyled *messageRow = [MGLineStyled lineWithMultilineLeft:messageHeader right:nil width:rowSize.width minHeight:rowSize.height];
+    MGLineStyled *messageRow = [MGLineStyled line];
+    messageRow.multilineLeft = messageHeader;
+    messageRow.size = rowSize;
     messageRow.leftPadding = messageRow.rightPadding = 16;
+    
+    // Check for attachment
+    PFObject *message = [messagePermission objectForKey:@"message"];
+    if([message objectForKey:@"attachment"])
+    {
+        messageRow.rightItems = [NSArray arrayWithObject:[UIImage imageNamed:@"PaperClip.png"]];
+    }
     
     __weak id wmessageRow = messageRow;
     
@@ -188,10 +236,8 @@
         
         // Set flag and perform segue
         [self setComposeRequest:NO];
-        [section layoutWithSpeed:0.5 completion:^{
-            [self performSegueWithIdentifier:@"Message" sender:messagePermission];
-        }];
-        //[self.scrollView layoutWithSpeed:0.5 completion:nil];
+        [self layoutInboxScrollView];
+        [self performSegueWithIdentifier:@"Message" sender:messagePermission];
         
     };
     
@@ -200,14 +246,22 @@
 
 -(MGLineStyled *)addReportsBoxForMessagePermission:(PFObject *)messagePermission inSection:(MGTableBoxStyled *)section
 {
-    CGSize rowSize = (CGSize){250, 60};
+    CGSize rowSize = (CGSize){304, 60};
     
-    NSString *name = [self.contactsDatabaseManager getName:[messagePermission objectForKey:@"recipient"]];
+    NSString *name = [self.contactsDatabaseManager getNameForUser:[messagePermission objectForKey:@"recipient"]];
     NSString *timeAndDate = [Converter timeAndDateStringFromDate:messagePermission.createdAt];
-    NSString *messageHeader = [NSString stringWithFormat:@"**%@**\n//%@//|mush", name, timeAndDate];
+    NSString *reportHeader = [NSString stringWithFormat:@"**%@**\n//%@//|mush", name, timeAndDate];
     
-    MGLineStyled *reportRow = [MGLineStyled lineWithLeft:messageHeader right:nil size:rowSize];
+    MGLineStyled *reportRow = [MGLineStyled line];
+    reportRow.multilineRight = reportHeader;
+    reportRow.size = rowSize;
     reportRow.leftPadding = reportRow.rightPadding = 16;
+    
+    if([[messagePermission objectForKey:@"screenshotDetected"] isEqualToNumber:[NSNumber numberWithBool:YES]])
+    {
+        
+        reportRow.leftItems = [NSArray arrayWithObject:[UIImage imageNamed:@"Flash.png"]];
+    }
     
     __weak id wreportRow = reportRow;
     
@@ -217,8 +271,7 @@
         
         // Remove message
         [section.topLines removeObject:wreportRow];
-        [self.scrollView layoutWithSpeed:0.3 completion:nil];
-        // Also remove header if last report, TBC
+        [self layoutInboxScrollView];
         
         [ParseManager deleteReport:messagePermission withCompletionBlock:^(BOOL success, NSError *error) {
             // Handle return - TBC
@@ -231,15 +284,7 @@
 
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    
-    if([segue.identifier isEqualToString:@"SelectContact"]){
         
-        ContactsViewController *vc = (ContactsViewController *)segue.destinationViewController;
-        vc.contactsDatabaseManager = self.contactsDatabaseManager;
-        vc.delegate = self;
-        
-    }
-    
     if([segue.identifier isEqualToString:@"Message"]){
         
         MessageViewController *vc = (MessageViewController *)segue.destinationViewController;
@@ -278,12 +323,33 @@
     
 }
 
-
--(void)didSelectShredderUser:(ShredderUser *)user{
+#pragma mark - Setters for Arrays
+/*
+- (void)setMessagesArray:(NSArray *)messagesArray
+{
+    if (_messagesArray != nil && _messagesArray != _messagesArray)
+    {
+        return;
+    } else {
+        _messagesArray = messagesArray;
+        [self loadInboxTable];
+    }
     
-    // Set flag for compose mode
-    [self setComposeRequest:YES];
-    [self performSegueWithIdentifier:@"Message" sender:user];
 }
+
+- (void)setReportsArray:(NSArray *)reportsArray
+{
+    if (_reportsArray != nil && _reportsArray != reportsArray)
+    {
+        return;
+    } else {
+        _reportsArray = reportsArray;
+        [self loadInboxTable];
+    }
+    
+}*/
+
+
+
 
 @end

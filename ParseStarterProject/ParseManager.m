@@ -33,6 +33,11 @@
             // Hooray! Let them use the app now.
             if(succeeded)
             {
+                // Set the device's installation object to this user
+                PFInstallation *installation = [PFInstallation currentInstallation];
+                [installation setObject:[PFUser currentUser] forKey:@"owner"];
+                [installation saveEventually];
+                
                 parseReturned(YES, error);
             } else {
                 parseReturned(NO, error);
@@ -55,6 +60,12 @@
                                     block:^(PFUser *user, NSError *error) {
                                         if (user) {
                                             // Do stuff after successful login.
+                                            
+                                            // Set the device's installation object to this user
+                                            PFInstallation *installation = [PFInstallation currentInstallation];
+                                            [installation setObject:[PFUser currentUser] forKey:@"owner"];
+                                            [installation saveEventually];
+                                            
                                             parseReturned(YES, error);
                                         } else {
                                             // The login failed. Check error to see why.
@@ -88,7 +99,7 @@
     
 }
 
-+(void)retrieveAllReportsForCurrentUser:(ShredderUser *)user withCompletionBlock:(ParseReturnedArray)parseReturnedArray{
++(void)retrieveAllReportsForCurrentUser:(PFUser *)user withCompletionBlock:(ParseReturnedArray)parseReturnedArray{
     
     PFQuery *query = [PFQuery queryWithClassName:@"MessagePermission"];
     [query whereKey:@"sender" equalTo:user];
@@ -113,33 +124,52 @@
     
     [messagePermission saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         
+        [ParseManager sendNewMessageNotificationTo:[messagePermission objectForKey:@"recipient"]];
         parseReturned(succeeded, error);
         
     }];
     
 }
 
-+(void)shredMessage:(MessagePermission *)messagePermission withCompletionBlock:(ParseReturned)parseReturned{
++(void)sendNewMessageNotificationTo:(PFUser *)recipient{
     
-    PFObject *onlineMessagePermission = messagePermission.messagePermission;
-    PFObject *onlineMessage = [messagePermission.messagePermission objectForKey:@"message"];
+    // Create our installation query
+    PFQuery *pushQuery = [PFInstallation query];
+    [pushQuery whereKey:@"owner" equalTo:recipient];
+    
+    // Send push notification to query
+    PFPush *push = [[PFPush alloc] init];
+    [push setQuery:pushQuery];
+    NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
+                          @"You have received a message on Shredder", @"alert",
+                          @"Increment", @"badge",
+                          @"chainsaw-02.wav", @"sound",
+                          nil];
+    [push setData:data];
+    [push sendPushInBackground];
+    
+}
+
++(void)shredMessage:(PFObject *)messagePermission withCompletionBlock:(ParseReturned)parseReturned{
+    
+    PFObject *message = [messagePermission objectForKey:@"message"];
     
     // Turn Message Permission Shredded Value to True
-    [onlineMessagePermission setObject:[NSNumber numberWithBool:YES] forKey:@"permissionShredded"];
-    [onlineMessagePermission saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+    [messagePermission setObject:[NSNumber numberWithBool:YES] forKey:@"permissionShredded"];
+    [messagePermission saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         
         parseReturned(succeeded, error);
         
         // Check if this is the there are outstanding permissions for this message,
         // If not delete message
         PFQuery *query = [PFQuery queryWithClassName:@"MessagePermission"];
-        [query whereKey:@"message" equalTo:onlineMessage];
+        [query whereKey:@"message" equalTo:message];
         [query whereKey:@"permissionShredder" equalTo:[NSNumber numberWithBool:NO]];
         [query countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
             
             if(number == 0)
             {
-                [onlineMessage deleteInBackground];
+                [message deleteInBackground];
             }
         }];
     }];

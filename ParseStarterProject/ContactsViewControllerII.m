@@ -13,7 +13,6 @@
 
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, retain) NSFetchedResultsController *searchFetchedResultsController;
-//@property (nonatomic, retain) UISearchDisplayController *mySearchDisplayController;
 @property (strong, nonatomic) IBOutlet UISearchDisplayController *mySearchDisplayController;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
@@ -402,6 +401,7 @@
 - (IBAction)cancelButtonPressed:(id)sender {
     
     [self dismissViewControllerAnimated:YES completion:nil];
+    [self.delegate didCancelSelectingContact];
     
 }
 
@@ -453,6 +453,8 @@
     [self dismissModalViewControllerAnimated:YES];
     
 }
+
+
 
 
 @end

@@ -64,7 +64,7 @@
     
     // Header Row contains Name, Attachment Button
     self.attachmentThumbnailView = [self getAttachmentIcon];
-    NSString *recipientName = [self.delegate getNameForUser:self.contactee];
+    NSString *recipientName = [NSString stringWithFormat:@"**%@**|mush",[self.delegate getNameForUser:self.contactee]];
     MGLineStyled *header = [MGLineStyled lineWithMultilineLeft:recipientName right:self.attachmentThumbnailView width:rowSize.width minHeight:70];
     header.leftPadding = header.rightPadding = 16;
     [self.topLines addObject:header];
@@ -108,13 +108,6 @@
     // Header: Add attachment view if available
     MGLineStyled *header = [MGLineStyled lineWithMultilineLeft:combinedNameTimeString right:self.attachmentThumbnailView width:rowSize.width minHeight:100];
     
-    /*MGLineStyled *header = [MGLineStyled line];
-    header.multilineLeft = @"**BOLD TEXT**\n//Italics Text//|mush";
-    header.rightItems = [NSArray arrayWithObject:self.attachmentThumbnailView];
-    header.width = rowSize.width;
-    header.minHeight = 100;*/
-    
-    
     [header.leftItems insertObject:clock atIndex:0];
     header.leftPadding = header.rightPadding = 16;
     
@@ -143,8 +136,9 @@
 
 -(UITextView *)getMessageBodyTextView
 {
-    UITextView *textView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, 250, 250)];
+    UITextView *textView = [[UITextView alloc] initWithFrame:CGRectMake(0, 20, 230, 250)];
     textView.backgroundColor = [UIColor clearColor];
+    textView.font = HEADER_FONT;
     textView = [self addAccessoryViewToKeyboardOfTextView:textView];
     return textView;
 }
@@ -390,6 +384,8 @@
 
 -(void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    [self screenshotDetected];
+    
     self.attachmentView.alpha = 0;
     
     [UIView animateWithDuration:1
@@ -403,6 +399,14 @@
                          [self.obfuscationView removeFromSuperview];
                          
                      }];
+}
+
+-(void)screenshotDetected{
+    
+    if(self.messagePermission){
+        [self.messagePermission setObject:[NSNumber numberWithBool:YES] forKey:@"screenshotDetected"];
+    }
+    
 }
 
 -(void)updateAttachmentThumbnailView:(UIImage *)image{

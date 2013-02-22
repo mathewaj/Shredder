@@ -38,19 +38,29 @@
     [self.view addSubview:self.containerView];
     
     // Set background
-    self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:iPhone568ImageNamed(@"background.png")]];
+    self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:iPhone568ImageNamed(@"BackgroundFullScreen.png")]];
     
     // Set up message view based on message mode
     if(self.isComposeMode){
         
-        // Compose Mode so request contact
-        [self requestContact];
+        // Contact Prompt will appear in viewdidappear if not loaded
+        
         
     } else {
+        
         self.messageView = [self setUpShredMessageView];
         [self showMessageView];
     }
     
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    
+    [super viewDidAppear:animated];
+    
+    if(self.isComposeMode && !self.contact){
+       [self requestContact]; 
+    }
 }
 
 -(void)requestContact{
@@ -96,9 +106,7 @@
 
 -(void)cancelButtonPressed:(MessageView *)sender{
     
-    // Show contacts view
-    [self performSegueWithIdentifier:@"SelectContact" sender:self];
-    //[self dismissModalViewControllerAnimated:YES];
+    [self dismissModalViewControllerAnimated:YES];
     
 }
 -(void)sendButtonPressed:(PFObject *)messageToBeSent{
@@ -142,8 +150,6 @@
         [self dismissModalViewControllerAnimated:YES];
     }];
     
-    
-    
 }
 
 -(void)replyButtonPressed:(MessageView *)sender{
@@ -160,7 +166,7 @@
         
         // Create new blank message and add to view
         self.contact = self.messageView.contactee;
-        self.messageView = [self setUpComposeMessageView];
+        self.messageView = [self setUpComposeMessageViewForRecipient:self.contact];
         [self.containerView.boxes addObject:self.messageView];
         [self.containerView layoutWithSpeed:2 completion:^{
             
@@ -216,11 +222,11 @@
         
     } completion:^(BOOL finished) {
         
-        // Shredding Animation - TBC
+        // Shredding Animation
         [self showShreddingMessageAnimationWithCompletionBlock:completionBlock];
         [self.containerView.boxes removeObject:self.messageView];
         [self.containerView.boxes removeAllObjects];
-        completionBlock();
+        //completionBlock();
 
     }];
     
@@ -229,9 +235,9 @@
     
     
     // Delete Message
-    /*[ParseManager shredMessage:messageView.messagePermission withCompletionBlock:^(BOOL success, NSError *error) {
-        // Message Shredder
-    }];*/
+    [ParseManager shredMessage:self.messagePermission withCompletionBlock:^(BOOL success, NSError *error) {
+        
+    }];
     
 }
 
@@ -239,8 +245,15 @@
     
     self.shreddingEffectView = [[ShreddingEffectView alloc] initWithFrame:[self retrieveScreenDimensions:nil]];
     [self.view addSubview:self.shreddingEffectView];
+    [self.shreddingEffectView decayOverTime:1];
     
     self.shreddingEffectView.confettiEmitter.birthRate = 20;
+    
+    [UIView animateWithDuration:1 animations:^{
+        self.shreddingEffectView.alpha = 1;
+    } completion:^(BOOL finished) {
+        completionBlock();
+    }];
     
     /* If attachment -> confetti multi-coloured
     if([self.message objectForKey:@"attachedImage"])
@@ -249,7 +262,7 @@
         
     }*/
     
-    [self.shreddingEffectView decayOverTime:1];
+    
     
 }
 
@@ -420,6 +433,13 @@
     self.messageView = [self setUpComposeMessageViewForRecipient:shredderUser];
     self.contact = shredderUser;
     [self showMessageView];
+    
+}
+
+
+-(void)didCancelSelectingContact{
+    
+    [self dismissModalViewControllerAnimated:YES];
     
 }
 

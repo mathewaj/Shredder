@@ -8,9 +8,6 @@
 
 #import "MGTableBoxStyled.h"
 #import "ParseManager.h"
-#import "Message.h"
-#import "ShredderUser.h"
-#import "MessagePermission.h"
 #import "Converter.h"
 
 @class MessageView;

@@ -10,7 +10,7 @@
 
 
 @implementation ShreddingEffectView {
-    //__weak CAEmitterLayer *_confettiEmitter;
+    __weak CAEmitterLayer *_confettiEmitter;
     CGFloat _decayAmount;
 }
 
@@ -20,6 +20,7 @@
         self.userInteractionEnabled = NO;
         
         self.backgroundColor = [UIColor clearColor];
+        _confettiEmitter = (CAEmitterLayer*)self.layer;
         
         self.confettiEmitter = (CAEmitterLayer*)self.layer;
         self.confettiEmitter.emitterPosition = CGPointMake(self.bounds.size.width /2, 0);
@@ -28,7 +29,7 @@
         self.confettiEmitter.birthRate = 0;
         
         self.confettiWhite = [CAEmitterCell emitterCell];
-        self.confettiWhite.contents = (__bridge id)[[UIImage imageNamed:@"Confetti.png"] CGImage];
+        self.confettiWhite.contents = (__bridge id)[[UIImage imageNamed:@"PaperClip.png"] CGImage];
         self.confettiWhite.name = @"confetti";
         self.confettiWhite.birthRate = 50;
         self.confettiWhite.lifetime = 5.0;

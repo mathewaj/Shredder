@@ -9,9 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "ParseManager.h"
 #import "ContactsViewControllerII.h"
-#import "MessagePermission.h"
-#import "Message.h"
-#import "ShredderUser.h"
 #import "Contact.h"
 #import "ShreddingEffectView.h"
 #import "ContactsDatabaseManager.h"
@@ -45,7 +42,6 @@
 -(void)attachPhoto:(UIImage *)photo;
 
 // Control: Send Message
--(void)sendMessage:(Message *)message;
 
 // View: MGScrollView
 @property(nonatomic, strong) MGScrollView *scrollView;

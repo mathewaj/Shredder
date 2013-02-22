@@ -8,8 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "AddressBookHelper.h"
+#import "ParseManager.h"
 #import "Blocks.h"
-#import "ShredderUser.h"
 
 @class Contact;
 
@@ -36,7 +36,6 @@
 -(Contact *)retrieveContactwithParseID:(NSString *)parseID inManagedObjectContext:(UIManagedDocument *)document;
 
 -(void)updateContacts:(NSArray *)updatedContacts;
--(NSString *)getName:(ShredderUser *)user; // This method superceded by below, replace - TBC
 -(NSString *)getNameForUser:(PFUser *)user;
 -(NSArray *)fetchContacts;
 

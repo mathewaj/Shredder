@@ -8,16 +8,18 @@
 
 #import <UIKit/UIKit.h>
 #import "ContactsDatabaseManager.h"
-#import "ContactsViewController.h"
 #import "MGScrollView.h"
+#import "MGTableBoxStyled.h"
 
-@interface InboxViewController : UIViewController <ContactsViewControllerDelegate>
+@interface InboxViewController : UIViewController
 
 // Model: Messages Array from Parse DB
 @property(nonatomic, strong) NSArray *messagesArray;
+@property(nonatomic, strong) NSArray *existingMessagesArray;
 
 // Model: MessagePermissions Array from Parse DB
 @property(nonatomic, strong) NSArray *reportsArray;
+@property(nonatomic, strong) NSArray *existingReportsArray;
 
 // Model: Contacts Database
 @property (nonatomic, strong) ContactsDatabaseManager *contactsDatabaseManager;
@@ -30,10 +32,16 @@
 // Control: Compose Message
 - (IBAction)didPressComposeMessage:(id)sender;
 
-// Control: View Message Detail
-
-
 // View: Scroll View
 @property (nonatomic, strong) MGScrollView *scrollView;
+
+// View: Messages Container
+@property (nonatomic, strong) MGTableBoxStyled *messagesContainer;
+
+// View: Reports Container
+@property (nonatomic, strong) MGTableBoxStyled *reportsContainer;
+
+// View: Reports Ribbon
+@property (nonatomic, strong) UIImageView *reportsRibbon;
 
 @end

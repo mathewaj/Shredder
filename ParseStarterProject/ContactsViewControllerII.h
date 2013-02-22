@@ -17,6 +17,7 @@
 
 // Control: Choose Receiver and inform delegate
 -(void)didSelectShredderContact:(PFUser *)shredderUser;
+-(void)didCancelSelectingContact;
 
 @end
 

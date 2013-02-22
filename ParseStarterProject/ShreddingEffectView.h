@@ -13,7 +13,7 @@
 
 - (void) decayOverTime:(NSTimeInterval)interval;
 
-@property (nonatomic, strong) CAEmitterLayer *confettiEmitter;
+@property (nonatomic, weak) CAEmitterLayer *confettiEmitter;
 @property (nonatomic, strong) CAEmitterCell *confettiWhite;
 @property (nonatomic, strong) CAEmitterCell *confettiColour;
 
