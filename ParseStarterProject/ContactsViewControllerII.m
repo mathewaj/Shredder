@@ -400,8 +400,10 @@
 }
 - (IBAction)cancelButtonPressed:(id)sender {
     
-    [self dismissViewControllerAnimated:YES completion:nil];
-    [self.delegate didCancelSelectingContact];
+    [self dismissViewControllerAnimated:YES completion:^{
+        [self.delegate didCancelSelectingContact];
+    }];
+    
     
 }
 

@@ -38,6 +38,9 @@
 // Model: Attachment Picture
 @property (nonatomic, strong) NSMutableArray *images;
 
+// Control Model: Flag
+@property (nonatomic, assign, getter=isFirstView) BOOL firstView;
+
 // Control: Attach Photo
 -(void)attachPhoto:(UIImage *)photo;
 

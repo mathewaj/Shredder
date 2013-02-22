@@ -37,6 +37,9 @@
     self.containerView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.containerView];
     
+    // Set flag
+    self.firstView = YES;
+    
     // Set background
     self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:iPhone568ImageNamed(@"BackgroundFullScreen.png")]];
     
@@ -58,8 +61,9 @@
     
     [super viewDidAppear:animated];
     
-    if(self.isComposeMode && !self.contact){
-       [self requestContact]; 
+    if(self.isComposeMode && !self.contact && self.isFirstView){
+        [self requestContact];
+        self.firstView = NO;
     }
 }
 
@@ -439,7 +443,7 @@
 
 -(void)didCancelSelectingContact{
     
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
     
 }
 
