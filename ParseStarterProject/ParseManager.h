@@ -23,7 +23,7 @@
 
 #pragma mark - Message Methods
 
-+(PFObject *)createNewMessageForShredderUserRecipient:(PFUser *)recipient;
++(PFObject *)createNewMessage;
 +(PFObject *)createMessagePermissionForMessage:(PFObject *)message andShredderUserRecipient:(PFUser *)recipient;
 
 +(void)retrieveReceivedMessagePermissionsForCurrentUser:(PFUser *)user withCompletionBlock:(ParseReturnedArray)parseReturnedArray;

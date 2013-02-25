@@ -13,6 +13,9 @@
 
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, retain) NSFetchedResultsController *searchFetchedResultsController;
+@property (nonatomic, retain) NSFetchedResultsController *shredderFetchedResultsController;
+@property (nonatomic, retain) NSFetchedResultsController *shredderSearchFetchedResultsController;
+
 @property (strong, nonatomic) IBOutlet UISearchDisplayController *mySearchDisplayController;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
@@ -26,6 +29,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        [self.segmentedControl setSelectedSegmentIndex:1];
     }
     return self;
 }
@@ -34,7 +38,13 @@
 
 - (NSFetchedResultsController *)fetchedResultsControllerForTableView:(UITableView *)tableView
 {
-    return tableView == self.tableView ? self.fetchedResultsController : self.searchFetchedResultsController;
+    if(self.segmentedControl.selectedSegmentIndex == 0)
+    {
+       return tableView == self.tableView ? self.shredderFetchedResultsController : self.shredderSearchFetchedResultsController;
+    } else {
+        return tableView == self.tableView ? self.fetchedResultsController : self.searchFetchedResultsController;
+    }
+    
 }
 
 - (void)fetchedResultsController:(NSFetchedResultsController *)fetchedResultsController configureCell:(UITableViewCell *)theCell atIndexPath:(NSIndexPath *)theIndexPath
@@ -43,15 +53,10 @@
     
     if([contact.signedUp isEqualToNumber:[NSNumber numberWithBool:YES]])
     {
-        /*UIImageView *imv = [[UIImageView alloc]initWithFrame:CGRectMake(220,1,40,42)];
-        imv.image=[UIImage imageNamed:@"greenShredderStripped.png"];
-        [theCell.contentView addSubview:imv];*/
         theCell.imageView.image = [UIImage imageNamed:@"greenShredderStripped.png"];
         
     } else {
-        
-        //[[theCell.contentView subviews]
-        //makeObjectsPerformSelector:@selector(removeFromSuperview)];
+
         theCell.imageView.image = nil;
     }
     
@@ -114,8 +119,17 @@
 - (void)filterContentForSearchText:(NSString*)searchText scope:(NSInteger)scope
 {
     // update the filter, in this case just blow away the FRC and let lazy evaluation create another with the relevant search info
-    self.searchFetchedResultsController.delegate = nil;
-    self.searchFetchedResultsController = nil;
+    if(self.segmentedControl.selectedSegmentIndex == 0){
+        
+        self.shredderSearchFetchedResultsController.delegate = nil;
+        self.shredderSearchFetchedResultsController = nil;
+        
+    } else {
+        self.searchFetchedResultsController.delegate = nil;
+        self.searchFetchedResultsController = nil;
+    }
+
+
     // if you care about the scope save off the index to be used by the serchFetchedResultsController
     //self.savedScopeButtonIndex = scope;
 }
@@ -126,8 +140,15 @@
 - (void)searchDisplayController:(UISearchDisplayController *)controller willUnloadSearchResultsTableView:(UITableView *)tableView;
 {
     // search is done so get rid of the search FRC and reclaim memory
-    self.searchFetchedResultsController.delegate = nil;
-    self.searchFetchedResultsController = nil;
+    if(self.segmentedControl.selectedSegmentIndex == 0){
+        
+        self.shredderSearchFetchedResultsController.delegate = nil;
+        self.shredderSearchFetchedResultsController = nil;
+        
+    } else {
+        self.searchFetchedResultsController.delegate = nil;
+        self.searchFetchedResultsController = nil;
+    }
 }
 
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
@@ -278,7 +299,7 @@
 #pragma mark FRC Creation Code
 
 
-- (NSFetchedResultsController *)newFetchedResultsControllerWithSearch:(NSString *)searchString
+- (NSFetchedResultsController *)newFetchedResultsControllerWithSearch:(NSString *)searchString withShredderUsersOnly:(BOOL)shredderUsersOnly
 {
     
     NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(caseInsensitiveCompare:)];
@@ -289,25 +310,29 @@
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Contact"];
     
     NSMutableArray *predicateArray = [NSMutableArray array];
+    
+    // If this is for the search table
     if(searchString.length)
     {
-        // your search predicate(s) are added to this array
-        [predicateArray addObject:[NSPredicate predicateWithFormat:@"name CONTAINS[cd] %@", searchString]];
-        /* finally add the filter predicate for this view
-        if(filterPredicate)
-        {
-            filterPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:[NSArray arrayWithObjects:filterPredicate, [NSCompoundPredicate orPredicateWithSubpredicates:predicateArray], nil]];
+        if(shredderUsersOnly){
+            [predicateArray addObject:[NSPredicate predicateWithFormat:@"(signedUp = YES) AND (name CONTAINS[cd] %@)", searchString]];
+        } else {
+            [predicateArray addObject:[NSPredicate predicateWithFormat:@"name CONTAINS[cd] %@", searchString]];
         }
-        else
-        {
-            filterPredicate = [NSCompoundPredicate orPredicateWithSubpredicates:predicateArray];
-        }*/
         
         filterPredicate = [NSCompoundPredicate orPredicateWithSubpredicates:predicateArray];
         
-        
+    // If this is for the full table
     } else {
-        filterPredicate = nil;
+        
+        if (shredderUsersOnly){
+            filterPredicate = [NSPredicate predicateWithFormat:@"signedUp = YES"];
+        } else {
+            
+            filterPredicate = nil;
+            
+        }
+        
     }
     
     
@@ -321,11 +346,17 @@
     
     // Edit the section name key path and cache name if appropriate.
     // nil for section name key path means "no sections".
-    NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
-                                                                                                managedObjectContext:self.contactsDatabaseManager.contactsDatabase.managedObjectContext
-                                                                                                  sectionNameKeyPath:@"nameInitial"
-                                                                                                           cacheName:nil];
-    aFetchedResultsController.delegate = self;
+    NSFetchedResultsController *aFetchedResultsController;
+    if(fetchRequest != nil && self.contactsDatabaseManager.contactsDatabase.managedObjectContext != nil){
+        
+        aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
+                                                                                                    managedObjectContext:self.contactsDatabaseManager.contactsDatabase.managedObjectContext
+                                                                                                      sectionNameKeyPath:@"nameInitial"
+                                                                                                               cacheName:nil];
+        aFetchedResultsController.delegate = self;
+        
+    }
+    
 
     
     NSError *error = nil;
@@ -337,7 +368,7 @@
          abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. If it is not possible to recover from the error, display an alert panel that instructs the user to quit the application by pressing the Home button.
          */
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
+        //abort();
     }
     
     return aFetchedResultsController;
@@ -349,7 +380,7 @@
     {
         return _fetchedResultsController;
     }
-    _fetchedResultsController = [self newFetchedResultsControllerWithSearch:nil];
+    _fetchedResultsController = [self newFetchedResultsControllerWithSearch:nil withShredderUsersOnly:NO];
     return _fetchedResultsController;
 }
 
@@ -359,14 +390,34 @@
     {
         return _searchFetchedResultsController;
     }
-    _searchFetchedResultsController = [self newFetchedResultsControllerWithSearch:self.searchDisplayController.searchBar.text];
+    _searchFetchedResultsController = [self newFetchedResultsControllerWithSearch:self.searchDisplayController.searchBar.text withShredderUsersOnly:NO];
     return _searchFetchedResultsController;
+}
+
+- (NSFetchedResultsController *)shredderFetchedResultsController
+{
+    if (_shredderFetchedResultsController != nil)
+    {
+        return _shredderFetchedResultsController;
+    }
+    _shredderFetchedResultsController = [self newFetchedResultsControllerWithSearch:nil withShredderUsersOnly:YES];
+    return _shredderFetchedResultsController;
+}
+
+- (NSFetchedResultsController *)shredderSearchFetchedResultsController
+{
+    if (_shredderSearchFetchedResultsController != nil)
+    {
+        return _shredderSearchFetchedResultsController;
+    }
+    _shredderSearchFetchedResultsController = [self newFetchedResultsControllerWithSearch:self.searchDisplayController.searchBar.text withShredderUsersOnly:YES];
+    return _shredderSearchFetchedResultsController;
 }
 
 - (void)viewDidUnload {
     [self setMySearchDisplayController:nil];
-    [self setMySearchDisplayController:nil];
     [self setTableView:nil];
+    [self setSegmentedControl:nil];
     [super viewDidUnload];
 }
 
@@ -455,6 +506,11 @@
     [self dismissModalViewControllerAnimated:YES];
     
 }
+- (IBAction)segmentChanged:(UISegmentedControl *)sender {
+    
+    [self.tableView reloadData];
+}
+
 
 
 

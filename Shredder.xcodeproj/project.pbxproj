@@ -25,6 +25,9 @@
 		0B52463216A759F700082321 /* surferatsunset@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0B52462F16A759F700082321 /* surferatsunset@2x.jpg */; };
 		0B52463416A75E4B00082321 /* RecipientBox@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B52463316A75E4B00082321 /* RecipientBox@2x.png */; };
 		0B52464616AA149200082321 /* spacer.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B52464516AA149200082321 /* spacer.png */; };
+		0B5282AF16DBC7F400B5FF6E /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B5282AE16DBC7F400B5FF6E /* LoginViewController.m */; };
+		0B5282B416DBCCC100B5FF6E /* Padlock.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B5282B216DBCCC100B5FF6E /* Padlock.png */; };
+		0B5282B516DBCCC100B5FF6E /* Padlock@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B5282B316DBCCC100B5FF6E /* Padlock@2x.png */; };
 		0B64967216B3141C00A875ED /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B64966E16B3141C00A875ED /* libTestFlight.a */; };
 		0B64967316B3141C00A875ED /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 0B64966F16B3141C00A875ED /* README.md */; };
 		0B64967416B3141C00A875ED /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = 0B64967016B3141C00A875ED /* release_notes.md */; };
@@ -242,6 +245,10 @@
 		0B52462F16A759F700082321 /* surferatsunset@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "surferatsunset@2x.jpg"; sourceTree = "<group>"; };
 		0B52463316A75E4B00082321 /* RecipientBox@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "RecipientBox@2x.png"; sourceTree = "<group>"; };
 		0B52464516AA149200082321 /* spacer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spacer.png; sourceTree = "<group>"; };
+		0B5282AD16DBC7F400B5FF6E /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		0B5282AE16DBC7F400B5FF6E /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		0B5282B216DBCCC100B5FF6E /* Padlock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Padlock.png; sourceTree = "<group>"; };
+		0B5282B316DBCCC100B5FF6E /* Padlock@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Padlock@2x.png"; sourceTree = "<group>"; };
 		0B64966E16B3141C00A875ED /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
 		0B64966F16B3141C00A875ED /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		0B64967016B3141C00A875ED /* release_notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.md; sourceTree = "<group>"; };
@@ -612,6 +619,8 @@
 				0B8453E916D69C1500621165 /* ContactsViewControllerII.m */,
 				0B6D70E516CEF3F00039B3F2 /* MessageViewController.h */,
 				0B6D70E616CEF3F00039B3F2 /* MessageViewController.m */,
+				0B5282AD16DBC7F400B5FF6E /* LoginViewController.h */,
+				0B5282AE16DBC7F400B5FF6E /* LoginViewController.m */,
 				E76FF70F165FA2FA005F1081 /* SettingsViewController.h */,
 				E76FF710165FA2FA005F1081 /* SettingsViewController.m */,
 				E7A0175A165BB0A1003F1817 /* ShredderSlideMenuControllerViewController.h */,
@@ -651,6 +660,8 @@
 		09ABC07813A1D52D009C3FCF /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				0B5282B216DBCCC100B5FF6E /* Padlock.png */,
+				0B5282B316DBCCC100B5FF6E /* Padlock@2x.png */,
 				0B8453FB16D6DC3A00621165 /* Flash.png */,
 				0B8453FC16D6DC3A00621165 /* Flash@2x.png */,
 				0B8453F116D6D18A00621165 /* BackgroundFullScreen.png */,
@@ -1150,6 +1161,8 @@
 				0B8453F616D6D18A00621165 /* BackgroundFullScreen-568h@2x.png in Resources */,
 				0B8453FD16D6DC3A00621165 /* Flash.png in Resources */,
 				0B8453FE16D6DC3A00621165 /* Flash@2x.png in Resources */,
+				0B5282B416DBCCC100B5FF6E /* Padlock.png in Resources */,
+				0B5282B516DBCCC100B5FF6E /* Padlock@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1225,6 +1238,7 @@
 				0B6D70EB16CEF6930039B3F2 /* MessageView.m in Sources */,
 				0B8453EA16D69C1500621165 /* ContactsViewControllerII.m in Sources */,
 				0B8453F016D6C2F500621165 /* Converter.m in Sources */,
+				0B5282AF16DBC7F400B5FF6E /* LoginViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

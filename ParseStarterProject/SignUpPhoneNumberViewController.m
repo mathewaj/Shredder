@@ -196,7 +196,12 @@
                 } else {
                     
                     NSLog(@"Logged In!");
+                    
+                    // Save password
+                    [[NSUserDefaults standardUserDefaults] setObject:self.passwordTextField.text forKey:@"password"];
+                    
                     [self dismissViewControllerAnimated:YES completion:^{
+                        
                         [self.delegate signedIn];
                     }];
                 }
@@ -204,7 +209,8 @@
             
         } else {
             
-            NSLog(@"Signed Up!");
+            // Save password
+            [[NSUserDefaults standardUserDefaults] setObject:self.passwordTextField.text forKey:@"password"];
             
             [self dismissViewControllerAnimated:YES completion:^{
                 [self.delegate signedIn];

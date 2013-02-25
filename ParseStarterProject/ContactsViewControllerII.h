@@ -22,21 +22,6 @@
 @end
 
 @interface ContactsViewControllerII : UIViewController <UISearchBarDelegate, NSFetchedResultsControllerDelegate, UISearchDisplayDelegate, UITableViewDelegate, UITableViewDataSource, MFMessageComposeViewControllerDelegate>
-{
-    // other class ivars
-    
-    // required ivars for this example
-    //NSFetchedResultsController *fetchedResultsController_;
-    //NSFetchedResultsController *searchFetchedResultsController_;
-    //NSManagedObjectContext *managedObjectContext_;
-    
-    // The saved state of the search UI if a memory warning removed the view.
-    //NSString        *savedSearchTerm_;
-    //NSInteger       savedScopeButtonIndex_;
-    //BOOL            searchWasActive_;
-}
-
-
 
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain, readonly) NSFetchedResultsController *fetchedResultsController;
@@ -44,6 +29,7 @@
 @property (nonatomic, copy) NSString *savedSearchTerm;
 @property (nonatomic) NSInteger savedScopeButtonIndex;
 @property (nonatomic) BOOL searchWasActive;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 
 // Model is the contacts database
 @property (nonatomic, strong) ContactsDatabaseManager *contactsDatabaseManager;

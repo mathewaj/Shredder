@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MGScrollView.h"
 
-@interface SettingsViewController : UIViewController
+@interface SettingsViewController : UIViewController 
 
 // Model: Default Settings
 

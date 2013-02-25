@@ -54,6 +54,7 @@
         self.messageView = [self setUpShredMessageView];
         [self showMessageView];
     }
+
     
 }
 
@@ -85,7 +86,7 @@
 
 -(MessageView *)setUpComposeMessageViewForRecipient:(PFUser *)recipient{
         
-    self.message = [ParseManager createNewMessageForShredderUserRecipient:recipient];
+    self.message = [ParseManager createNewMessage];
     
     MessageView *messageView = [[MessageView alloc] initWithFrame:CGRectMake(0, 0, 300, 400) withEmptyMessage:self.message forRecipient:recipient andDelegate:self];
     

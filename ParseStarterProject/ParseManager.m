@@ -189,21 +189,12 @@
     
 }
 
-+(PFObject *)createNewMessageForShredderUserRecipient:(PFUser *)recipient{
++(PFObject *)createNewMessage{
     
     PFObject *blankMessage = [PFObject objectWithClassName:@"Message"];
     [blankMessage setObject:[PFUser currentUser] forKey:@"sender"];
-    [blankMessage setObject:recipient forKey:@"recipient"];
-    
-    // Set Access
-    PFACL *messageACL = [PFACL ACL];
-    [messageACL setReadAccess:YES forUser:[PFUser currentUser]];
-    [messageACL setWriteAccess:YES forUser:[PFUser currentUser]];
-    [messageACL setReadAccess:YES forUser:recipient];
-    [messageACL setWriteAccess:YES forUser:recipient];
-    
-    blankMessage.ACL = messageACL;
-    
+    //[blankMessage setObject:recipient forKey:@"recipient"];
+        
     return blankMessage;
     
 }
@@ -217,13 +208,21 @@
     [messagePermission setObject:recipient forKey:@"recipient"];
     [messagePermission setObject:[NSNumber numberWithBool:NO] forKey:@"permissionShredded"];
     
-    // Set Access
-    // Set Access
+    // Set Message Permission Access
     PFACL *messagePermissionACL = [PFACL ACL];
     [messagePermissionACL setReadAccess:YES forUser:[PFUser currentUser]];
     [messagePermissionACL setWriteAccess:YES forUser:[PFUser currentUser]];
     [messagePermissionACL setReadAccess:YES forUser:recipient];
     [messagePermissionACL setWriteAccess:YES forUser:recipient];
+    messagePermission.ACL = messagePermissionACL;
+    
+    // Set Message Access
+    PFACL *messageACL = [PFACL ACL];
+    [messageACL setReadAccess:YES forUser:[PFUser currentUser]];
+    [messageACL setWriteAccess:YES forUser:[PFUser currentUser]];
+    [messageACL setReadAccess:YES forUser:recipient];
+    [messageACL setWriteAccess:YES forUser:recipient];
+    message.ACL = messageACL;
     
     [messagePermission setObject:message forKey:@"message"];
     

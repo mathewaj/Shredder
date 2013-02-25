@@ -8,6 +8,7 @@
 
 #import "InboxViewController.h"
 #import "MessageViewController.h"
+#import "LoginViewController.h"
 #import "ParseManager.h"
 #import "MGBase.h"
 #import "MGBox.h"
@@ -60,6 +61,9 @@
     
     // Listen for new messages
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appReceivedMessage) name:@"ReloadMessagesTable" object:nil];
+    
+    // Listen for app backgrounding
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
     
 }
 
@@ -323,7 +327,10 @@
     
 }
 
-#pragma mark - Setters for Arrays
+
+
+
+
 /*
 - (void)setMessagesArray:(NSArray *)messagesArray
 {
@@ -348,6 +355,35 @@
     }
     
 }*/
+
+#pragma mark - App Backgrounding, Present Login Screen
+
+-(void)appDidEnterBackground
+{
+    if([[[NSUserDefaults standardUserDefaults] objectForKey:@"passwordLockSetting"] isEqualToNumber:[NSNumber numberWithBool:YES]])
+    {
+        
+        // Check if modal view presented and dismiss if so
+        // Call Login Screen
+        BOOL modalPresent = (BOOL)(self.presentedViewController);
+        
+        if (modalPresent){
+            [self dismissViewControllerAnimated:NO completion:^{
+                NSLog(@"In higher view");
+                [self presentLoginScreen];
+            }];
+        } else {
+            NSLog(@"In inbox view");
+            [self presentLoginScreen];
+        }
+    }
+}
+
+-(void)presentLoginScreen
+{
+    LoginViewController *vc = [[LoginViewController alloc] init];
+    [self presentModalViewController:vc animated:NO];
+}
 
 
 

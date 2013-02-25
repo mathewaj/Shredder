@@ -1307,7 +1307,10 @@
                                                 <segment title="Shredder"/>
                                                 <segment title="Phone Book"/>
                                             </segments>
-                                            <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="tintColor" red="0.0" green="0.40000000000000002" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <connections>
+                                                <action selector="segmentChanged:" destination="Mor-67-6kk" eventType="valueChanged" id="78y-hI-gWH"/>
+                                            </connections>
                                         </segmentedControl>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="hZi-ep-KyR"/>
@@ -1320,6 +1323,7 @@
                     <connections>
                         <outlet property="mySearchDisplayController" destination="94H-nl-6jK" id="egg-zC-geM"/>
                         <outlet property="searchDisplayController" destination="94H-nl-6jK" id="hpE-bs-2Zv"/>
+                        <outlet property="segmentedControl" destination="ZSc-17-1OK" id="IEK-0f-P6u"/>
                         <outlet property="tableView" destination="2I5-Iq-ihK" id="UjN-8Y-NGm"/>
                     </connections>
                 </viewController>
@@ -1396,136 +1400,6 @@
         <image name="row.png" width="1" height="44"/>
         <image name="rowselected.png" width="1" height="44"/>
     </resources>
-    <classes>
-        <class className="AllMessagesViewController" superclassName="PFQueryTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/AllMessagesViewController.h"/>
-        </class>
-        <class className="AllReportsViewController" superclassName="PFQueryTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/AllReportsViewController.h"/>
-        </class>
-        <class className="ComposeMessageViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ComposeMessageViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="attachedImageThumbnailView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="messageTextView" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="messageView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="recipientLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="ContactDetailViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ContactDetailViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="contactEmailCell" candidateClass="UITableViewCell"/>
-                <relationship kind="outlet" name="contactEmailLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="contactEmailTextField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="contactInviteCell" candidateClass="UITableViewCell"/>
-                <relationship kind="outlet" name="contactInviteLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="contactNameLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="contactPhoneCell" candidateClass="UITableViewCell"/>
-                <relationship kind="outlet" name="contactPhoneNumberLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="contactPhoneTextField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="editButton" candidateClass="UIBarButtonItem"/>
-            </relationships>
-        </class>
-        <class className="ContactsTableViewController" superclassName="CoreDataTableViewController2">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ContactsTableViewController.h"/>
-        </class>
-        <class className="ContactsViewControllerII" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ContactsViewControllerII.h"/>
-            <relationships>
-                <relationship kind="outlet" name="mySearchDisplayController" candidateClass="UISearchDisplayController"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="CoreDataTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/CoreDataTableViewController.h"/>
-        </class>
-        <class className="CoreDataTableViewController2" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/CoreDataTableViewController2.h"/>
-        </class>
-        <class className="InboxViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/InboxViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="didPressComposeMessage:"/>
-            </relationships>
-        </class>
-        <class className="InitialViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/InitialViewController.h"/>
-        </class>
-        <class className="MGScrollView" superclassName="UIScrollView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/MGScrollView.h"/>
-        </class>
-        <class className="MenuCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/MenuCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="disclosureImage" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="itemDescription" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="MessageViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/MessageViewController.h"/>
-        </class>
-        <class className="MyLogInViewController" superclassName="PFLogInViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/MyLogInViewController.h"/>
-        </class>
-        <class className="NewContactViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NewContactViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="contactEmailCell" candidateClass="UITableViewCell"/>
-                <relationship kind="outlet" name="contactEmailLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="contactInviteCell" candidateClass="UITableViewCell"/>
-                <relationship kind="outlet" name="contactInviteLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="contactNameCell" candidateClass="UITableViewCell"/>
-                <relationship kind="outlet" name="contactNameLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="saveButton" candidateClass="UIBarButtonItem"/>
-            </relationships>
-        </class>
-        <class className="PFImageView" superclassName="UIImageView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PFImageView.h"/>
-        </class>
-        <class className="PFLogInViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PFLogInViewController.h"/>
-        </class>
-        <class className="PFQueryTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PFQueryTableViewController.h"/>
-        </class>
-        <class className="SASlideMenuViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SASlideMenuViewController.h"/>
-        </class>
-        <class className="SettingsViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingsViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="scrollView" candidateClass="MGScrollView"/>
-            </relationships>
-        </class>
-        <class className="ShredMessageViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ShredMessageViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="attachmentIcon" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="messageTextView" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="messageView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="senderLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="sentDateLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="shredButton" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="shreddingEffectView" candidateClass="ShreddingEffectView"/>
-            </relationships>
-        </class>
-        <class className="ShredderContactsViewController" superclassName="CoreDataTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ShredderContactsViewController.h"/>
-        </class>
-        <class className="ShredderSlideMenuControllerViewController" superclassName="SASlideMenuViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ShredderSlideMenuControllerViewController.h"/>
-        </class>
-        <class className="ShreddingEffectView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ShreddingEffectView.h"/>
-        </class>
-        <class className="SignUpDetailsViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SignUpDetailsViewController.h"/>
-        </class>
-        <class className="SignUpPhoneNumberViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SignUpPhoneNumberViewController.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

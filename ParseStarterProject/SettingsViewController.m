@@ -60,20 +60,15 @@
     
     UISwitch *switchControl = [[UISwitch alloc] initWithFrame:CGRectMake(0, 0, 40, 30)];
     switchControl.on = [[[NSUserDefaults standardUserDefaults] objectForKey:@"passwordLockSetting"] boolValue];
+    [switchControl addTarget: self action: @selector(passwordSwitchChanged:) forControlEvents:UIControlEventValueChanged];
     return switchControl;
 }
 
-- (IBAction)passwordSwitchChanged:(UISwitch *)sender {
+- (void)passwordSwitchChanged:(UISwitch *)sender {
     
     // Set user default to switch value
     [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:sender.on] forKey:@"passwordLockSetting"];
     
-}
-
-- (IBAction)shreddingSwitchChanged:(UISwitch *)sender {
-    
-    // Set user default to switch value
-    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:sender.on] forKey:@"shreddingGraphicSetting"];
 }
 
 - (void)didReceiveMemoryWarning
