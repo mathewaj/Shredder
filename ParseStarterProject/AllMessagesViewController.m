@@ -179,6 +179,7 @@
     
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     currentInstallation.badge = [self.objects count];
+    
 }
 
 #pragma mark - User Selections

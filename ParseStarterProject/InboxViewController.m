@@ -60,7 +60,8 @@
     [self.scrollView.boxes addObject:self.reportsContainer];
     
     // Listen for new messages
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appReceivedMessage) name:@"ReloadMessagesTable" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadMessages) name:@"ReloadMessagesTable" object:nil];
+    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadMessages) name:UIApplicationDidBecomeActiveNotification object:nil];
     
     // Listen for app backgrounding
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
@@ -76,11 +77,10 @@
     
 }
 
--(void)appReceivedMessage
+-(void)loadMessages
 {
     // Check messages when push received
     [self checkForMessages];
-    NSLog(@"Got Push!");
 }
 
 
@@ -360,6 +360,9 @@
 
 -(void)appDidEnterBackground
 {
+    // Set Badge Count
+    [self setBadgeCount];
+    
     if([[[NSUserDefaults standardUserDefaults] objectForKey:@"passwordLockSetting"] isEqualToNumber:[NSNumber numberWithBool:YES]])
     {
         
@@ -377,6 +380,13 @@
             [self presentLoginScreen];
         }
     }
+}
+
+-(void)setBadgeCount{
+    
+    // Set correct badge count for app
+    [ParseManager setBadgeWithNumberOfMessages:[NSNumber numberWithInt:[self.messagesArray count]]];
+    
 }
 
 -(void)presentLoginScreen

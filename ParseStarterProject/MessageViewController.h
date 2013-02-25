@@ -18,7 +18,7 @@
 
 
 
-@interface MessageViewController : UIViewController <MessageViewDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, ContactsViewControllerIIDelegate>
+@interface MessageViewController : UIViewController <MessageViewDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, ContactsViewControllerIIDelegate, ABUnknownPersonViewControllerDelegate>
 
 // Model: Message Permission
 @property (nonatomic, strong) PFObject *messagePermission;

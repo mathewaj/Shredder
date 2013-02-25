@@ -91,28 +91,36 @@
     // a default row size
     CGSize rowSize = (CGSize){304, 60};
     
-    // Header: Row contains Name, Date, Attachment
+    // Create table row
+    MGLineStyled *header = [MGLineStyled line];
+    header.width = rowSize.width;
+    header.minHeight = 100;
+    
+    // Left Side: Name, Date
     NSString *senderName = [self.delegate getNameForUser:self.contactee];
-    NSString *combinedNameTimeString = [NSString stringWithFormat:@"**%@**\n\n //%@//|mush", senderName, [Converter timeAndDateStringFromDate:self.messagePermission.createdAt]];
     
-    // Header: Create clock icon
-    UIImage *clock = [UIImage imageNamed:@"Clock.png"];
+    if(!senderName){
+        senderName = [self.contactee username];
+        NSString *combinedNameTimeString = [NSString stringWithFormat:@"**%@**\n//%@//|mush", senderName, [Converter timeAndDateStringFromDate:self.messagePermission.createdAt]];
+        header.textColor = [UIColor redColor];
+        header.leftItems = [NSArray arrayWithObjects:combinedNameTimeString, nil];
+        header.onSwipe = ^{ [self.delegate addNewContact];};
+    } else {
+        NSString *combinedNameTimeString = [NSString stringWithFormat:@"**%@**\n//%@//|mush", senderName, [Converter timeAndDateStringFromDate:self.messagePermission.createdAt]];
+        header.leftItems = [NSArray arrayWithObjects:combinedNameTimeString, nil];
+    }
     
-    // Header: Get attachment view if available
+    // Right Side: Name, Date
     if([self.message objectForKey:@"attachment"]){
         self.attachmentThumbnailView = [self getAttachmentThumbnailImageView];
         self.attachmentView = [self getAttachmentImageView];
         [self loadImages];
+        header.rightItems = [NSArray arrayWithObject:self.attachmentThumbnailView];
     }
     
     // Header: Add attachment view if available
-    MGLineStyled *header = [MGLineStyled lineWithMultilineLeft:combinedNameTimeString right:self.attachmentThumbnailView width:rowSize.width minHeight:100];
-    
-    [header.leftItems insertObject:clock atIndex:0];
     header.leftPadding = header.rightPadding = 16;
-    
     [self.topLines addObject:header];
-    
     
     // Middle Row contains Message body text view
     MGLineStyled *body = [MGLineStyled line];

@@ -28,6 +28,8 @@
 		0B5282AF16DBC7F400B5FF6E /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B5282AE16DBC7F400B5FF6E /* LoginViewController.m */; };
 		0B5282B416DBCCC100B5FF6E /* Padlock.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B5282B216DBCCC100B5FF6E /* Padlock.png */; };
 		0B5282B516DBCCC100B5FF6E /* Padlock@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B5282B316DBCCC100B5FF6E /* Padlock@2x.png */; };
+		0B5282B816DC125700B5FF6E /* AddContact.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B5282B616DC125700B5FF6E /* AddContact.png */; };
+		0B5282B916DC125700B5FF6E /* AddContact@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B5282B716DC125700B5FF6E /* AddContact@2x.png */; };
 		0B64967216B3141C00A875ED /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B64966E16B3141C00A875ED /* libTestFlight.a */; };
 		0B64967316B3141C00A875ED /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 0B64966F16B3141C00A875ED /* README.md */; };
 		0B64967416B3141C00A875ED /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = 0B64967016B3141C00A875ED /* release_notes.md */; };
@@ -249,6 +251,8 @@
 		0B5282AE16DBC7F400B5FF6E /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		0B5282B216DBCCC100B5FF6E /* Padlock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Padlock.png; sourceTree = "<group>"; };
 		0B5282B316DBCCC100B5FF6E /* Padlock@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Padlock@2x.png"; sourceTree = "<group>"; };
+		0B5282B616DC125700B5FF6E /* AddContact.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AddContact.png; sourceTree = "<group>"; };
+		0B5282B716DC125700B5FF6E /* AddContact@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AddContact@2x.png"; sourceTree = "<group>"; };
 		0B64966E16B3141C00A875ED /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
 		0B64966F16B3141C00A875ED /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		0B64967016B3141C00A875ED /* release_notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.md; sourceTree = "<group>"; };
@@ -660,6 +664,8 @@
 		09ABC07813A1D52D009C3FCF /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				0B5282B616DC125700B5FF6E /* AddContact.png */,
+				0B5282B716DC125700B5FF6E /* AddContact@2x.png */,
 				0B5282B216DBCCC100B5FF6E /* Padlock.png */,
 				0B5282B316DBCCC100B5FF6E /* Padlock@2x.png */,
 				0B8453FB16D6DC3A00621165 /* Flash.png */,
@@ -1163,6 +1169,8 @@
 				0B8453FE16D6DC3A00621165 /* Flash@2x.png in Resources */,
 				0B5282B416DBCCC100B5FF6E /* Padlock.png in Resources */,
 				0B5282B516DBCCC100B5FF6E /* Padlock@2x.png in Resources */,
+				0B5282B816DC125700B5FF6E /* AddContact.png in Resources */,
+				0B5282B916DC125700B5FF6E /* AddContact@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

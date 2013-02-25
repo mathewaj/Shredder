@@ -10,6 +10,7 @@
 #import "MGLineStyled.h"
 #import "UIImage+ResizeAdditions.h"
 #import "ContactsViewControllerII.h"
+#import "AddressBookHelper.h"
 
 @interface MessageViewController ()
 
@@ -324,6 +325,18 @@
     
 }
 
+-(void)unknownContactPressed{
+    
+    ABNewPersonViewController *view = [[ABNewPersonViewController alloc] init];
+    view.newPersonViewDelegate = self;
+    UINavigationController *newNavigationController = [[UINavigationController alloc]
+                                                       initWithRootViewController:view];
+    [self presentModalViewController:newNavigationController
+                            animated:YES];
+    
+    
+}
+
 -(NSString *)getNameForUser:(PFUser *)user{
     
     NSString *name = [self.contactsDatabaseManager getNameForUser:user];
@@ -445,6 +458,35 @@
 -(void)didCancelSelectingContact{
     
     [self dismissViewControllerAnimated:YES completion:nil];
+    
+}
+
+#pragma mark-
+#pragma mark Add New Contact
+
+-(void)addNewContact{
+
+    ABUnknownPersonViewController *view = [[ABUnknownPersonViewController alloc] init];
+    
+    view.unknownPersonViewDelegate = self;
+    ABRecordRef displayedPerson = [AddressBookHelper createAddressBookRecordWithContactDetails:self.contact];
+    view.displayedPerson = displayedPerson;
+    view.allowsAddingToAddressBook = YES;
+    view.allowsActions = YES;
+    
+    UINavigationController *newNavigationController = [[UINavigationController alloc]
+                                                       initWithRootViewController:view];
+    [self presentModalViewController:newNavigationController
+                            animated:YES];
+    
+    
+}
+
+-(void)unknownPersonViewController:(ABUnknownPersonViewController *)unknownCardViewController didResolveToPerson:(ABRecordRef)person{
+    
+    [[unknownCardViewController presentingViewController] dismissViewControllerAnimated:YES completion:^{
+        
+    }];
     
 }
 

@@ -36,6 +36,7 @@
 
 +(PFObject *)attachImages:(NSArray *)images toMessage:(PFObject *)message;
 
++(void)setBadgeWithNumberOfMessages:(NSNumber *)messagesCount;
 
 #pragma mark - Contact Methods
 

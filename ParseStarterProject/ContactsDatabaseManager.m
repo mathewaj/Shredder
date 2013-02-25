@@ -173,7 +173,7 @@
         name = contact.name;
     } else {
         // Use phone number until custom name field included. TBC
-        name = user.username;
+        return nil;
     }
     
     return name;

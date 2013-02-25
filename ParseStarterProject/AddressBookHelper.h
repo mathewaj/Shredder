@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "Contact+Create.h"
 #import <AddressBook/AddressBook.h>
+#import <AddressBookUI/AddressBookUI.h>
+#import "ParseManager.h"
 
 @class AddressBookHelper;
 
@@ -28,7 +30,7 @@
 @property (weak, nonatomic) id <AddressBookHelperDelegate> delegate;
 
 -(void)retrieveAddressBookContacts;
-
++(ABRecordRef)createAddressBookRecordWithContactDetails:(PFUser *)contact;
 
 
 

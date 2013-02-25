@@ -242,6 +242,14 @@
     
 }
 
++(void)setBadgeWithNumberOfMessages:(NSNumber *)messagesCount{
+    
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    currentInstallation.badge = [messagesCount intValue];
+    [currentInstallation saveInBackground];
+    
+}
+
 
 #pragma mark - Contact Functions
 

@@ -7,9 +7,6 @@
 //
 
 #import "AddressBookHelper.h"
-#import <AddressBook/AddressBook.h>
-#import <Parse/Parse.h>
-
 
 @implementation AddressBookHelper
 
@@ -99,6 +96,29 @@ void AddressBookUpdated(ABAddressBookRef addressBook, CFDictionaryRef info, void
     [[helper delegate] addressBookHelper:helper retrieved:recentlyUpdatedAddressBookRecords];
     
 };
+
++(ABRecordRef)createAddressBookRecordWithContactDetails:(PFUser *)contact {
+    
+    ABRecordRef person = ABPersonCreate();
+    CFErrorRef  error = NULL;
+    
+    
+    //NSString *name = [NSString stringWithFormat:@"%@", [modelObj name]];
+    //ABRecordSetValue(aContact, kABPersonOrganizationProperty, name, &anError);
+    
+    ABMultiValueRef phone = ABMultiValueCreateMutable(kABMultiStringPropertyType);
+    ABMultiValueAddValueAndLabel(phone, (__bridge CFTypeRef)([contact username]), kABPersonPhoneMainLabel, NULL);
+    
+    ABRecordSetValue(person, kABPersonPhoneProperty, phone, &error);
+    
+    // Name
+    //ABRecordSetValue(person, kABPersonFirstNameProperty, @"Don Juan", NULL);
+    
+    if (error != NULL)
+        NSLog(@"Error: %@", error);
+
+    return person;
+}
 
 
 /*
