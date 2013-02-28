@@ -13,17 +13,18 @@
 #import "MGTableBoxStyled.h"
 #import "MGLineStyled.h"
 #import "Blocks.h"
+#import "CountryCodeInformation.h"
 
 @protocol SignUpDetailsViewControllerProtocol <NSObject>
 
--(void)countrySelected:(NSString *)countryCode;
+-(void)countrySelected:(CountryCodeInformation *)countryCodeInfo;
 
 @end
 
-@interface SignUpDetailsViewController : UIViewController
+@interface SignUpDetailsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 // View: Scroll View
-@property (nonatomic, strong) MGScrollView *scrollView;
+@property (nonatomic, strong) NSArray *countryCodeInformationList;
 
 @property (nonatomic, weak) id <SignUpDetailsViewControllerProtocol> delegate;
 

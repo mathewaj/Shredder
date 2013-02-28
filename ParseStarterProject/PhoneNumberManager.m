@@ -56,6 +56,41 @@
     
 }
 
++(NSArray *)getListOfAllCountryCodeInformationObjects{
+    
+    // Create array the size of the locale count
+    NSMutableArray *countryCodeInformation = [NSMutableArray arrayWithCapacity: [[NSLocale ISOCountryCodes] count]];
+    
+    // Retrieve every country code
+    for (NSString *countryCode in [NSLocale ISOCountryCodes])
+    {
+        NSString *identifier = [NSLocale localeIdentifierFromComponents: [NSDictionary dictionaryWithObject: countryCode forKey: NSLocaleCountryCode]];
+        NSLog(@"countryCode %@", countryCode);
+        NSLog(@"Identifier %@", identifier);
+        NSString *country = [[NSLocale currentLocale] displayNameForKey: NSLocaleIdentifier value: identifier];
+        NSLog(@"country %@", country);
+        
+        
+        // Add CountryCodeInfo object
+        CountryCodeInformation *countryInfo = [[CountryCodeInformation alloc] init];
+        countryInfo.countryCode = countryCode;
+        countryInfo.countryName = country;
+        countryInfo.countryCallingCode = [PhoneNumberManager getCallingCodeForCountryCode:countryCode];
+        
+        [countryCodeInformation addObject:countryInfo];
+        
+    }
+    
+    NSArray *sortedArray;
+    sortedArray = [countryCodeInformation sortedArrayUsingDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"countryName" ascending:YES selector:@selector(caseInsensitiveCompare:)]]];
+    
+    //NSArray *sortedCountries = [countryCodeInformation sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+    
+    return sortedArray;
+    
+    
+}
+
 +(NSString *)getCallingCodeForCountryCode:(NSString *)countryCode{
     
     NBPhoneNumberUtil *phoneUtil = [NBPhoneNumberUtil sharedInstance];
@@ -67,17 +102,24 @@
 }
 
 +(NSArray *)getListOfAllCountryCodes{
+    
+    
     return [NSLocale ISOCountryCodes];
 }
 
 +(NSArray *)getListOfAllCountries{
     
+    // Create array the size of the locale count
     NSMutableArray *countries = [NSMutableArray arrayWithCapacity: [[NSLocale ISOCountryCodes] count]];
     
+    // Retrieve every country code
     for (NSString *countryCode in [NSLocale ISOCountryCodes])
     {
         NSString *identifier = [NSLocale localeIdentifierFromComponents: [NSDictionary dictionaryWithObject: countryCode forKey: NSLocaleCountryCode]];
+        NSLog(@"countryCode %@", countryCode);
+        NSLog(@"Identifier %@", identifier);
         NSString *country = [[NSLocale currentLocale] displayNameForKey: NSLocaleIdentifier value: identifier];
+        NSLog(@"country %@", country);
         [countries addObject: country];
     }
     

@@ -87,6 +87,8 @@
 		0BCDC1D816CDA56300C88278 /* MGScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BCDC1C616CDA56300C88278 /* MGScrollView.m */; };
 		0BCDC1D916CDA56300C88278 /* MGTableBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BCDC1C816CDA56300C88278 /* MGTableBox.m */; };
 		0BCDC1DA16CDA56300C88278 /* MGTableBoxStyled.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BCDC1CA16CDA56300C88278 /* MGTableBoxStyled.m */; };
+		0BDF6B7B16DFD345005DAA64 /* CountryCodeInformation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BDF6B7A16DFD345005DAA64 /* CountryCodeInformation.m */; };
+		0BDF6B7E16DFD8B6005DAA64 /* throwawayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BDF6B7D16DFD8B6005DAA64 /* throwawayViewController.m */; };
 		0BE5E77316D2ADCD0069F144 /* sad.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0BE5E77216D2ADCD0069F144 /* sad.jpg */; };
 		0BE5E77516D2AEFB0069F144 /* sad.gif in Resources */ = {isa = PBXBuildFile; fileRef = 0BE5E77416D2AEFB0069F144 /* sad.gif */; };
 		0BE5E78016D2E5890069F144 /* MessagesRibbon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BE5E77E16D2E5890069F144 /* MessagesRibbon.png */; };
@@ -348,6 +350,10 @@
 		0BCDC1C816CDA56300C88278 /* MGTableBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGTableBox.m; sourceTree = "<group>"; };
 		0BCDC1C916CDA56300C88278 /* MGTableBoxStyled.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGTableBoxStyled.h; sourceTree = "<group>"; };
 		0BCDC1CA16CDA56300C88278 /* MGTableBoxStyled.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGTableBoxStyled.m; sourceTree = "<group>"; };
+		0BDF6B7916DFD345005DAA64 /* CountryCodeInformation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountryCodeInformation.h; sourceTree = "<group>"; };
+		0BDF6B7A16DFD345005DAA64 /* CountryCodeInformation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountryCodeInformation.m; sourceTree = "<group>"; };
+		0BDF6B7C16DFD8B5005DAA64 /* throwawayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = throwawayViewController.h; sourceTree = "<group>"; };
+		0BDF6B7D16DFD8B6005DAA64 /* throwawayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = throwawayViewController.m; sourceTree = "<group>"; };
 		0BE5E77216D2ADCD0069F144 /* sad.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sad.jpg; sourceTree = "<group>"; };
 		0BE5E77416D2AEFB0069F144 /* sad.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = sad.gif; sourceTree = "<group>"; };
 		0BE5E77E16D2E5890069F144 /* MessagesRibbon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MessagesRibbon.png; sourceTree = "<group>"; };
@@ -609,6 +615,8 @@
 			isa = PBXGroup;
 			children = (
 				E7B8D8031652533D00BD89B6 /* MainStoryboard.storyboard */,
+				0BDF6B7C16DFD8B5005DAA64 /* throwawayViewController.h */,
+				0BDF6B7D16DFD8B6005DAA64 /* throwawayViewController.m */,
 				09ABC08013A1D52D009C3FCF /* ParseStarterProjectAppDelegate.h */,
 				09ABC08113A1D52D009C3FCF /* ParseStarterProjectAppDelegate.m */,
 				0BCB90D116CAE14600468B57 /* InitialViewController.h */,
@@ -859,6 +867,8 @@
 			isa = PBXGroup;
 			children = (
 				E7B8D7DE165179D900BD89B6 /* Contacts Database */,
+				0BDF6B7916DFD345005DAA64 /* CountryCodeInformation.h */,
+				0BDF6B7A16DFD345005DAA64 /* CountryCodeInformation.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -1247,6 +1257,8 @@
 				0B8453EA16D69C1500621165 /* ContactsViewControllerII.m in Sources */,
 				0B8453F016D6C2F500621165 /* Converter.m in Sources */,
 				0B5282AF16DBC7F400B5FF6E /* LoginViewController.m in Sources */,
+				0BDF6B7B16DFD345005DAA64 /* CountryCodeInformation.m in Sources */,
+				0BDF6B7E16DFD8B6005DAA64 /* throwawayViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1335,6 +1347,8 @@
 					"\"$(SRCROOT)/TestFlightSDK1\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "79C0DFD7-398E-437F-852A-39311BE9A25D";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "79C0DFD7-398E-437F-852A-39311BE9A25D";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1361,6 +1375,8 @@
 					"\"$(SRCROOT)/TestFlightSDK1\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "E2056DFD-B028-422E-973C-CF4F86CB8BD4";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E2056DFD-B028-422E-973C-CF4F86CB8BD4";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};

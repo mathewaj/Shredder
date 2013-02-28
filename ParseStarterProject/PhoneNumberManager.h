@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "CountryCodeInformation.h"
 
 @interface PhoneNumberManager : NSObject
 
@@ -15,6 +16,8 @@
 +(NSString *)getCurrentCountryCode;
 
 +(NSString *)getCurrentCountry;
+
++(NSArray *)getListOfAllCountryCodeInformationObjects;
 
 +(NSString *)getCountryForCountryCode:(NSString *)countryCodeInitials;
 

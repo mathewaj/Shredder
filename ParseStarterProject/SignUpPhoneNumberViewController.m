@@ -10,6 +10,7 @@
 #import "PhoneNumberManager.h"
 #import "ParseManager.h"
 
+
 @interface SignUpPhoneNumberViewController ()
 
 @end
@@ -244,9 +245,9 @@
 
 #pragma mark - Delegate method
 
--(void)countrySelected:(NSString *)countryCode{
+-(void)countrySelected:(CountryCodeInformation *)countryCodeInfo{
     
-    self.countryCode = countryCode;
+    self.countryCode = countryCodeInfo.countryCode;
     [self.scrollView.boxes removeAllObjects];
     [self promptForPhoneNumber];
     

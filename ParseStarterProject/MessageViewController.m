@@ -139,10 +139,6 @@
             // Handle Error - TBC
         }];
         
-        /*[ParseManager sendMessage:sender.message withCompletionBlock:^(BOOL success, NSError *error) {
-         // Message Sent
-         }];*/
-        
     }
     
 }

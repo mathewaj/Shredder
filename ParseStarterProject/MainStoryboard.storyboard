@@ -353,20 +353,6 @@
             </objects>
             <point key="canvasLocation" x="2909" y="-1047"/>
         </scene>
-        <!--Sign Up Details View Controller-->
-        <scene sceneID="xlt-Tv-S85">
-            <objects>
-                <viewController id="be3-xU-kcL" customClass="SignUpDetailsViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="HX6-5i-F1f">
-                        <rect key="frame" x="0.0" y="20" width="320" height="548"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="hUx-mL-oCQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1293" y="-1725"/>
-        </scene>
         <!--Sign Up Phone Number View Controller-->
         <scene sceneID="4nn-x1-ILp">
             <objects>
@@ -379,12 +365,77 @@
                     <navigationItem key="navigationItem" id="r9G-Ou-qQl"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
-                        <segue destination="be3-xU-kcL" kind="modal" identifier="SelectCountry" modalTransitionStyle="flipHorizontal" id="cAR-Gw-wDV"/>
+                        <segue destination="ooe-cc-bnG" kind="modal" identifier="SelectCountry" modalTransitionStyle="flipHorizontal" id="Btq-L5-Syd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="d9y-6e-4Mu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1673" y="-1725"/>
+        </scene>
+        <!--Sign Up Details View Controller-->
+        <scene sceneID="3nz-oE-QZG">
+            <objects>
+                <viewController id="ooe-cc-bnG" customClass="SignUpDetailsViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="H76-lm-Wz7">
+                        <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="LFj-8R-Njc">
+                                <rect key="frame" x="0.0" y="44" width="320" height="504"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CountryCell" textLabel="QlZ-s8-z4N" detailTextLabel="5mF-1o-hfY" style="IBUITableViewCellStyleValue1" id="Rv4-IQ-9Se">
+                                        <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="QlZ-s8-z4N">
+                                                    <rect key="frame" x="10" y="11" width="35" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="5mF-1o-hfY">
+                                                    <rect key="frame" x="266" y="11" width="44" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.2196078431372549" green="0.32941176470588235" blue="0.52941176470588236" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                            <navigationBar contentMode="scaleToFill" id="3e3-Mx-lhm">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <items>
+                                    <navigationItem title="Country Codes" id="1NM-wJ-U6V">
+                                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="IdQ-ai-0OB">
+                                            <connections>
+                                                <action selector="cancelButtonPressed:" destination="ooe-cc-bnG" id="2s6-CR-6yw"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="LFj-8R-Njc" id="8KR-Me-TYF"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="frO-5w-qj8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1137" y="-1725"/>
         </scene>
         <!--Table View Controller-->
         <scene sceneID="iUy-5X-gIz">
@@ -1400,6 +1451,144 @@
         <image name="row.png" width="1" height="44"/>
         <image name="rowselected.png" width="1" height="44"/>
     </resources>
+    <classes>
+        <class className="AllMessagesViewController" superclassName="PFQueryTableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/AllMessagesViewController.h"/>
+        </class>
+        <class className="AllReportsViewController" superclassName="PFQueryTableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/AllReportsViewController.h"/>
+        </class>
+        <class className="ComposeMessageViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ComposeMessageViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="attachmentIconTapped:"/>
+                <relationship kind="action" name="cancelButtonTapped:"/>
+                <relationship kind="action" name="sendButtonPressed:" candidateClass="UITapGestureRecognizer"/>
+                <relationship kind="outlet" name="attachedImageThumbnailView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="messageTextView" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="messageView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="recipientLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="ContactDetailViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ContactDetailViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="contactEmailCell" candidateClass="UITableViewCell"/>
+                <relationship kind="outlet" name="contactEmailLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="contactEmailTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="contactInviteCell" candidateClass="UITableViewCell"/>
+                <relationship kind="outlet" name="contactInviteLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="contactNameLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="contactPhoneCell" candidateClass="UITableViewCell"/>
+                <relationship kind="outlet" name="contactPhoneNumberLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="contactPhoneTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="editButton" candidateClass="UIBarButtonItem"/>
+            </relationships>
+        </class>
+        <class className="ContactsTableViewController" superclassName="CoreDataTableViewController2">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ContactsTableViewController.h"/>
+        </class>
+        <class className="ContactsViewControllerII" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ContactsViewControllerII.h"/>
+            <relationships>
+                <relationship kind="outlet" name="mySearchDisplayController" candidateClass="UISearchDisplayController"/>
+                <relationship kind="outlet" name="segmentedControl" candidateClass="UISegmentedControl"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="CoreDataTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CoreDataTableViewController.h"/>
+        </class>
+        <class className="CoreDataTableViewController2" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CoreDataTableViewController2.h"/>
+        </class>
+        <class className="InboxViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/InboxViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="didPressComposeMessage:"/>
+            </relationships>
+        </class>
+        <class className="InitialViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/InitialViewController.h"/>
+        </class>
+        <class className="MGScrollView" superclassName="UIScrollView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MGScrollView.h"/>
+        </class>
+        <class className="MenuCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MenuCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="disclosureImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="itemDescription" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="MessageViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MessageViewController.h"/>
+        </class>
+        <class className="MyLogInViewController" superclassName="PFLogInViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MyLogInViewController.h"/>
+        </class>
+        <class className="NewContactViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NewContactViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="contactEmailCell" candidateClass="UITableViewCell"/>
+                <relationship kind="outlet" name="contactEmailLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="contactInviteCell" candidateClass="UITableViewCell"/>
+                <relationship kind="outlet" name="contactInviteLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="contactNameCell" candidateClass="UITableViewCell"/>
+                <relationship kind="outlet" name="contactNameLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="saveButton" candidateClass="UIBarButtonItem"/>
+            </relationships>
+        </class>
+        <class className="PFImageView" superclassName="UIImageView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PFImageView.h"/>
+        </class>
+        <class className="PFLogInViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PFLogInViewController.h"/>
+        </class>
+        <class className="PFQueryTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PFQueryTableViewController.h"/>
+        </class>
+        <class className="SASlideMenuViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SASlideMenuViewController.h"/>
+        </class>
+        <class className="SettingsViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingsViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="scrollView" candidateClass="MGScrollView"/>
+            </relationships>
+        </class>
+        <class className="ShredMessageViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ShredMessageViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="attachmentIcon" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="messageTextView" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="messageView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="senderLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="sentDateLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="shredButton" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="shreddingEffectView" candidateClass="ShreddingEffectView"/>
+            </relationships>
+        </class>
+        <class className="ShredderContactsViewController" superclassName="CoreDataTableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ShredderContactsViewController.h"/>
+        </class>
+        <class className="ShredderSlideMenuControllerViewController" superclassName="SASlideMenuViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ShredderSlideMenuControllerViewController.h"/>
+        </class>
+        <class className="ShreddingEffectView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ShreddingEffectView.h"/>
+        </class>
+        <class className="SignUpDetailsViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SignUpDetailsViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="cancelButtonPressed:"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="SignUpPhoneNumberViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SignUpPhoneNumberViewController.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

@@ -9,61 +9,83 @@
 #import "SignUpDetailsViewController.h"
 #import "PhoneNumberManager.h"
 
+
 @interface SignUpDetailsViewController ()
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
 @implementation SignUpDetailsViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+-(id)initWithCoder:(NSCoder *)aDecoder
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    self = [super initWithCoder:aDecoder];
     if (self) {
-        // Custom initialization
+        
+        // Get ordered list of Country Code Information Objects,
+        self.countryCodeInformationList = [PhoneNumberManager getListOfAllCountryCodeInformationObjects];
+        
+        for(CountryCodeInformation *info in self.countryCodeInformationList){
+            NSLog([info countryName]);
+        }
+        
+
+
+        
     }
+    
     return self;
 }
 
-
-- (void)viewDidLoad
-{
+-(void)viewDidLoad{
+    
     [super viewDidLoad];
     
-    self.scrollView = [MGScrollView scrollerWithSize:self.view.bounds.size];
-    [self.view addSubview:self.scrollView];
+    // Set up table view
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
     
-    // Get list of countries
-    NSArray *countries = [PhoneNumberManager getListOfAllCountryCodes];
+}
+
+
+#pragma mark - Table view data source
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+
+    // Return the number of rows in the section.
+    return [self.countryCodeInformationList count];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *CellIdentifier = @"CountryCell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    // Set up table
-    MGTableBoxStyled *section = MGTableBoxStyled.box;
-    [self.scrollView.boxes addObject:section];
-    
-    // a default row size
-    CGSize rowSize = (CGSize){304, 44};
-    
-    // Header
-    MGLineStyled *header = [MGLineStyled line];
-    header.middleItems = [NSArray arrayWithObject:@"Select Country"];
-    [section.topLines addObject:header];
-    header.font = HEADER_FONT;
-    
-    for(NSString *countryCode in countries){
-        
-        MGLineStyled *countryRow = [MGLineStyled lineWithLeft:[PhoneNumberManager getCountryForCountryCode:countryCode] right:[PhoneNumberManager getCallingCodeForCountryCode:countryCode] size:rowSize];
-        
-        countryRow.onTap = ^{
-            [self.delegate countrySelected:countryCode];
-            [self dismissModalViewControllerAnimated:YES];
-        };
-        
-        [section.topLines addObject:countryRow];
-        
+    // Configure the cell...
+    CountryCodeInformation *countryCodeInfo = [self.countryCodeInformationList objectAtIndex:indexPath.row];
+    cell.textLabel.text = countryCodeInfo.countryName;
+    if(countryCodeInfo.countryCallingCode){
+        cell.detailTextLabel.text = [@"+" stringByAppendingString:countryCodeInfo.countryCallingCode];
     }
     
-    [self.scrollView layoutWithSpeed:1 completion:nil];
-    [self.scrollView scrollToView:section withMargin:8];
+    
+    return cell;
+}
 
+
+#pragma mark - Table view delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self.delegate countrySelected:[self.countryCodeInformationList objectAtIndex:indexPath.row]];
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (IBAction)cancelButtonPressed:(id)sender {
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -72,4 +94,8 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewDidUnload {
+    [self setTableView:nil];
+    [super viewDidUnload];
+}
 @end

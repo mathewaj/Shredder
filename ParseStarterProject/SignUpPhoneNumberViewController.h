@@ -14,6 +14,7 @@
 #import "MGTableBoxStyled.h"
 #import "MGLineStyled.h"
 #import "Blocks.h"
+#import "CountryCodeInformation.h"
 
 @protocol SignUpPhoneNumberViewControllerProtocol <NSObject>
 
@@ -38,6 +39,8 @@
 @property (nonatomic, strong) NSString *countryCode;
 @property (nonatomic, strong) NSString *phoneNumber;
 @property (nonatomic, strong) NSString *password;
+@property (nonatomic, strong) CountryCodeInformation *countryCodeInfo;
+
 
 @property (nonatomic, weak) id <SignUpPhoneNumberViewControllerProtocol> delegate;
 
