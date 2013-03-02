@@ -30,7 +30,7 @@
 @property (weak, nonatomic) id <AddressBookHelperDelegate> delegate;
 
 -(void)retrieveAddressBookContacts;
-+(ABRecordRef)createAddressBookRecordWithContactDetails:(PFUser *)contact;
++(ABRecordRef)createAddressBookRecordWithPhoneNumber:(PFUser *)contact;
 
 
 

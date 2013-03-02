@@ -32,11 +32,17 @@
     
     [super viewDidLoad];
     
+    // Set up scroll view
+    self.scrollView = [MGScrollView scrollerWithSize:self.view.bounds.size];
+    self.scrollView.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:self.scrollView];
+    self.scrollView.keepFirstResponderAboveKeyboard = YES;
+    
     // Set up container view
     self.containerView = [MGBox boxWithSize:self.view.bounds.size];
     self.containerView.backgroundColor = [UIColor blackColor];
     self.containerView.backgroundColor = [UIColor clearColor];
-    [self.view addSubview:self.containerView];
+    [self.scrollView.boxes addObject:self.containerView];
     
     // Set flag
     self.firstView = YES;
@@ -55,8 +61,13 @@
         self.messageView = [self setUpShredMessageView];
         [self showMessageView];
     }
-
     
+    // Add notification to dismiss oneself if app re-activates
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(appWillResignActive)
+                                                 name:UIApplicationWillResignActiveNotification
+                                               object:nil];
+
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -79,7 +90,8 @@
     
     [self.containerView.boxes removeAllObjects];
     [self.containerView.boxes addObject:self.messageView];
-    [self.containerView layoutWithSpeed:0.3 completion:nil];
+    //[self.containerView layoutWithSpeed:0.3 completion:nil];
+    [self.scrollView layoutWithSpeed:0.3 completion:nil];
     
     
 }
@@ -149,9 +161,14 @@
     [self shredMessage:sender withCompletionBlock:^{
         
         // Pop View Controller
-        [self dismissModalViewControllerAnimated:YES];
+        
+        [self performSelector:@selector(dismissController) withObject:nil afterDelay:2.0];
     }];
     
+}
+
+-(void)dismissController{
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 -(void)replyButtonPressed:(MessageView *)sender{
@@ -170,7 +187,7 @@
         self.contact = self.messageView.contactee;
         self.messageView = [self setUpComposeMessageViewForRecipient:self.contact];
         [self.containerView.boxes addObject:self.messageView];
-        [self.containerView layoutWithSpeed:2 completion:^{
+        [self.containerView layoutWithSpeed:1.5 completion:^{
             
             // Animate into view
             [UIView animateWithDuration:0.5
@@ -183,7 +200,7 @@
                                  
                              } completion:^(BOOL finished) {
                                  
-                                 [self.shreddingEffectView removeFromSuperview];
+                                 //[self.shreddingEffectView.hidden = YES;// removeFromSuperview];
                                  
                              }];
             
@@ -245,14 +262,17 @@
 
 -(void)showShreddingMessageAnimationWithCompletionBlock:(void (^)(void))completionBlock{
     
-    self.shreddingEffectView = [[ShreddingEffectView alloc] initWithFrame:[self retrieveScreenDimensions:nil]];
+    //self.shreddingEffectView = [[ShreddingEffectView alloc] initWithFrame:[self retrieveScreenDimensions:nil]];
     [self.view addSubview:self.shreddingEffectView];
     [self.shreddingEffectView decayOverTime:1];
     
-    self.shreddingEffectView.confettiEmitter.birthRate = 20;
+    self.shreddingEffectView.confettiEmitter.birthRate = 50;
+    self.shreddingEffectView.alpha = 1;
+    [self.shreddingEffectView decayOverTime:1];
     
-    [UIView animateWithDuration:1 animations:^{
-        self.shreddingEffectView.alpha = 1;
+    [UIView animateWithDuration:2 animations:^{
+        
+        //[self performSelector:@selector(dismissController) withObject:nil afterDelay:3.0];
     } completion:^(BOOL finished) {
         completionBlock();
     }];
@@ -457,15 +477,15 @@
     
 }
 
-#pragma mark-
-#pragma mark Add New Contact
+#pragma mark - Add New Contact
 
--(void)addNewContact{
+-(void)unknownContactSelected:(MessageView *)messageView{
 
     ABUnknownPersonViewController *view = [[ABUnknownPersonViewController alloc] init];
     
     view.unknownPersonViewDelegate = self;
-    ABRecordRef displayedPerson = [AddressBookHelper createAddressBookRecordWithContactDetails:self.contact];
+
+    ABRecordRef displayedPerson = [AddressBookHelper createAddressBookRecordWithPhoneNumber:messageView.contactee.username];
     view.displayedPerson = displayedPerson;
     view.allowsAddingToAddressBook = YES;
     view.allowsActions = YES;
@@ -480,12 +500,34 @@
 
 -(void)unknownPersonViewController:(ABUnknownPersonViewController *)unknownCardViewController didResolveToPerson:(ABRecordRef)person{
     
+    
+    
     [[unknownCardViewController presentingViewController] dismissViewControllerAnimated:YES completion:^{
+        
+        [self showMessageView];
+        
+    }];
+    
+}
+
+#pragma mark-
+#pragma mark App Backgrounding
+
+-(void)appWillResignActive{
+    
+    // Consider this the same as shredding message
+    [self shredMessage:self.messageView withCompletionBlock:^{
+        
+        // Pop View Controller
+        [self dismissModalViewControllerAnimated:YES];
         
     }];
     
 }
 
 
-
+- (void)viewDidUnload {
+    [self setShreddingEffectView:nil];
+    [super viewDidUnload];
+}
 @end

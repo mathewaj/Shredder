@@ -14,6 +14,7 @@
 #import "MGLineStyled.h"
 #import "MGLine.h"
 #import "UIImage+ResizeAdditions.h"
+#import "NonSelectableTextView.h"
 
 @implementation MessageView
 
@@ -60,7 +61,7 @@
 -(void)setUpForComposeMessage{
     
     // a default row size
-    CGSize rowSize = (CGSize){304, 40};
+    CGSize rowSize = (CGSize){304, 250};
     
     // Header Row contains Name, Attachment Button
     self.attachmentThumbnailView = [self getAttachmentIcon];
@@ -72,7 +73,7 @@
     // Middle Row contains Message body text view    
     MGLineStyled *body = [MGLineStyled line];
     self.messageBodyTextView = [self getMessageBodyTextView];
-    body.leftItems = [NSArray arrayWithObject:self.messageBodyTextView];
+    body.middleItems = [NSArray arrayWithObject:self.messageBodyTextView];
     body.minHeight = 250;
     body.borderStyle = MGBorderNone;
     [self.middleLines addObject:body];
@@ -102,9 +103,11 @@
     if(!senderName){
         senderName = [self.contactee username];
         NSString *combinedNameTimeString = [NSString stringWithFormat:@"**%@**\n//%@//|mush", senderName, [Converter timeAndDateStringFromDate:self.messagePermission.createdAt]];
-        header.textColor = [UIColor redColor];
-        header.leftItems = [NSArray arrayWithObjects:combinedNameTimeString, nil];
-        header.onSwipe = ^{ [self.delegate addNewContact];};
+        UIImageView *saveContactButton = [self getSaveContactButton];
+        header.leftItems = [NSArray arrayWithObjects:saveContactButton,combinedNameTimeString, nil];
+        header.onSwipe = ^{
+            [self.delegate unknownContactSelected:self];
+        };
     } else {
         NSString *combinedNameTimeString = [NSString stringWithFormat:@"**%@**\n//%@//|mush", senderName, [Converter timeAndDateStringFromDate:self.messagePermission.createdAt]];
         header.leftItems = [NSArray arrayWithObjects:combinedNameTimeString, nil];
@@ -124,7 +127,8 @@
     
     // Middle Row contains Message body text view
     MGLineStyled *body = [MGLineStyled line];
-    body.multilineLeft = [self.message objectForKey:@"body"];
+    NSString *messageText = [self.message objectForKey:@"body"];
+    body.middleItems = [NSArray arrayWithObject:[self getPopulatedMessageBodyTextView:messageText]];
     body.minHeight = 250;
     body.borderStyle = MGBorderNone;
     [self.middleLines addObject:body];
@@ -144,10 +148,19 @@
 
 -(UITextView *)getMessageBodyTextView
 {
-    UITextView *textView = [[UITextView alloc] initWithFrame:CGRectMake(0, 20, 230, 250)];
+    UITextView *textView = [[UITextView alloc] initWithFrame:CGRectMake(0, 20, 270, 200)];
     textView.backgroundColor = [UIColor clearColor];
     textView.font = HEADER_FONT;
     textView = [self addAccessoryViewToKeyboardOfTextView:textView];
+    return textView;
+}
+
+-(NonSelectableTextView *)getPopulatedMessageBodyTextView:(NSString *)message
+{
+    NonSelectableTextView *textView = [[NonSelectableTextView alloc] initWithFrame:CGRectMake(0, 20, 270, 200)];
+    textView.backgroundColor = [UIColor clearColor];
+    textView.font = HEADER_FONT;
+    textView.text = message;
     return textView;
 }
 
@@ -252,10 +265,11 @@
     attachmentView.file = (PFFile *)[self.message objectForKey:@"attachmentThumbnail"];
     
     attachmentView.userInteractionEnabled = YES;
-    //UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(attachmentImagePressed:)];
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(attachmentImagePressed:)];
     UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(attachmentImageLongPressed:)];
     longPressGesture.cancelsTouchesInView = NO;
     
+    //[attachmentView addGestureRecognizer:tapGesture];
     [attachmentView addGestureRecognizer:longPressGesture];
     return attachmentView;
 }
@@ -275,6 +289,17 @@
 
     [attachmentView addGestureRecognizer:longPressGesture];
     return attachmentView;
+}
+
+-(UIImageView *)getSaveContactButton{
+    
+    UIImage *button = [UIImage imageNamed:@"SaveContact.png"];
+    UIImageView *buttonView = [[UIImageView alloc] initWithImage:button];
+    buttonView.userInteractionEnabled = YES;
+    UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(unknownContactSelected)];
+    [buttonView addGestureRecognizer:tgr];
+
+    return buttonView;
 }
 
 #pragma mark - Controls
@@ -365,6 +390,14 @@
     
 }
 
+-(void)unknownContactSelected{
+    
+    [self.delegate unknownContactSelected:self];
+    
+}
+
+#pragma mark - Screenshot Detection
+
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
     
     NSLog(@"Not me...");
@@ -417,6 +450,8 @@
     
 }
 
+#pragma mark - Attachment Handlers
+
 -(void)updateAttachmentThumbnailView:(UIImage *)image{
     
     CGFloat squareEdge = 60;
@@ -447,7 +482,7 @@
 
 
 
-#pragma mark - TextView Delegate Methods
+
 
 
 /*

@@ -11,5 +11,6 @@
 @interface Converter : NSObject
 
 +(NSString *)timeAndDateStringFromDate:(NSDate *)date;
++(NSString *)nicerTimeAndDateStringFromDate:(NSDate *)date;
 
 @end

@@ -33,7 +33,8 @@
 - (IBAction)didPressComposeMessage:(id)sender;
 
 // View: Scroll View
-@property (nonatomic, strong) MGScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet MGScrollView *scrollView;
+//@property (nonatomic, strong) MGScrollView *scrollView;
 
 // View: Messages Container
 @property (nonatomic, strong) MGTableBoxStyled *messagesContainer;

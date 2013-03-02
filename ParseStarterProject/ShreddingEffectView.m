@@ -24,12 +24,12 @@
         
         self.confettiEmitter = (CAEmitterLayer*)self.layer;
         self.confettiEmitter.emitterPosition = CGPointMake(self.bounds.size.width /2, 0);
-        self.confettiEmitter.emitterSize = CGSizeMake(250, 15);
+        self.confettiEmitter.emitterSize = CGSizeMake(self.frame.size.width, 5);
         self.confettiEmitter.emitterShape = kCAEmitterLayerLine;
         self.confettiEmitter.birthRate = 0;
         
         self.confettiWhite = [CAEmitterCell emitterCell];
-        self.confettiWhite.contents = (__bridge id)[[UIImage imageNamed:@"PaperClip.png"] CGImage];
+        self.confettiWhite.contents = (__bridge id)[[UIImage imageNamed:@"Confetti.png"] CGImage];
         self.confettiWhite.name = @"confetti";
         self.confettiWhite.birthRate = 50;
         self.confettiWhite.lifetime = 5.0;
@@ -41,7 +41,7 @@
         self.confettiWhite.scale = 1.0;
         self.confettiWhite.scaleRange = 0.2;
         self.confettiWhite.spinRange = 10.0;
-        self.confettiWhite.color = [[UIColor colorWithRed:1.0 green:1.0 blue:120.0/255.0 alpha:1.0] CGColor];
+        self.confettiWhite.color = [[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0] CGColor];
         
         
         self.confettiColour = [CAEmitterCell emitterCell];

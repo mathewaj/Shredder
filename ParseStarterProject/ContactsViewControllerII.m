@@ -24,17 +24,71 @@
 
 @implementation ContactsViewControllerII
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+#pragma mark -
+#pragma mark View
+
+
+- (void)loadView
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-        [self.segmentedControl setSelectedSegmentIndex:1];
-    }
-    return self;
+    [super loadView];
+    //UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 44.0)];
+    //searchBar.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
+    //searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
+    //self.tableView.tableHeaderView = searchBar;
+    
+    //self.mySearchDisplayController
+    self.mySearchDisplayController.delegate = self;
+    self.mySearchDisplayController.searchResultsDataSource = self;
+    self.mySearchDisplayController.searchResultsDelegate = self;
 }
 
-#pragma mark - Model
+- (void)didReceiveMemoryWarning
+{
+    self.searchWasActive = [self.searchDisplayController isActive];
+    self.savedSearchTerm = [self.searchDisplayController.searchBar text];
+    self.savedScopeButtonIndex = [self.searchDisplayController.searchBar selectedScopeButtonIndex];
+    
+    self.fetchedResultsController.delegate = nil;
+    self.fetchedResultsController = nil;
+    self.searchFetchedResultsController.delegate = nil;
+    self.searchFetchedResultsController = nil;
+    
+    [super didReceiveMemoryWarning];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    // save the state of the search UI so that it can be restored if the view is re-created
+    self.searchWasActive = [self.searchDisplayController isActive];
+    self.savedSearchTerm = [self.searchDisplayController.searchBar text];
+    self.savedScopeButtonIndex = [self.searchDisplayController.searchBar selectedScopeButtonIndex];
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    // Set table
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    
+    // restore search settings if they were saved in didReceiveMemoryWarning.
+    if (self.savedSearchTerm)
+    {
+        [self.searchDisplayController setActive:self.searchWasActive];
+        [self.searchDisplayController.searchBar setSelectedScopeButtonIndex:self.savedScopeButtonIndex];
+        [self.searchDisplayController.searchBar setText:self.savedSearchTerm];
+        
+        self.savedSearchTerm = nil;
+    }
+    
+    // Refresh contacts database
+    [self.contactsDatabaseManager syncAddressBookContacts];
+
+}
+
+
+#pragma mark - Controller Access to Model
 
 - (NSFetchedResultsController *)fetchedResultsControllerForTableView:(UITableView *)tableView
 {
@@ -83,10 +137,12 @@
     return [[self fetchedResultsControllerForTableView:tableView] sectionForSectionIndexTitle:title atIndex:index];
 }
 
+// Disabling to get rid of overkill with headers in Shredder list
+/*
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     id <NSFetchedResultsSectionInfo> sectionInfo = [[[self fetchedResultsControllerForTableView:tableView] sections] objectAtIndex:section];
     return [sectionInfo name];
-}
+}*/
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -236,64 +292,6 @@
     [tableView endUpdates];
 }
 
-#pragma mark -
-#pragma mark View
-
-
-- (void)loadView
-{
-    [super loadView];
-    //UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 44.0)];
-    //searchBar.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
-    //searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
-    //self.tableView.tableHeaderView = searchBar;
-    
-    //self.mySearchDisplayController
-    self.mySearchDisplayController.delegate = self;
-    self.mySearchDisplayController.searchResultsDataSource = self;
-    self.mySearchDisplayController.searchResultsDelegate = self;
-}
-
-- (void)didReceiveMemoryWarning
-{
-    self.searchWasActive = [self.searchDisplayController isActive];
-    self.savedSearchTerm = [self.searchDisplayController.searchBar text];
-    self.savedScopeButtonIndex = [self.searchDisplayController.searchBar selectedScopeButtonIndex];
-    
-    self.fetchedResultsController.delegate = nil;
-    self.fetchedResultsController = nil;
-    self.searchFetchedResultsController.delegate = nil;
-    self.searchFetchedResultsController = nil;
-    
-    [super didReceiveMemoryWarning];
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-    // save the state of the search UI so that it can be restored if the view is re-created
-    self.searchWasActive = [self.searchDisplayController isActive];
-    self.savedSearchTerm = [self.searchDisplayController.searchBar text];
-    self.savedScopeButtonIndex = [self.searchDisplayController.searchBar selectedScopeButtonIndex];
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    
-    // Set table
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    
-    // restore search settings if they were saved in didReceiveMemoryWarning.
-    if (self.savedSearchTerm)
-    {
-        [self.searchDisplayController setActive:self.searchWasActive];
-        [self.searchDisplayController.searchBar setSelectedScopeButtonIndex:self.savedScopeButtonIndex];
-        [self.searchDisplayController.searchBar setText:self.savedSearchTerm];
-        
-        self.savedSearchTerm = nil;
-    }
-}
 
 #pragma mark -
 #pragma mark FRC Creation Code
@@ -422,7 +420,7 @@
 }
 
 #pragma mark-
-#pragma mark Control
+#pragma mark User Control
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {    
     

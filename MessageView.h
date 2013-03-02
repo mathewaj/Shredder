@@ -21,7 +21,7 @@
 -(void)attachmentIconPressed:(MessageView *)sender;
 -(CGRect)retrieveScreenDimensions:(MessageView *)sender;
 -(void)showAttachmentView:(UIImageView *)attachmentView withBackgroundView:(UIImageView *)backgroundView;
--(void)addNewContact;
+-(void)unknownContactSelected:(MessageView *)sender;
 
 -(NSString *)getNameForUser:(PFObject *)user;
 

@@ -42,31 +42,20 @@
 }
 
 -(void)promptForPassword {
-    
-    MGTableBoxStyled *section = MGTableBoxStyled.box;
-    section.topMargin = 30;
-    section.bottomMargin = 20;
-    [self.scrollView.boxes addObject:section];
-    
+        
     // a default row size
     CGSize rowSize = (CGSize){304, 70};
     
-    // Header
-    MGLineStyled *header = [MGLineStyled line];
-    header.middleItems = [NSArray arrayWithObjects:@"Shredder", [UIImage imageNamed:@"Padlock.png"], nil];
-    header.font = HEADER_FONT;
-    header.minHeight = 60;
-    [section.topLines addObject:header];
-    
-    
-    MGTableBoxStyled *section2 = MGTableBoxStyled.box;
-    [self.scrollView.boxes addObject:section2];
+    MGTableBoxStyled *section = MGTableBoxStyled.box;
+    section.topMargin = 50;
+    [self.scrollView.boxes addObject:section];
     
     // Prompt user for password
     MGLineStyled *detailRow = MGLineStyled.line;
-    detailRow.multilineMiddle =  @"Please enter your password";
+    detailRow.leftItems = [NSArray arrayWithObject:[UIImage imageNamed:@"Padlock.png"]];
+    detailRow.middleItems = [NSArray arrayWithObject: @"Please enter your password"];
     detailRow.minHeight = 70;
-    [section2.topLines addObject:detailRow];
+    [section.topLines addObject:detailRow];
     
     // A password field
     self.passwordTextField = [[UITextField alloc] initWithFrame:CGRectMake(100, 10, 200, 30)];
@@ -79,7 +68,7 @@
     MGLineStyled *passwordEntryRow = MGLineStyled.line;
     passwordEntryRow.middleItems = [NSArray arrayWithObject:self.passwordTextField];
     passwordEntryRow.minHeight = 70;
-    [section2.topLines addObject:passwordEntryRow];
+    [section.topLines addObject:passwordEntryRow];
     
     [self.passwordTextField becomeFirstResponder];
     [self.scrollView layoutWithSpeed:1 completion:nil];

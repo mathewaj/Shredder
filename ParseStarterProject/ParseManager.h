@@ -42,7 +42,9 @@
 
 +(void)shredderUserForContact:(Contact *)contact withCompletionBlock:(ParseReturnedArray)parseReturnedArray;
 
--(void)checkIfNewContactsAreOnShredder:(NSArray *)newlyUpdatedContacts;
+//-(void)checkShredderDBForContactDBMatches:(NSArray *)allContacts;
+
++(void)checkShredderDBForContacts:(NSArray *)allContacts withCompletionBlock:(ParseReturnedArray)parseReturned;
 
 #pragma mark - Image Methods
 

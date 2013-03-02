@@ -65,19 +65,19 @@
     for (NSString *countryCode in [NSLocale ISOCountryCodes])
     {
         NSString *identifier = [NSLocale localeIdentifierFromComponents: [NSDictionary dictionaryWithObject: countryCode forKey: NSLocaleCountryCode]];
-        NSLog(@"countryCode %@", countryCode);
-        NSLog(@"Identifier %@", identifier);
         NSString *country = [[NSLocale currentLocale] displayNameForKey: NSLocaleIdentifier value: identifier];
-        NSLog(@"country %@", country);
         
         
-        // Add CountryCodeInfo object
+        // Add CountryCodeInfo object to array
         CountryCodeInformation *countryInfo = [[CountryCodeInformation alloc] init];
         countryInfo.countryCode = countryCode;
         countryInfo.countryName = country;
         countryInfo.countryCallingCode = [PhoneNumberManager getCallingCodeForCountryCode:countryCode];
         
-        [countryCodeInformation addObject:countryInfo];
+        if(countryInfo.countryName && countryInfo.countryCallingCode)
+        {
+           [countryCodeInformation addObject:countryInfo]; 
+        }
         
     }
     

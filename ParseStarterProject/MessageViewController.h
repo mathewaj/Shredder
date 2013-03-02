@@ -50,7 +50,7 @@
 @property(nonatomic, strong) MGScrollView *scrollView;
 
 // View: MGBox
-@property(nonatomic, strong) MGScrollView *containerView;
+@property(nonatomic, strong) MGBox *containerView;
 
 // View: MessageView
 @property (nonatomic, strong) MessageView *messageView;
@@ -59,7 +59,8 @@
 @property (nonatomic, assign, getter=isSendButtonPressed) BOOL isSendButtonPressed;
 
 // View: Shredding Animation
-@property (strong, nonatomic) ShreddingEffectView *shreddingEffectView;
+@property (weak, nonatomic) IBOutlet ShreddingEffectView *shreddingEffectView;
+//@property (strong, nonatomic) ShreddingEffectView *shreddingEffectView;
 
 
 @end

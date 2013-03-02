@@ -154,8 +154,10 @@
     
     PFObject *message = [messagePermission objectForKey:@"message"];
     
-    // Turn Message Permission Shredded Value to True
+    // Turn Message Permission Shredded Value to True and Record Time Shredder
     [messagePermission setObject:[NSNumber numberWithBool:YES] forKey:@"permissionShredded"];
+    [messagePermission setObject:[NSDate date] forKey:@"permissionShreddedAt"];
+    
     [messagePermission saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         
         parseReturned(succeeded, error);
@@ -242,6 +244,24 @@
     
 }
 
++(void)sendWelcomeMessageToUser:(PFUser *)user
+{
+    
+    PFObject *welcomeMessage = [self createNewMessage];
+    
+    [welcomeMessage setObject:@"Welcome to Shredder!\n\nThis new private messaging app is designed to ensure that sensitive information is permanently erased once it has been viewed.\n\nImages may be attached to your messages, please hold the thumbnail in the top right to view. Beware the sender will be informed if you take a screenshot! \n\nWhen you are finished reading, please press the Shred button below to delete this message forever." forKey:@"body"];
+    
+    
+    PFObject *welcomeMessagePermission = [self createMessagePermissionForMessage:welcomeMessage andShredderUserRecipient:user];
+    PFUser *shredder = [PFQuery getUserObjectWithId:@"RmRaaHMn9o"];
+    [welcomeMessagePermission setObject:shredder forKey:@"sender"];
+    [welcomeMessagePermission setObject:[PFUser currentUser] forKey:@"recipient"];
+    
+    [ParseManager sendMessage:welcomeMessagePermission withCompletionBlock:^(BOOL success, NSError *error) {
+        
+    }];
+}
+
 +(void)setBadgeWithNumberOfMessages:(NSNumber *)messagesCount{
     
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
@@ -252,14 +272,14 @@
 
 
 #pragma mark - Contact Functions
-
--(void)checkIfNewContactsAreOnShredder:(NSArray *)newlyUpdatedContacts{
+/*
+-(void)checkShredderDBForContactDBMatches:(NSArray *)allContacts{
     
-    self.contactsForUserCheck = newlyUpdatedContacts;
+    self.contactsForUserCheck = allContacts;
     
     //[self promptUserForPermissionToUploadContacts];
     [self uploadAndCheckContacts];
-}
+}*/
 
 -(void)promptUserForPermissionToUploadContacts
 {
@@ -267,18 +287,21 @@
     if([[[NSUserDefaults standardUserDefaults] objectForKey:@"PermissionToUploadContactsToShredder"] isEqualToNumber:[NSNumber numberWithBool:NO]])
     {
         // Prompt user to allow cross-check with server
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Alert" message:@"Shredder would like to upload your contacts to check which of your contacts are on Shredder. \n Your contacts will not be saved on our server." delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Alert" message:@"Shredder would like to upload your contacts to check which of your contacts are on Shredder. \n The details of your contacts will not be saved" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
         [alert show];
+        
     } else {
         
-        [self uploadAndCheckContacts];
-        //[self.delegate finishedMatchingContacts];
+        // Go straight to uploading contacts
+        //[self uploadAndCheckContacts];
+
     }
     
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
+    
     if(buttonIndex == 0)
     {
         [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:NO] forKey:@"PermissionToUploadContactsToShredder"];
@@ -290,22 +313,18 @@
     } else {
         
         [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:YES] forKey:@"PermissionToUploadContactsToShredder"];
-        [self uploadAndCheckContacts];
+        //[self uploadAndCheckContacts];
         //[self.delegate finishedMatchingContacts];
     }
 }
 
--(void)uploadAndCheckContacts{
-    
-    /* Retrieve all contacts
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Contact"];
-    request.sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
-    NSArray *allContacts = [self.contactsDatabase.managedObjectContext executeFetchRequest:request error:nil];*/
-    
-    // Array of email addresses
++(void)checkShredderDBForContacts:(NSArray *)allContacts withCompletionBlock:(ParseReturnedArray)parseReturned{
+
+    // Array of phone numbers
     NSMutableArray *phoneNumberArray = [[NSMutableArray alloc] init];
     
-    for(Contact *contact in self.contactsForUserCheck)
+    // Add all contacts with valid phone numbers
+    for(Contact *contact in allContacts)
     {
         if(contact.normalisedPhoneNumber)
         {
@@ -322,7 +341,11 @@
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
             
-            for(PFUser *user in objects)
+            // Returns an array of matching users
+            parseReturned(YES, error, objects);
+            
+            
+            /*for(PFUser *user in objects)
             {
                 // Iterate through matched Parse Users
                 NSString *normalisedPhoneNumberString = user.username;
@@ -342,11 +365,12 @@
                 }
                 
                 
-            }
+            }*/
             
         } else {
             // Log details of the failure
             NSLog(@"Error: %@ %@", error, [error userInfo]);
+            parseReturned(NO, error, nil);
         }
         
         

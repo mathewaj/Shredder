@@ -97,22 +97,15 @@ void AddressBookUpdated(ABAddressBookRef addressBook, CFDictionaryRef info, void
     
 };
 
-+(ABRecordRef)createAddressBookRecordWithContactDetails:(PFUser *)contact {
++(ABRecordRef)createAddressBookRecordWithPhoneNumber:(NSString *)phoneNumber {
     
     ABRecordRef person = ABPersonCreate();
     CFErrorRef  error = NULL;
     
-    
-    //NSString *name = [NSString stringWithFormat:@"%@", [modelObj name]];
-    //ABRecordSetValue(aContact, kABPersonOrganizationProperty, name, &anError);
-    
-    ABMultiValueRef phone = ABMultiValueCreateMutable(kABMultiStringPropertyType);
-    ABMultiValueAddValueAndLabel(phone, (__bridge CFTypeRef)([contact username]), kABPersonPhoneMainLabel, NULL);
-    
-    ABRecordSetValue(person, kABPersonPhoneProperty, phone, &error);
-    
-    // Name
-    //ABRecordSetValue(person, kABPersonFirstNameProperty, @"Don Juan", NULL);
+    //Phone number is a list of phone number, so create a multivalue
+    ABMutableMultiValueRef phoneNumberMultiValue = ABMultiValueCreateMutable(kABMultiStringPropertyType);
+    ABMultiValueAddValueAndLabel(phoneNumberMultiValue, (__bridge CFTypeRef)(phoneNumber),kABPersonPhoneMobileLabel, NULL);
+    ABRecordSetValue(person, kABPersonPhoneProperty, phoneNumberMultiValue, &error); // set the phone number property
     
     if (error != NULL)
         NSLog(@"Error: %@", error);

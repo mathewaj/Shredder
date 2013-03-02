@@ -72,20 +72,16 @@
     
 }
 
+// Fired on creatin of database
 -(void)databaseIsNew{
     
-    [self importAddressBookContactsToContactsDatabase];
+    [self syncAddressBookContacts];
     
 }
 
-// Every time database is opened, scan for new contacts
--(void)databaseIsReady{
-    
-    [self.delegate databaseIsReady:self.contactsDatabase];
 
-}
-
--(void)importAddressBookContactsToContactsDatabase{
+// Fired by first creation and called periodically to update contact database
+-(void)syncAddressBookContacts{
     [self initialiseAddressBookHelper];
     [self scanAddressBookForNewContactDetails];
 }
@@ -108,7 +104,7 @@
 -(void)addressBookHelper:(AddressBookHelper *)helper retrieved:(NSArray *)recentlyUpdatedAddressBookRecords{
     
     [self saveAddressBookRecordsToDatabase:recentlyUpdatedAddressBookRecords];
-    [self checkIfNewContactsAreOnShredder];
+    [self checkContactsDBForShredderUsers];
     [self databaseIsReady];
 }
 
@@ -128,6 +124,7 @@
         // Obtain current record reference from array
         ABRecordRef person = (__bridge ABRecordRef)([recentlyUpdatedAddressBookRecords objectAtIndex:i]);
         
+        // Check if contact details already exist, if so return, if not create new
         Contact *contact = [Contact contactWithAddressBookInfo:person inContext:self.contactsDatabase.managedObjectContext];
         
         if(contact){
@@ -135,35 +132,69 @@
         }
         
     }
-    
-    self.newlyUpdatedContacts = contacts;
 }
 
--(void)checkIfNewContactsAreOnShredder{
+-(void)databaseIsReady{
     
-    // Send the new contact details to Parse Manager to process
-    ParseManager *parseManager = [[ParseManager alloc] init];
-    parseManager.contactsDatabase = self.contactsDatabase;
-    [parseManager checkIfNewContactsAreOnShredder:self.newlyUpdatedContacts];
-    //[self.contactsDatabase.managedObjectContext save:nil];
+    [self.delegate databaseIsReady:self.contactsDatabase];
     
 }
 
--(NSArray *)fetchContacts{
+// Send the address book to Parse to seek Shredder Users
+-(void)checkContactsDBForShredderUsers{
+        
+    // Retrieve all contacts
+    NSArray *allContacts = [self fetchAllContacts];
+    
+    [ParseManager checkShredderDBForContacts:allContacts withCompletionBlock:^(BOOL success, NSError *error, NSArray *matchedUsers) {
+       
+        [self updateContactsDBWithListOfShredderUsers:matchedUsers];
+        
+    }];
+    
+}
+
+-(NSArray *)fetchAllContacts{
     
     // Retrieve all contacts
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Contact"];
     request.sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
-    NSArray *allContacts = [self.contactsDatabase.managedObjectContext executeFetchRequest:request error:nil];
-    return allContacts;
+    return [self.contactsDatabase.managedObjectContext executeFetchRequest:request error:nil];
+}
+
+-(void)updateContactsDBWithListOfShredderUsers:(NSArray *)matchedUsers{
+    
+    NSMutableArray *newlySignedOnUsers = [[NSMutableArray alloc] init];
+    
+    for(PFUser *user in matchedUsers)
+    {
+        // Iterate through matched Parse Users
+        NSString *normalisedPhoneNumberString = user.username;
+        NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Contact"];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"normalisedPhoneNumber = %@", normalisedPhoneNumberString];
+        request.predicate = predicate;
+        NSArray *emailMatches = [self.contactsDatabase.managedObjectContext executeFetchRequest:request error:nil];
+        
+        for(Contact *contact in emailMatches)
+        {
+            if(![contact.signedUp isEqualToNumber:[NSNumber numberWithBool:YES]])
+            {
+                contact.signedUp = [NSNumber numberWithBool:YES];
+                contact.parseID = user.objectId;
+                [newlySignedOnUsers addObject:contact];
+            }
+            
+        }
+        
+        
+    }
+    //[self.contactsDatabase.managedObjectContext save:nil];
 }
 
 -(NSString *)getName:(PFUser *)user{
     
-    // A little bit of a hacky place for this possibly
     // Really belongs in ShredderUser but don't have database access there
     // Find contact for a give PFUser
-    NSLog(user.username);
     NSString *name;
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Contact"];
     request.predicate = [NSPredicate predicateWithFormat:@"normalisedPhoneNumber = %@", user.username];
@@ -190,7 +221,7 @@
         name = contact.name;
     } else {
         // Use phone number until custom name field included. TBC
-        name = user.username;
+        return nil;
     }
     
     return name;

@@ -43,9 +43,10 @@
     // Set background
     self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:iPhone568ImageNamed(@"background.png")]];
     
-    // Set Scroll View
-    self.scrollView = [MGScrollView scrollerWithSize:self.view.bounds.size];
+    /* Set Scroll View
+    self.scrollView = [MGScrollView scrollerWithSize:self.view.frame.size];
     [self.view addSubview:self.scrollView];
+    */
     
     // Set up the tables
     
@@ -57,11 +58,12 @@
     // Set Reports Section
     self.reportsContainer = [MGTableBoxStyled box];
     self.reportsContainer.topMargin = 50;
+    self.reportsContainer.bottomMargin = 50;
     [self.scrollView.boxes addObject:self.reportsContainer];
     
-    // Listen for new messages
+    // Check for new messages on these notifications
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadMessages) name:@"ReloadMessagesTable" object:nil];
-    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadMessages) name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadMessages) name:UIApplicationDidBecomeActiveNotification object:nil];
     
     // Listen for app backgrounding
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
@@ -214,7 +216,10 @@
     CGSize rowSize = (CGSize){304, 60};
     
     NSString *name = [self.contactsDatabaseManager getNameForUser:[messagePermission objectForKey:@"sender"]];
-    NSString *timeAndDate = [Converter timeAndDateStringFromDate:messagePermission.createdAt];
+    if(!name){
+        name = [[messagePermission objectForKey:@"sender"] username];
+    }
+    NSString *timeAndDate = [Converter nicerTimeAndDateStringFromDate:messagePermission.createdAt];
 
     NSString *messageHeader = [NSString stringWithFormat:@"**%@**\n//%@//|mush", name, timeAndDate];
     MGLineStyled *messageRow = [MGLineStyled line];
@@ -250,11 +255,15 @@
 
 -(MGLineStyled *)addReportsBoxForMessagePermission:(PFObject *)messagePermission inSection:(MGTableBoxStyled *)section
 {
-    CGSize rowSize = (CGSize){304, 60};
+    CGSize rowSize = (CGSize){304, 80};
     
     NSString *name = [self.contactsDatabaseManager getNameForUser:[messagePermission objectForKey:@"recipient"]];
-    NSString *timeAndDate = [Converter timeAndDateStringFromDate:messagePermission.createdAt];
-    NSString *reportHeader = [NSString stringWithFormat:@"**%@**\n//%@//|mush", name, timeAndDate];
+    NSString *timeAndDateSent = [Converter nicerTimeAndDateStringFromDate:messagePermission.createdAt];
+    timeAndDateSent = [NSString stringWithFormat:@"Sent: %@", timeAndDateSent];
+    NSString *timeAndDateShredded = [Converter nicerTimeAndDateStringFromDate:[messagePermission objectForKey:@"permissionShreddedAt"]];
+    timeAndDateShredded = [NSString stringWithFormat:@"Shredded: %@", timeAndDateShredded];
+    
+    NSString *reportHeader = [NSString stringWithFormat:@"**%@**\n//%@//\n//%@//|mush", name, timeAndDateSent, timeAndDateShredded];
     
     MGLineStyled *reportRow = [MGLineStyled line];
     reportRow.multilineRight = reportHeader;
@@ -398,4 +407,8 @@
 
 
 
+- (void)viewDidUnload {
+    [self setScrollView:nil];
+    [super viewDidUnload];
+}
 @end
