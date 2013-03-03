@@ -40,14 +40,12 @@
     
 }
 
-
-// Method to create a contact with certain data
-+(Contact *)contactWithEmail:(NSString *)email inContext:(NSManagedObjectContext *)context
++(Contact *)contactWithPhoneNumber:(NSString *)normalisedPhoneNumber inContext:(NSManagedObjectContext *)context
 {
     Contact *contact = nil;
     
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Contact"];
-    request.predicate = [NSPredicate predicateWithFormat:@"email = %@", email];
+    request.predicate = [NSPredicate predicateWithFormat:@"normalisedPhoneNumber = %@", normalisedPhoneNumber];
     
     NSArray *matches = [context executeFetchRequest:request error:nil];
     
@@ -56,114 +54,87 @@
         
     } else if([matches count]==0)
     {
-
+        
         contact = [NSEntityDescription insertNewObjectForEntityForName:@"Contact" inManagedObjectContext:context];
-        contact.email = email;
+        contact.normalisedPhoneNumber = normalisedPhoneNumber;
+        
         
     } else {
         contact = [matches lastObject];
     }
     
-    //[context save:nil];
-
     return contact;
-
+    
 }
 
-+(BOOL)checkIfContactExists:(NSString *)email inContext:(NSManagedObjectContext *)context
-{
-    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Contact"];
-    request.predicate = [NSPredicate predicateWithFormat:@"email = [c]%@", email];
-    
-    NSArray *matches = [context executeFetchRequest:request error:nil];
-    
-    if(!matches || [matches count]>1)
-    {
-        return YES;
-    } else if([matches count]==0)
-    {
-        
-        return NO;
-        
-    } else {
-        return YES;
-    }
-}
-
--(Email *)addEmailAddress:(NSString *)address inContext:(NSManagedObjectContext *)context
-{
-    Email *email = nil;
-    
-    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Email"];
-    request.predicate = [NSPredicate predicateWithFormat:@"address = %@", email];
-    
-    NSArray *matches = [context executeFetchRequest:request error:nil];
-    
-    if(!matches || [matches count]>1)
-    {
-        
-    } else if([matches count]==0)
-    {
-        
-        email = [NSEntityDescription insertNewObjectForEntityForName:@"Email" inManagedObjectContext:context];
-        email.address = address;
-        
-    } else {
-        email = [matches lastObject];
-    }
-    
-    //[context save:nil];
-    
-    return email;
-}
-
-+(Contact *)contactWithAddressBookInfo:(ABRecordRef)person inContext:(NSManagedObjectContext *)context{
++(void)updateContactsWithAddressBookInfo:(ABRecordRef)person inContext:(NSManagedObjectContext *)context{
     
     Contact *contact;
     
-    // Obtain current record reference from array
-    //ABRecordRef person = (__bridge ABRecordRef)([recentlyUpdatedAddressBookRecords objectAtIndex:i]);
-    int personID = ABRecordGetRecordID(person);
+    // Check if contacts exist for this address book info and if so delete
+    [Contact removeExistingContactInfoForAddressBookRef:person inContext:context];
+    
+    // Now create contact for each phone number listing
     
     // Obtain name information
     NSString *firstName = (__bridge NSString *)ABRecordCopyValue(person, kABPersonFirstNameProperty);
     NSString *surname = (__bridge NSString *)ABRecordCopyValue(person, kABPersonLastNameProperty);
     NSString *fullName = [Contact createFullNameWithFirstName:firstName surname:surname];
     
-    
     if(![fullName isEqualToString:@""]){
-        
-        NSLog(@"Full name: %@", fullName);
-        
-        // Create a contact for every phone entry
-        contact = [Contact contactWithName:fullName inContext:context];
-        
-        // Set ID
-        contact.addressBookID = [NSNumber numberWithInt:personID];
-        
-        //Set name initial
-        NSString *initial = [fullName substringToIndex:1];
-        NSString *capitalisedInitial = [initial capitalizedString];
-        
-        contact.nameInitial = capitalisedInitial;
         
         // Obtain the phone number for the contact
         ABMultiValueRef phoneNumbers = ABRecordCopyValue(person, kABPersonPhoneProperty);
-        NSString* phone = nil;
-        if (ABMultiValueGetCount(phoneNumbers) > 0) {
+        
+        // Iterate through phone numbers
+        for(int i=0;i<ABMultiValueGetCount(phoneNumbers);i++) {
             
-            phone = (__bridge NSString *)(ABMultiValueCopyValueAtIndex(phoneNumbers, 0));
+            NSString *phone = (__bridge NSString *)(ABMultiValueCopyValueAtIndex(phoneNumbers, i));
+            
+            // Create a contact for every phone entry
+            NSString *currentCountryCallingCode = [[NSUserDefaults standardUserDefaults] objectForKey:@"CurrentCountryCallingCode"];
+            NSString *normalisedPhoneNumber = [PhoneNumberManager normalisedPhoneNumberWithContactNumber:phone countryCode:currentCountryCallingCode];
+            contact = [Contact contactWithPhoneNumber:normalisedPhoneNumber inContext:context];
             
             contact.phoneNumber = phone;
+            contact.name = fullName;
+            contact.addressBookID = [NSNumber numberWithInt:ABRecordGetRecordID(person)];
             
-            contact.normalisedPhoneNumber = [PhoneNumberManager normalisedPhoneNumberWithContactNumber:phone countryCode:@"353"];
+            //Set name initial
+            NSString *initial = [fullName substringToIndex:1];
+            NSString *capitalisedInitial = [initial capitalizedString];
+            contact.nameInitial = capitalisedInitial;
             
-             NSLog(@"Normalised Number: %@", contact.normalisedPhoneNumber);
+            
+            NSLog(@"Contact Name: %@", contact.name);
+            NSLog(@"Contact Initial: %@", contact.nameInitial);
+            NSLog(@"Normalised Number: %@", contact.normalisedPhoneNumber);
             
         }
+        
+        
+            
     }
     
-    return contact;
+}
+
++(void)removeExistingContactInfoForAddressBookRef:(ABRecordRef)person inContext:(NSManagedObjectContext *)context{
+    
+    // Obtain current record reference from array
+    int personID = ABRecordGetRecordID(person);
+    NSNumber *personIDNumber = [NSNumber numberWithInt:personID];
+    
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Contact"];
+    request.predicate = [NSPredicate predicateWithFormat:@"addressBookID = %@",  personIDNumber];
+    NSArray *contacts = [context executeFetchRequest:request error:nil];
+    
+    for(Contact *contact in contacts){
+        
+        NSLog(@"Contact Being Deleted: %@", contact.name);
+        
+        [context deleteObject:contact];
+    }
+    
 }
 
 +(NSString *)createFullNameWithFirstName:(NSString *)firstName surname:(NSString *)surname

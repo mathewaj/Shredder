@@ -104,7 +104,7 @@
         self.contact = contact;
         self.contactNameCell.userInteractionEnabled = NO;
         self.contactEmailCell.userInteractionEnabled = NO;
-        [self.contactsDatabase.managedObjectContext save:nil];
+        //[self.contactsDatabase.managedObjectContext save:nil];
         [self.view endEditing:TRUE];
         
         // Check if contact on Shredder and update invite label accordingly

@@ -68,6 +68,19 @@
     // Listen for app backgrounding
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
     
+    // Refresh contacts and set app to refresh contacts every time app activated
+    [self.contactsDatabaseManager syncAddressBookContacts];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshContacts) name:UIApplicationDidBecomeActiveNotification object:nil];
+    
+    
+    
+}
+
+-(void)refreshContacts{
+    
+    // Refresh contacts database
+    [self.contactsDatabaseManager syncAddressBookContacts];
+    
 }
 
 
@@ -273,7 +286,7 @@
     if([[messagePermission objectForKey:@"screenshotDetected"] isEqualToNumber:[NSNumber numberWithBool:YES]])
     {
         
-        reportRow.leftItems = [NSArray arrayWithObject:[UIImage imageNamed:@"Flash.png"]];
+        reportRow.leftItems = [NSArray arrayWithObject:[UIImage imageNamed:@"ScreenshotDetected.png"]];
     }
     
     __weak id wreportRow = reportRow;

@@ -29,21 +29,15 @@
     
 }
 
-+(NSString *)getCurrentCountryCode{
++(CountryCodeInformation *)getCurrentCountryCodeInfo{
     
-    NSString *currentCountryCode = [[NSLocale currentLocale] objectForKey: NSLocaleCountryCode];
+    CountryCodeInformation *currentCountryInfo = [[CountryCodeInformation alloc] init];
     
-    return currentCountryCode;
+    currentCountryInfo.countryCode = [[NSLocale currentLocale] objectForKey: NSLocaleCountryCode];
+    currentCountryInfo.countryName = [PhoneNumberManager getCountryForCountryCode:currentCountryInfo.countryCode];
+   currentCountryInfo.countryCallingCode = [PhoneNumberManager getCallingCodeForCountryCode:currentCountryInfo.countryCode];
     
-}
-
-+(NSString *)getCurrentCountry{
-    
-    NSString *currentCountryCode = [[NSLocale currentLocale] objectForKey: NSLocaleCountryCode];
-    
-    NSString *country = [PhoneNumberManager getCountryForCountryCode:currentCountryCode];
-    
-    return country;
+    return currentCountryInfo;
     
 }
 
@@ -51,7 +45,6 @@
         
     NSString *identifier = [NSLocale localeIdentifierFromComponents:[NSDictionary dictionaryWithObject: countryCode forKey: NSLocaleCountryCode]];
     NSString *country = [[NSLocale currentLocale] displayNameForKey: NSLocaleIdentifier value: identifier];
-    
     return country;
     
 }

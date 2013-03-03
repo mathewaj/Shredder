@@ -18,7 +18,7 @@
 
 +(Contact *)contactWithName:(NSString *)name inContext:(NSManagedObjectContext *)context;
 
-+(Contact *)contactWithAddressBookInfo:(ABRecordRef)person inContext:(NSManagedObjectContext *)context;
++(void)updateContactsWithAddressBookInfo:(ABRecordRef)person inContext:(NSManagedObjectContext *)context;
 
 +(BOOL)checkIfContactExists:(NSString *)email inContext:(NSManagedObjectContext *)context;
 

@@ -37,6 +37,7 @@
 
 
 -(Contact *)retrieveContactwithParseID:(NSString *)parseID inManagedObjectContext:(UIManagedDocument *)document;
+-(Contact *)retrieveContactWithPhoneNumber:(NSString *)phoneNumber inManagedObjectContext:(UIManagedDocument *)document;
 
 -(void)updateContacts:(NSArray *)updatedContacts;
 -(NSString *)getNameForUser:(PFUser *)user;

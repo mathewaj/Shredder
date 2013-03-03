@@ -42,7 +42,7 @@
     self.scrollView = [MGScrollView scrollerWithSize:self.view.bounds.size];
     [self.view addSubview:self.scrollView];
     
-    self.countryCode = [PhoneNumberManager getCurrentCountryCode];
+    self.countryCodeInfo = [PhoneNumberManager getCurrentCountryCodeInfo];
     
     [self promptForPhoneNumber];
     
@@ -76,7 +76,7 @@
     [section2.topLines addObject:detailRow];
     
     // a string on the left and a horse on the right
-    MGLineStyled *countrySelectionRow = [MGLineStyled lineWithLeft:[PhoneNumberManager getCountryForCountryCode:self.countryCode]
+    MGLineStyled *countrySelectionRow = [MGLineStyled lineWithLeft:self.countryCodeInfo.countryName
                                               right:[UIImage imageNamed:@"disclosure.png"] size:rowSize];
     countrySelectionRow.onTap = ^{
         [self performSegueWithIdentifier:@"SelectCountry" sender:self];
@@ -85,7 +85,7 @@
     
     // A row with two textfields
     self.countryCodeTextField = [[UITextField alloc] initWithFrame:CGRectMake(0, 10, 50, 30)];
-    self.countryCodeTextField.text = [PhoneNumberManager getCallingCodeForCountryCode:self.countryCode];
+    self.countryCodeTextField.text = self.countryCodeInfo.countryCallingCode;
     self.countryCodeTextField.textAlignment = UITextAlignmentCenter;
     self.countryCodeTextField.keyboardType = UIKeyboardTypeNumberPad;
     self.countryCodeTextField.font = IMPACT_FONT;
@@ -135,7 +135,7 @@
     
     // Prompt user for password
     MGLineStyled *detailRow = MGLineStyled.line;
-    detailRow.multilineMiddle = @"Please enter a numeric password";
+    detailRow.multilineMiddle = @"Please enter a 4 digit password";
     detailRow.minHeight = 70;
     [section2.topLines addObject:detailRow];
     
@@ -145,6 +145,7 @@
     self.passwordTextField.textAlignment = UITextAlignmentCenter;
     self.passwordTextField.keyboardType = UIKeyboardTypeNumberPad;
     self.passwordTextField.secureTextEntry = YES;
+    self.passwordTextField.delegate = self;
     [self addSecondAccessoryViewToKeyboardOfTextView:self.passwordTextField];
     
     MGLineStyled *passwordEntryRow = MGLineStyled.line;
@@ -180,49 +181,65 @@
 
 -(void)finishedEnteringPassword:(UIBarButtonItem *)button{
     
-    [ParseManager signUpWithPhoneNumber:self.phoneNumber andPassword:self.passwordTextField.text withCompletionBlock:^(BOOL success, NSError *error) {
+    // Ensure at least four digits in code
+    if(![self fourDigitPassword:self.passwordTextField.text])
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"4 digit password required" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [alert show];
         
-        if(!success){
+    } else {
+        
+        // Save Country Code to user defaults for later use
+        [[NSUserDefaults standardUserDefaults] setObject:self.countryCodeInfo.countryCallingCode forKey:@"CurrentCountryCallingCode"];
+        
+        [ParseManager signUpWithPhoneNumber:self.phoneNumber andPassword:self.passwordTextField.text withCompletionBlock:^(BOOL success, NSError *error) {
             
-            // Log details of the failure
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-            
-            // User may be already signed up
-            [ParseManager loginWithPhoneNumber:self.phoneNumber andPassword:self.passwordTextField.text withCompletionBlock:^(BOOL success, NSError *error) {
-                if(!success){
-                    
-                    // Log details of the failure
-                    NSLog(@"Error: %@ %@", error, [error userInfo]);
-                    
-                } else {
-                    
-                    NSLog(@"Logged In!");
-                    
-                    // Save password
-                    [[NSUserDefaults standardUserDefaults] setObject:self.passwordTextField.text forKey:@"password"];
-                    
-                    [self dismissViewControllerAnimated:YES completion:^{
+            if(!success){
+                
+                // Log details of the failure
+                NSLog(@"Error: %@ %@", error, [error userInfo]);
+                
+                // User may be already signed up
+                [ParseManager loginWithPhoneNumber:self.phoneNumber andPassword:self.passwordTextField.text withCompletionBlock:^(BOOL success, NSError *error) {
+                    if(!success){
                         
-                        [self.delegate signedIn];
-                    }];
-                }
-            }];
+                        // Log details of the failure
+                        NSLog(@"Error: %@ %@", error, [error userInfo]);
+                        
+                    } else {
+                        
+                        NSLog(@"Logged In!");
+                        
+                        // Save password
+                        [[NSUserDefaults standardUserDefaults] setObject:self.passwordTextField.text forKey:@"password"];
+                        
+                        [self dismissViewControllerAnimated:YES completion:^{
+                            
+                            [self.delegate signedIn];
+                        }];
+                    }
+                }];
+                
+            } else {
+                
+                // Save password
+                [[NSUserDefaults standardUserDefaults] setObject:self.passwordTextField.text forKey:@"password"];
+                
+                [self dismissViewControllerAnimated:YES completion:^{
+                    [self.delegate signedIn];
+                }];
+                
+            }
             
-        } else {
             
-            // Save password
-            [[NSUserDefaults standardUserDefaults] setObject:self.passwordTextField.text forKey:@"password"];
             
-            [self dismissViewControllerAnimated:YES completion:^{
-                [self.delegate signedIn];
-            }];
-            
-        }
+        }];
+
         
-        
-        
-    }];
+    }
     
+    
+        
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -247,9 +264,10 @@
 
 -(void)countrySelected:(CountryCodeInformation *)countryCodeInfo{
     
-    self.countryCode = countryCodeInfo.countryCode;
+    self.countryCodeInfo = countryCodeInfo;
     [self.scrollView.boxes removeAllObjects];
     [self promptForPhoneNumber];
+    [self.phoneNumberTextField becomeFirstResponder];
     
 }
 
@@ -307,6 +325,36 @@
     }];
  
 }*/
+
+#pragma mark - Password Textfield Validation
+
+// Do not allow passwords longer than 4 digits
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    NSUInteger newLength = [textField.text length] + [string length] - range.length;
+    if(newLength > 4){
+
+        return NO;
+        
+    } else {
+        return YES;
+    }
+
+}
+
+// Check to ensure password is at least four digits
+-(BOOL)fourDigitPassword:(NSString *)password{
+    
+    NSUInteger newLength = [password length];
+    if(newLength != 4){
+        
+        return NO;
+        
+    } else {
+        return YES;
+    }
+    
+}
+
 
 - (void)didReceiveMemoryWarning
 {

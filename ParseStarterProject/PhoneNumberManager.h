@@ -13,7 +13,7 @@
 
 +(NSString *)normalisedPhoneNumberWithContactNumber:(NSString *)phoneNumber countryCode:(NSString *)countryCode;
 
-+(NSString *)getCurrentCountryCode;
++(CountryCodeInformation *)getCurrentCountryCodeInfo;
 
 +(NSString *)getCurrentCountry;
 

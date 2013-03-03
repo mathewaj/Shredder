@@ -9,6 +9,7 @@
 #import "ContactsDatabaseManager.h"
 #import "Contact.h"
 #import "ParseManager.h"
+#import "PhoneNumberManager.h"
 
 
 @implementation ContactsDatabaseManager
@@ -17,6 +18,17 @@
     
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Contact"];
     request.predicate = [NSPredicate predicateWithFormat:@"parseID = %@", parseID];
+    NSArray *contacts = [document.managedObjectContext executeFetchRequest:request error:nil];
+    Contact *contact = [contacts lastObject];
+    return contact;
+}
+
+-(Contact *)retrieveContactWithPhoneNumber:(NSString *)phoneNumber inManagedObjectContext:(UIManagedDocument *)document{
+    
+    NSString *normalisedPhoneNumber = [PhoneNumberManager normalisedPhoneNumberWithContactNumber:phoneNumber countryCode:[[NSUserDefaults standardUserDefaults] objectForKey:@"CurrentCountryCallingCode"]];
+    
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Contact"];
+    request.predicate = [NSPredicate predicateWithFormat:@"normalisedPhoneNumber = %@", normalisedPhoneNumber];
     NSArray *contacts = [document.managedObjectContext executeFetchRequest:request error:nil];
     Contact *contact = [contacts lastObject];
     return contact;
@@ -104,34 +116,29 @@
 -(void)addressBookHelper:(AddressBookHelper *)helper retrieved:(NSArray *)recentlyUpdatedAddressBookRecords{
     
     [self saveAddressBookRecordsToDatabase:recentlyUpdatedAddressBookRecords];
-    [self checkContactsDBForShredderUsers];
     [self databaseIsReady];
 }
 
 -(void)saveAddressBookRecordsToDatabase:(NSArray *)recentlyUpdatedAddressBookRecords{
     
-    [self createContactsWithAddressBookRecords:recentlyUpdatedAddressBookRecords];
+    [self updateContactsWithAddressBookRecords:recentlyUpdatedAddressBookRecords];
     //[self.contactsDatabase.managedObjectContext save:nil];
 }
 
--(void)createContactsWithAddressBookRecords:(NSArray *)recentlyUpdatedAddressBookRecords{
-    
-    NSMutableArray *contacts = [[NSMutableArray alloc] init];
-    
-    // Copy any contacts in array to database contacts list
+-(void)updateContactsWithAddressBookRecords:(NSArray *)recentlyUpdatedAddressBookRecords{
+        
+    // Iterate through Address Book Records and update Contacts DB
     for(int i=0; i<[recentlyUpdatedAddressBookRecords count]; i++){
         
         // Obtain current record reference from array
         ABRecordRef person = (__bridge ABRecordRef)([recentlyUpdatedAddressBookRecords objectAtIndex:i]);
         
-        // Check if contact details already exist, if so return, if not create new
-        Contact *contact = [Contact contactWithAddressBookInfo:person inContext:self.contactsDatabase.managedObjectContext];
-        
-        if(contact){
-            [contacts addObject:contact];
-        }
-        
+        // Update contact details
+        [Contact updateContactsWithAddressBookInfo:person inContext:self.contactsDatabase.managedObjectContext];
     }
+    
+    [self checkContactsDBForShredderUsers];
+
 }
 
 -(void)databaseIsReady{

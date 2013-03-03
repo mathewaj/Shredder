@@ -341,18 +341,6 @@
     
 }
 
--(void)unknownContactPressed{
-    
-    ABNewPersonViewController *view = [[ABNewPersonViewController alloc] init];
-    view.newPersonViewDelegate = self;
-    UINavigationController *newNavigationController = [[UINavigationController alloc]
-                                                       initWithRootViewController:view];
-    [self presentModalViewController:newNavigationController
-                            animated:YES];
-    
-    
-}
-
 -(NSString *)getNameForUser:(PFUser *)user{
     
     NSString *name = [self.contactsDatabaseManager getNameForUser:user];
@@ -500,10 +488,11 @@
 
 -(void)unknownPersonViewController:(ABUnknownPersonViewController *)unknownCardViewController didResolveToPerson:(ABRecordRef)person{
     
-    
+    [self.contactsDatabaseManager syncAddressBookContacts];
     
     [[unknownCardViewController presentingViewController] dismissViewControllerAnimated:YES completion:^{
         
+        self.messageView = [self setUpShredMessageView];
         [self showMessageView];
         
     }];

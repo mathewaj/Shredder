@@ -22,7 +22,7 @@
 
 @end
 
-@interface SignUpPhoneNumberViewController : UIViewController <UIAlertViewDelegate>
+@interface SignUpPhoneNumberViewController : UIViewController <UIAlertViewDelegate, SignUpDetailsViewControllerProtocol, UITextFieldDelegate>
 
 // 1. Verify phone number
 // 2. Accept Password
@@ -36,10 +36,12 @@
 @property (nonatomic, strong) UITextField *passwordTextField;
 
 // Model: Country Code
-@property (nonatomic, strong) NSString *countryCode;
+@property (nonatomic, strong) CountryCodeInformation *countryCodeInfo;
+
+// Model : User Details
 @property (nonatomic, strong) NSString *phoneNumber;
 @property (nonatomic, strong) NSString *password;
-@property (nonatomic, strong) CountryCodeInformation *countryCodeInfo;
+
 
 
 @property (nonatomic, weak) id <SignUpPhoneNumberViewControllerProtocol> delegate;

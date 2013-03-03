@@ -83,7 +83,7 @@
     }
     
     // Refresh contacts database
-    [self.contactsDatabaseManager syncAddressBookContacts];
+    //[self.contactsDatabaseManager syncAddressBookContacts];
 
 }
 
@@ -115,6 +115,7 @@
     }
     
     theCell.textLabel.text = contact.name;
+    theCell.detailTextLabel.text = contact.phoneNumber;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)theIndexPath
@@ -122,7 +123,7 @@
     UITableViewCell *cell = (UITableViewCell *)[theTableView dequeueReusableCellWithIdentifier:@"ContactCell"];
     if (cell == nil)
     {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"ContactCell"];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"ContactCell"];
     }
     
     [self fetchedResultsController:[self fetchedResultsControllerForTableView:theTableView] configureCell:cell atIndexPath:theIndexPath];
