@@ -13,12 +13,7 @@
 
 @interface Contact (Create)
 
-+(Contact *)contactWithEmail:(NSString *)email inContext:(NSManagedObjectContext *)context;
-
-+(Contact *)contactWithName:(NSString *)name inContext:(NSManagedObjectContext *)context;
-
+// Probably should be in contacts DB file
 +(void)updateContactsWithAddressBookInfo:(ABRecordRef)person inContext:(NSManagedObjectContext *)context;
-
-+(BOOL)checkIfContactExists:(NSString *)email inContext:(NSManagedObjectContext *)context;
 
 @end

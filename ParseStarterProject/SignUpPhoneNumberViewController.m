@@ -17,14 +17,7 @@
 
 @implementation SignUpPhoneNumberViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-       
-    }
-    return self;
-}
+
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
@@ -122,9 +115,6 @@
     section.topMargin = 30;
     section.bottomMargin = 20;
     [self.scrollView.boxes addObject:section];
-    
-    // a default row size
-    CGSize rowSize = (CGSize){304, 70};
     
     // Header
     MGLineStyled *header = [MGLineStyled line];

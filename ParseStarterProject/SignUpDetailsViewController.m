@@ -21,17 +21,8 @@
 {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        
         // Get ordered list of Country Code Information Objects,
-        self.countryCodeInformationList = [PhoneNumberManager getListOfAllCountryCodeInformationObjects];
-        
-        for(CountryCodeInformation *info in self.countryCodeInformationList){
-            NSLog([info countryName]);
-        }
-        
-
-
-        
+        self.countryCodeInformationList = [PhoneNumberManager getListOfAllCountryCodeInformationObjects];        
     }
     
     return self;

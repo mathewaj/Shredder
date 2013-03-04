@@ -42,9 +42,6 @@
 }
 
 -(void)promptForPassword {
-        
-    // a default row size
-    CGSize rowSize = (CGSize){304, 70};
     
     MGTableBoxStyled *section = MGTableBoxStyled.box;
     section.topMargin = 50;

@@ -138,13 +138,6 @@
     return [[self fetchedResultsControllerForTableView:tableView] sectionForSectionIndexTitle:title atIndex:index];
 }
 
-// Disabling to get rid of overkill with headers in Shredder list
-/*
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    id <NSFetchedResultsSectionInfo> sectionInfo = [[[self fetchedResultsControllerForTableView:tableView] sections] objectAtIndex:section];
-    return [sectionInfo name];
-}*/
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     

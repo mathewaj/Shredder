@@ -20,7 +20,6 @@
 -(void)replyButtonPressed:(MessageView *)sender;
 -(void)attachmentIconPressed:(MessageView *)sender;
 -(CGRect)retrieveScreenDimensions:(MessageView *)sender;
--(void)showAttachmentView:(UIImageView *)attachmentView withBackgroundView:(UIImageView *)backgroundView;
 -(void)unknownContactSelected:(MessageView *)sender;
 
 -(NSString *)getNameForUser:(PFObject *)user;
@@ -31,8 +30,6 @@
 
 - (id)initWithFrame:(CGRect)frame withEmptyMessage:(PFObject *)message forRecipient:(PFUser *) recipient andDelegate:(id <MessageViewDelegate>)delegate;
 - (id)initWithFrame:(CGRect)frame withPopulatedMessagePermission:(PFObject *)messagePermission andDelegate:(id <MessageViewDelegate>)delegate;
-
--(void)updateAttachmentThumbnailView:(UIImage *)image;
 
 // Model: Message
 @property (nonatomic, strong) PFObject *message;
@@ -48,19 +45,7 @@
 @property (nonatomic, strong) PFImageView *attachmentThumbnailView;
 @property (nonatomic, strong) PFImageView *attachmentView;
 @property (nonatomic, strong) UIImageView *obfuscationView;
-
-
-// Control: Inform delegate that Shred Button Pressed
--(IBAction)shredButtonPressed:(id)sender;
-
-// Control: Inform delegate that Reply Button Pressed
--(IBAction)replyButtonPressed:(id)sender;
-
-// Control: Attachment Thumbnail Pressed
--(IBAction)attachmentThumbnailPressed:(id)sender;
-
-// Control: Attachment Thumbnail Long Pressed
--(IBAction)attachmentThumbnailPressed:(id)sender;
+-(void)updateAttachmentThumbnailView:(UIImage *)image;
 
 // Control Model: Delegate
 @property (nonatomic, weak) id <MessageViewDelegate> delegate;

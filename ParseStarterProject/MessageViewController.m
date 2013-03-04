@@ -306,41 +306,6 @@
     //return self.view.bounds;
 }
 
--(void)showAttachmentView:(UIImageView *)attachmentView withBackgroundView:(UIImageView *)backgroundView{
-    
-    // Retrieve screen dimensions from delegate
-    CGRect screenDimensions = [[UIScreen mainScreen] bounds];
-    CGPoint screenCentre = CGPointMake(screenDimensions.origin.x + (screenDimensions.size.width / 2), screenDimensions.origin.y + (screenDimensions.size.height / 2));    
-    
-    // Set frame of attachment view
-    // Prepare Image View
-    attachmentView.alpha = 1;
-    attachmentView.frame = CGRectMake(screenCentre.x, screenCentre.y, 0, 0);
-    
-    // Prepare obfuscation view
-    backgroundView = [[UIImageView alloc] initWithFrame:screenDimensions];
-    backgroundView.backgroundColor = [UIColor blackColor];
-    backgroundView.alpha = 0;
-    
-    
-    // Add views to main view
-    [self.view addSubview:backgroundView];
-    [self.view addSubview:attachmentView];
-    
-    [UIView animateWithDuration:0.5
-                     animations:^{
-                         
-                         attachmentView.frame = screenDimensions;
-                         backgroundView.alpha = 1;
-                         
-                     }
-                     completion:^(BOOL finished){
-                         
-                     }];
-    
-    
-}
-
 -(NSString *)getNameForUser:(PFUser *)user{
     
     NSString *name = [self.contactsDatabaseManager getNameForUser:user];

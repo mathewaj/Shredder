@@ -41,10 +41,6 @@
 // Control Model: Flag
 @property (nonatomic, assign, getter=isFirstView) BOOL firstView;
 
-// Control: Attach Photo
--(void)attachPhoto:(UIImage *)photo;
-
-// Control: Send Message
 
 // View: MGScrollView
 @property(nonatomic, strong) MGScrollView *scrollView;
@@ -60,7 +56,5 @@
 
 // View: Shredding Animation
 @property (weak, nonatomic) IBOutlet ShreddingEffectView *shreddingEffectView;
-//@property (strong, nonatomic) ShreddingEffectView *shreddingEffectView;
-
 
 @end
