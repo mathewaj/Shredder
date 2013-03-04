@@ -126,7 +126,6 @@
 		743D7B6D157DA60100084B67 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 743D7B6C157DA60100084B67 /* CoreGraphics.framework */; };
 		E7015B3C167B7F9000843A73 /* MenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E7015B3B167B7F9000843A73 /* MenuCell.m */; };
 		E7015B47167BCBB900843A73 /* LoginFieldBG.png in Resources */ = {isa = PBXBuildFile; fileRef = E7015B46167BCBB900843A73 /* LoginFieldBG.png */; };
-		E7015B5E167F9CD900843A73 /* NSString+InitialHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = E7015B5D167F9CD900843A73 /* NSString+InitialHelper.m */; };
 		E708941B165A46140079604C /* NewContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E708941A165A46140079604C /* NewContactViewController.m */; };
 		E72F7A41166E756700E74B34 /* App-Icon-57.png in Resources */ = {isa = PBXBuildFile; fileRef = E72F7A40166E756700E74B34 /* App-Icon-57.png */; };
 		E72F7A44166E757700E74B34 /* App-Icon-114.png in Resources */ = {isa = PBXBuildFile; fileRef = E72F7A43166E757700E74B34 /* App-Icon-114.png */; };
@@ -224,7 +223,6 @@
 		E7CD7119165C543C008F0936 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = E7CD7118165C543C008F0936 /* MBProgressHUD.m */; };
 		E7F3B51A165440A700C99D62 /* AddressBookHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = E7F3B519165440A700C99D62 /* AddressBookHelper.m */; };
 		E7F3B5321656A04700C99D62 /* ContactDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7F3B5311656A04700C99D62 /* ContactDetailViewController.m */; };
-		E7F3B53C1656CD3100C99D62 /* Email.m in Sources */ = {isa = PBXBuildFile; fileRef = E7F3B53B1656CD3100C99D62 /* Email.m */; };
 		E7F3B53E16580A7D00C99D62 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7F3B53D16580A7D00C99D62 /* MessageUI.framework */; };
 		E7F3B541165833A800C99D62 /* AllMessagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E7F3B540165833A700C99D62 /* AllMessagesViewController.m */; };
 /* End PBXBuildFile section */
@@ -403,8 +401,6 @@
 		E7015B3A167B7F8F00843A73 /* MenuCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuCell.h; sourceTree = "<group>"; };
 		E7015B3B167B7F9000843A73 /* MenuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuCell.m; sourceTree = "<group>"; };
 		E7015B46167BCBB900843A73 /* LoginFieldBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LoginFieldBG.png; sourceTree = "<group>"; };
-		E7015B5C167F9CD900843A73 /* NSString+InitialHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+InitialHelper.h"; path = "ParseStarterProject/NSString+InitialHelper.h"; sourceTree = "<group>"; };
-		E7015B5D167F9CD900843A73 /* NSString+InitialHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+InitialHelper.m"; path = "ParseStarterProject/NSString+InitialHelper.m"; sourceTree = "<group>"; };
 		E7089419165A46140079604C /* NewContactViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewContactViewController.h; sourceTree = "<group>"; };
 		E708941A165A46140079604C /* NewContactViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewContactViewController.m; sourceTree = "<group>"; };
 		E72F7A40166E756700E74B34 /* App-Icon-57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "App-Icon-57.png"; sourceTree = "<group>"; };
@@ -524,8 +520,6 @@
 		E7F3B519165440A700C99D62 /* AddressBookHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddressBookHelper.m; path = ParseStarterProject/AddressBookHelper.m; sourceTree = "<group>"; };
 		E7F3B5301656A04700C99D62 /* ContactDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactDetailViewController.h; sourceTree = "<group>"; };
 		E7F3B5311656A04700C99D62 /* ContactDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactDetailViewController.m; sourceTree = "<group>"; };
-		E7F3B53A1656CD3100C99D62 /* Email.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Email.h; sourceTree = "<group>"; };
-		E7F3B53B1656CD3100C99D62 /* Email.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Email.m; sourceTree = "<group>"; };
 		E7F3B53D16580A7D00C99D62 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		E7F3B53F165833A700C99D62 /* AllMessagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AllMessagesViewController.h; sourceTree = "<group>"; };
 		E7F3B540165833A700C99D62 /* AllMessagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllMessagesViewController.m; sourceTree = "<group>"; };
@@ -810,8 +804,6 @@
 				0BAE4FBA16C5BBE000245288 /* ContactsDatabaseManager.m */,
 				0B663AE216C69BA4007B8C10 /* PhoneNumberManager.h */,
 				0B663AE316C69BA4007B8C10 /* PhoneNumberManager.m */,
-				E7015B5C167F9CD900843A73 /* NSString+InitialHelper.h */,
-				E7015B5D167F9CD900843A73 /* NSString+InitialHelper.m */,
 				0B663AD616C5C1A2007B8C10 /* ParseManager.h */,
 				0B663AD716C5C1A2007B8C10 /* ParseManager.m */,
 				0BCB90D416CAE2AC00468B57 /* BackgroundImageHelper.h */,
@@ -989,8 +981,6 @@
 				E7B8D7D5165178F800BD89B6 /* ContactsDatabase.xcdatamodeld */,
 				0B663AE716C69FF4007B8C10 /* Contact.h */,
 				0B663AE816C69FF4007B8C10 /* Contact.m */,
-				E7F3B53A1656CD3100C99D62 /* Email.h */,
-				E7F3B53B1656CD3100C99D62 /* Email.m */,
 				E7B8D7DF16517A0C00BD89B6 /* Contact+Create.h */,
 				E7B8D7E016517A0C00BD89B6 /* Contact+Create.m */,
 			);
@@ -1218,7 +1208,6 @@
 				E7B8D807165262CD00BD89B6 /* ShredderContactsViewController.m in Sources */,
 				E7F3B51A165440A700C99D62 /* AddressBookHelper.m in Sources */,
 				E7F3B5321656A04700C99D62 /* ContactDetailViewController.m in Sources */,
-				E7F3B53C1656CD3100C99D62 /* Email.m in Sources */,
 				E7F3B541165833A800C99D62 /* AllMessagesViewController.m in Sources */,
 				E708941B165A46140079604C /* NewContactViewController.m in Sources */,
 				E7A0175C165BB0A1003F1817 /* ShredderSlideMenuControllerViewController.m in Sources */,
@@ -1234,7 +1223,6 @@
 				E76FF711165FA2FB005F1081 /* SettingsViewController.m in Sources */,
 				E78887851664EE72003C5ACB /* AllReportsViewController.m in Sources */,
 				E7015B3C167B7F9000843A73 /* MenuCell.m in Sources */,
-				E7015B5E167F9CD900843A73 /* NSString+InitialHelper.m in Sources */,
 				0BB9E35516B0578D00BE9850 /* FetchedResultsTableControllerViewController.m in Sources */,
 				0BB9E35916B05EE100BE9850 /* CoreDataTableViewController2.m in Sources */,
 				0B64967916B322D300A875ED /* Blocks.m in Sources */,

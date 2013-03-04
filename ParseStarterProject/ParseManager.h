@@ -21,33 +21,35 @@
 
 +(void)loginWithPhoneNumber:(NSString *)phoneNumber andPassword:(NSString *)password withCompletionBlock:(ParseReturned)parseReturned;
 
-#pragma mark - Message Methods
+#pragma mark - Message Builder Methods
 
 +(PFObject *)createNewMessage;
 +(PFObject *)createMessagePermissionForMessage:(PFObject *)message andShredderUserRecipient:(PFUser *)recipient;
 
+#pragma mark - Message Database Reading Methods
+
 +(void)retrieveReceivedMessagePermissionsForCurrentUser:(PFUser *)user withCompletionBlock:(ParseReturnedArray)parseReturnedArray;
 +(void)retrieveAllReportsForCurrentUser:(PFUser *)user withCompletionBlock:(ParseReturnedArray)parseReturnedArray;
 
+#pragma mark - Message Database Writing Methods
+
 +(void)sendMessage:(PFObject *)messagePermission withCompletionBlock:(ParseReturned)parseReturned;
 +(void)shredMessage:(PFObject *)messagePermission withCompletionBlock:(ParseReturned)parseReturned;
-
 +(void)deleteReport:(PFObject *)messagePermission withCompletionBlock:(ParseReturned)parseReturned;
-
-+(PFObject *)attachImages:(NSArray *)images toMessage:(PFObject *)message;
-
-+(void)setBadgeWithNumberOfMessages:(NSNumber *)messagesCount;
 
 #pragma mark - Contact Methods
 
++(void)checkShredderDBForContacts:(NSArray *)allContacts withCompletionBlock:(ParseReturnedArray)parseReturned;
 +(void)shredderUserForContact:(Contact *)contact withCompletionBlock:(ParseReturnedArray)parseReturnedArray;
 
-//-(void)checkShredderDBForContactDBMatches:(NSArray *)allContacts;
 
-+(void)checkShredderDBForContacts:(NSArray *)allContacts withCompletionBlock:(ParseReturnedArray)parseReturned;
+#pragma mark - Attachment Methods
 
-#pragma mark - Image Methods
-
++(PFObject *)attachImages:(NSArray *)images toMessage:(PFObject *)message;
 +(void)startUploadingImages:(NSArray *)imagesArray;
+
+#pragma mark - Installation Methods
+
++(void)setBadgeWithNumberOfMessages:(NSNumber *)messagesCount;
 
 @end

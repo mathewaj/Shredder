@@ -10,8 +10,6 @@
 #import "Contact.h"
 #import "ContactDetailViewController.h"
 #import "NewContactViewController.h"
-#import "Email.h"
-#import "NSString+InitialHelper.h"
 #import "MBProgressHUD.h"
 
 

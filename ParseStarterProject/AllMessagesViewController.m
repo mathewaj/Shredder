@@ -94,8 +94,8 @@
     // Retrieve database contact for this person
     ContactsDatabaseManager *contactsDatabaseManager = [[ContactsDatabaseManager alloc] init];
     
-    Contact *contact = [contactsDatabaseManager retrieveContactwithParseID:sender.objectId inManagedObjectContext:self.contactsDatabase];
-    
+    //Contact *contact = [contactsDatabaseManager retrieveContactwithParseID:sender.objectId inManagedObjectContext:self.contactsDatabase];
+    /*
     // If contact is available, use contact name, else email
     if(contact)
     {
@@ -104,7 +104,7 @@
     } else if (sender.username)
     {
         cell.textLabel.text = sender.username;
-    }
+    }*/
     
     // Configure the cell to show the date created in the subtitle
     NSDate *dateCreated = object.createdAt;

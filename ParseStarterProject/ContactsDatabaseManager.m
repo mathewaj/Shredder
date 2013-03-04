@@ -14,6 +14,7 @@
 
 @implementation ContactsDatabaseManager
 
+/*
 -(Contact *)retrieveContactwithParseID:(NSString *)parseID inManagedObjectContext:(UIManagedDocument *)document{
     
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Contact"];
@@ -21,8 +22,8 @@
     NSArray *contacts = [document.managedObjectContext executeFetchRequest:request error:nil];
     Contact *contact = [contacts lastObject];
     return contact;
-}
-
+}*/
+/*
 -(Contact *)retrieveContactWithPhoneNumber:(NSString *)phoneNumber inManagedObjectContext:(UIManagedDocument *)document{
     
     NSString *normalisedPhoneNumber = [PhoneNumberManager normalisedPhoneNumberWithContactNumber:phoneNumber countryCode:[[NSUserDefaults standardUserDefaults] objectForKey:@"CurrentCountryCallingCode"]];
@@ -32,7 +33,7 @@
     NSArray *contacts = [document.managedObjectContext executeFetchRequest:request error:nil];
     Contact *contact = [contacts lastObject];
     return contact;
-}
+}*/
 
 #pragma mark - Contacts Database Creation
 
@@ -84,7 +85,7 @@
     
 }
 
-// Fired on creatin of database
+// Fired on creation of database
 -(void)databaseIsNew{
     
     [self syncAddressBookContacts];
@@ -195,26 +196,7 @@
         
         
     }
-    //[self.contactsDatabase.managedObjectContext save:nil];
-}
 
--(NSString *)getName:(PFUser *)user{
-    
-    // Really belongs in ShredderUser but don't have database access there
-    // Find contact for a give PFUser
-    NSString *name;
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Contact"];
-    request.predicate = [NSPredicate predicateWithFormat:@"normalisedPhoneNumber = %@", user.username];
-    NSArray *contacts = [self.contactsDatabase.managedObjectContext executeFetchRequest:request error:nil];
-    Contact *contact = [contacts lastObject];
-    if(contact){
-        name = contact.name;
-    } else {
-        // Use phone number until custom name field included. TBC
-        return nil;
-    }
-    
-    return name;
 }
 
 -(NSString *)getNameForUser:(PFUser *)user{
@@ -235,6 +217,7 @@
     
 }
 
+#pragma mark - Address Book Helper Delegate Methods
 
 -(void)addressBookHelperError:(AddressBookHelper *)addressBookHelper{
     

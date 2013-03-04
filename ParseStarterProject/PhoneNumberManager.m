@@ -93,7 +93,7 @@
     return callingCode;
     
 }
-
+/*
 +(NSArray *)getListOfAllCountryCodes{
     
     
@@ -120,7 +120,7 @@
     
     return countries;
     
-}
+}*/
 
 +(BOOL)isViablePhoneNumber:(NSString *)number forCountryCode:(NSString *)countryCode{
     

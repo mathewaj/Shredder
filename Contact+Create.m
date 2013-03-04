@@ -13,33 +13,6 @@
 
 @implementation Contact (Create)
 
-+(Contact *)contactWithName:(NSString *)name inContext:(NSManagedObjectContext *)context
-{
-    Contact *contact = nil;
-    
-    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Contact"];
-    request.predicate = [NSPredicate predicateWithFormat:@"name = %@", name];
-    
-    NSArray *matches = [context executeFetchRequest:request error:nil];
-    
-    if(!matches || [matches count]>1)
-    {
-        
-    } else if([matches count]==0)
-    {
-        
-        contact = [NSEntityDescription insertNewObjectForEntityForName:@"Contact" inManagedObjectContext:context];
-        contact.name = name;
-                
-        
-    } else {
-        contact = [matches lastObject];
-    }
-    
-    return contact;
-    
-}
-
 +(Contact *)contactWithPhoneNumber:(NSString *)normalisedPhoneNumber inContext:(NSManagedObjectContext *)context
 {
     Contact *contact = nil;

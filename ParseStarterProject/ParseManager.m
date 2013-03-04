@@ -272,14 +272,6 @@
 
 
 #pragma mark - Contact Functions
-/*
--(void)checkShredderDBForContactDBMatches:(NSArray *)allContacts{
-    
-    self.contactsForUserCheck = allContacts;
-    
-    //[self promptUserForPermissionToUploadContacts];
-    [self uploadAndCheckContacts];
-}*/
 
 -(void)promptUserForPermissionToUploadContacts
 {

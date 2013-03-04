@@ -31,6 +31,8 @@
     if([segue.identifier isEqualToString:@"SelectCountry"]){
         SignUpDetailsViewController *vc = (SignUpDetailsViewController *)segue.destinationViewController;
         vc.delegate = self;
+        [self.scrollView.boxes removeAllObjects];
+        self.phoneNumberTextField = nil;
     }
 }
 
@@ -50,23 +52,25 @@
 
 -(void)promptForPhoneNumber{
     
-    MGTableBoxStyled *section = MGTableBoxStyled.box;
+    /*MGTableBoxStyled *section = MGTableBoxStyled.box;
     section.topMargin = 30;
     section.bottomMargin = 20;
     [self.scrollView.boxes addObject:section];
     
-    // a default row size
-    CGSize rowSize = (CGSize){304, 70};
+    
     
     // Header
     MGLineStyled *header = [MGLineStyled line];
     header.middleItems = [NSArray arrayWithObject:@"Sign In"];
     header.font = HEADER_FONT;
     header.minHeight = 60;
-    [section.topLines addObject:header];
-
+    [section.topLines addObject:header];*/
     
+    // a default row size
+    CGSize rowSize = (CGSize){304, 70};
+
     MGTableBoxStyled *section2 = MGTableBoxStyled.box;
+    section2.topMargin = 30;
     [self.scrollView.boxes addObject:section2];
     
     // Prompt user for country and phone number
@@ -103,7 +107,7 @@
     phoneNumberEntryRow.middleItems = [NSArray arrayWithObjects:@"+", self.countryCodeTextField, self.phoneNumberTextField, nil];
     [section2.topLines addObject:phoneNumberEntryRow];
     
-    
+    [self.phoneNumberTextField becomeFirstResponder];
     [self.scrollView layoutWithSpeed:1 completion:nil];
     [self.scrollView setContentOffset:CGPointZero animated:YES];
     
@@ -265,9 +269,7 @@
 -(void)countrySelected:(CountryCodeInformation *)countryCodeInfo{
     
     self.countryCodeInfo = countryCodeInfo;
-    [self.scrollView.boxes removeAllObjects];
     [self promptForPhoneNumber];
-    [self.phoneNumberTextField becomeFirstResponder];
     
 }
 

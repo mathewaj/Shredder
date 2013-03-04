@@ -1,7 +1,6 @@
 #import <AddressBook/AddressBook.h>
 #import "ParseStarterProjectAppDelegate.h"
 #import "Contact+Create.h"
-#import "Email.h"
 #import "TestFlight.h"
 
 @implementation ParseStarterProjectAppDelegate

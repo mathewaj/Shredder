@@ -78,8 +78,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self.delegate countrySelected:[self.countryCodeInformationList objectAtIndex:indexPath.row]];
-    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    [self dismissViewControllerAnimated:YES completion:^{
+        [self.delegate countrySelected:[self.countryCodeInformationList objectAtIndex:indexPath.row]];
+    }];
 }
 
 - (IBAction)cancelButtonPressed:(id)sender {

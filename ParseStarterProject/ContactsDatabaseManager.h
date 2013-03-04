@@ -31,18 +31,11 @@
 // Helper object to import contacts from Address Book
 @property (nonatomic, strong) AddressBookHelper *addressBookHelper;
 
+// Database Access
 -(void)accessContactsDatabaseWithCompletionHandler:(ContactsDatabaseReturned)contactsDatabaseReturned;
+
+// Contact Synchronising
 -(void)syncAddressBookContacts;
--(void)checkContactsDBForShredderUsers;
-
-
--(Contact *)retrieveContactwithParseID:(NSString *)parseID inManagedObjectContext:(UIManagedDocument *)document;
--(Contact *)retrieveContactWithPhoneNumber:(NSString *)phoneNumber inManagedObjectContext:(UIManagedDocument *)document;
-
--(void)updateContacts:(NSArray *)updatedContacts;
 -(NSString *)getNameForUser:(PFUser *)user;
--(NSArray *)fetchContacts;
-
--(void)refreshContactsDatabase;
 
 @end

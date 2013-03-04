@@ -11,21 +11,11 @@
 
 @interface PhoneNumberManager : NSObject
 
-+(NSString *)normalisedPhoneNumberWithContactNumber:(NSString *)phoneNumber countryCode:(NSString *)countryCode;
++(NSArray *)getListOfAllCountryCodeInformationObjects;
 
 +(CountryCodeInformation *)getCurrentCountryCodeInfo;
 
-+(NSString *)getCurrentCountry;
-
-+(NSArray *)getListOfAllCountryCodeInformationObjects;
-
-+(NSString *)getCountryForCountryCode:(NSString *)countryCodeInitials;
-
-+(NSString *)getCallingCodeForCountryCode:(NSString *)countryCode;
-
-+(NSArray *)getListOfAllCountryCodes;
-
-+(NSArray *)getListOfAllCountries;
++(NSString *)normalisedPhoneNumberWithContactNumber:(NSString *)phoneNumber countryCode:(NSString *)countryCode;
 
 +(BOOL)isViablePhoneNumber:(NSString *)number forCountryCode:(NSString *)countryCode;
 
