@@ -341,33 +341,6 @@
 
 
 
-
-
-/*
-- (void)setMessagesArray:(NSArray *)messagesArray
-{
-    if (_messagesArray != nil && _messagesArray != _messagesArray)
-    {
-        return;
-    } else {
-        _messagesArray = messagesArray;
-        [self loadInboxTable];
-    }
-    
-}
-
-- (void)setReportsArray:(NSArray *)reportsArray
-{
-    if (_reportsArray != nil && _reportsArray != reportsArray)
-    {
-        return;
-    } else {
-        _reportsArray = reportsArray;
-        [self loadInboxTable];
-    }
-    
-}*/
-
 #pragma mark - App Backgrounding, Present Login Screen
 
 -(void)appDidEnterBackground

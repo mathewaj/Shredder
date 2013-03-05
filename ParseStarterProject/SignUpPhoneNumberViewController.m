@@ -45,34 +45,20 @@
 
 -(void)promptForPhoneNumber{
     
-    /*MGTableBoxStyled *section = MGTableBoxStyled.box;
-    section.topMargin = 30;
-    section.bottomMargin = 20;
-    [self.scrollView.boxes addObject:section];
-    
-    
-    
-    // Header
-    MGLineStyled *header = [MGLineStyled line];
-    header.middleItems = [NSArray arrayWithObject:@"Sign In"];
-    header.font = HEADER_FONT;
-    header.minHeight = 60;
-    [section.topLines addObject:header];*/
-    
     // a default row size
-    CGSize rowSize = (CGSize){304, 70};
+    CGSize rowSize = (CGSize){304, 60};
 
     MGTableBoxStyled *section2 = MGTableBoxStyled.box;
-    section2.topMargin = 30;
+    section2.topMargin = 10;
     [self.scrollView.boxes addObject:section2];
     
     // Prompt user for country and phone number
     MGLineStyled *detailRow = MGLineStyled.line;
     detailRow.multilineMiddle = @"Please confirm your country code and enter your phone number";
-    detailRow.minHeight = 70;
+    detailRow.minHeight = 60;
     [section2.topLines addObject:detailRow];
     
-    // a string on the left and a horse on the right
+    // a string on the left and disclosure button on the right
     MGLineStyled *countrySelectionRow = [MGLineStyled lineWithLeft:self.countryCodeInfo.countryName
                                               right:[UIImage imageNamed:@"disclosure.png"] size:rowSize];
     countrySelectionRow.onTap = ^{
@@ -96,7 +82,7 @@
     [self addAccessoryViewToKeyboardOfTextView:self.phoneNumberTextField];
     
     MGLineStyled *phoneNumberEntryRow = [MGLineStyled line];
-    phoneNumberEntryRow.minHeight = 70;
+    phoneNumberEntryRow.minHeight = 50;
     phoneNumberEntryRow.middleItems = [NSArray arrayWithObjects:@"+", self.countryCodeTextField, self.phoneNumberTextField, nil];
     [section2.topLines addObject:phoneNumberEntryRow];
     
@@ -110,19 +96,6 @@
     
     // Get 
     [self.scrollView.boxes removeAllObjects];
-    
-    MGTableBoxStyled *section = MGTableBoxStyled.box;
-    section.topMargin = 30;
-    section.bottomMargin = 20;
-    [self.scrollView.boxes addObject:section];
-    
-    // Header
-    MGLineStyled *header = [MGLineStyled line];
-    header.middleItems = [NSArray arrayWithObject:@"Sign In"];
-    header.font = HEADER_FONT;
-    header.minHeight = 60;
-    [section.topLines addObject:header];
-    
     
     MGTableBoxStyled *section2 = MGTableBoxStyled.box;
     [self.scrollView.boxes addObject:section2];
@@ -147,8 +120,43 @@
     passwordEntryRow.minHeight = 70;
     [section2.topLines addObject:passwordEntryRow];
     
+    [self.passwordTextField becomeFirstResponder];
     [self.scrollView layoutWithSpeed:1 completion:nil];
     [self.scrollView setContentOffset:CGPointZero animated:YES];
+}
+
+-(void)promptForUploadPermission{
+    
+    [self.scrollView.boxes removeAllObjects];
+    
+    MGTableBoxStyled *section2 = MGTableBoxStyled.box;
+    [self.scrollView.boxes addObject:section2];
+    
+    // Prompt user for permission
+    MGLineStyled *detailRow = MGLineStyled.line;
+    detailRow.multilineMiddle = @"Shredder needs to access your address book, and sync your contacts list.";
+    detailRow.minHeight = 70;
+    [section2.topLines addObject:detailRow];
+    
+
+    MGLineStyled *permissionEntryRow = MGLineStyled.line;
+    // Create an OK button
+    
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame = CGRectMake(280.0, 10.0, 156.0, 53.0);
+    [button setBackgroundImage:[UIImage imageNamed:@"OKButton.png"] forState:UIControlStateNormal];
+    [button setBackgroundImage:[UIImage imageNamed:@"OKButtonPressed.png"] forState:UIControlStateSelected];
+    [button addTarget:self action:@selector(finishedEnteringUploadPermission) forControlEvents:UIControlEventTouchUpInside];
+    
+    
+    // Set row
+    permissionEntryRow.minHeight = 100;
+    permissionEntryRow.middleItems = [NSArray arrayWithObject:button];
+    [section2.topLines addObject:permissionEntryRow];
+    
+    [self.scrollView layoutWithSpeed:1 completion:nil];
+    [self.scrollView setContentOffset:CGPointZero animated:YES];
+    
 }
 
 
@@ -183,57 +191,67 @@
         
     } else {
         
-        // Save Country Code to user defaults for later use
-        [[NSUserDefaults standardUserDefaults] setObject:self.countryCodeInfo.countryCallingCode forKey:@"CurrentCountryCallingCode"];
-        
-        [ParseManager signUpWithPhoneNumber:self.phoneNumber andPassword:self.passwordTextField.text withCompletionBlock:^(BOOL success, NSError *error) {
-            
-            if(!success){
-                
-                // Log details of the failure
-                NSLog(@"Error: %@ %@", error, [error userInfo]);
-                
-                // User may be already signed up
-                [ParseManager loginWithPhoneNumber:self.phoneNumber andPassword:self.passwordTextField.text withCompletionBlock:^(BOOL success, NSError *error) {
-                    if(!success){
-                        
-                        // Log details of the failure
-                        NSLog(@"Error: %@ %@", error, [error userInfo]);
-                        
-                    } else {
-                        
-                        NSLog(@"Logged In!");
-                        
-                        // Save password
-                        [[NSUserDefaults standardUserDefaults] setObject:self.passwordTextField.text forKey:@"password"];
-                        
-                        [self dismissViewControllerAnimated:YES completion:^{
-                            
-                            [self.delegate signedIn];
-                        }];
-                    }
-                }];
-                
-            } else {
-                
-                // Save password
-                [[NSUserDefaults standardUserDefaults] setObject:self.passwordTextField.text forKey:@"password"];
-                
-                [self dismissViewControllerAnimated:YES completion:^{
-                    [self.delegate signedIn];
-                }];
-                
-            }
-            
-            
-            
-        }];
-
+        [self promptForUploadPermission];
         
     }
+}
+
+-(void)finishedEnteringUploadPermission{
     
     
+    // Save Country Code to user defaults for later use
+    [[NSUserDefaults standardUserDefaults] setObject:self.countryCodeInfo.countryCallingCode forKey:@"CurrentCountryCallingCode"];
+    
+    [ParseManager signUpWithPhoneNumber:self.phoneNumber andPassword:self.passwordTextField.text withCompletionBlock:^(BOOL success, NSError *error) {
         
+        if(!success){
+            
+            // Log details of the failure
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+            
+            // User may be already signed up
+            [ParseManager loginWithPhoneNumber:self.phoneNumber andPassword:self.passwordTextField.text withCompletionBlock:^(BOOL success, NSError *error) {
+                if(!success){
+                    
+                    // Log details of the failure
+                    NSLog(@"Error: %@ %@", error, [error userInfo]);
+                    
+                } else {
+                    
+                    [self loggedIn];
+                    
+                }
+            }];
+            
+        } else {
+            
+            [self loggedIn];
+        
+        }
+        
+        
+        
+    }];
+
+    
+    
+    
+}
+
+-(void)loggedIn{
+    
+    // Save password
+    [[NSUserDefaults standardUserDefaults] setObject:self.passwordTextField.text forKey:@"password"];
+    
+    // Send Welcome Message
+    [ParseManager grantAccessToWelcomeMessageForUser:[PFUser currentUser]];
+    
+    [self dismissViewControllerAnimated:YES completion:^{
+        [self.delegate signedIn];
+    }];
+    
+    
+    
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -285,38 +303,7 @@
     
 }
 
-/*
-- (IBAction)doneButtonPressed:(id)sender {
-    
-    NSString *phoneNumber = @"+353857207754";
-    NSString *password = @"my pass";
-    
-    
-    [ParseManager signUpWithPhoneNumber:phoneNumber andPassword:password withCompletionBlock:^(BOOL succeeded, NSError *error){
-        
-        if(succeeded){
-            [self loggedIn];
-        } else {
-            
-            NSString *errorString = [[error userInfo] objectForKey:@"error"];
-            NSLog(@"%@", errorString);
-            
-            // Probably due to user already existing, try to log in
-            [ParseManager loginWithPhoneNumber:phoneNumber andPassword:password withCompletionBlock:^(BOOL succeeded, NSError *error){
-                
-                if(succeeded){
-                    [self loggedIn];
-                } else {
-                    NSString *errorString = [[error userInfo] objectForKey:@"error"];
-                    NSLog(@"%@", errorString);
-                }
-            }];
-            
-        }
-        
-    }];
- 
-}*/
+
 
 #pragma mark - Password Textfield Validation
 

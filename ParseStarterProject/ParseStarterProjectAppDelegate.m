@@ -13,7 +13,7 @@
     [TestFlight takeOff:@"8445bc77beaae864a9d988226b4f873a_MTQ4NTAzMjAxMi0xMS0wNiAxMToxMToxNS44NzczNTc"];
 
     // Parse credentials:
-     [Parse setApplicationId:@"j84zeUIcAREcM4rBy5RX6Zrr7vlHJhwyoyHrJKkY" clientKey:@"SnSWUF4Njk5ddEbg3YL3rVPLE8XROt33rwmyCM5v"];
+     [Parse setApplicationId:@"CVc9dCHQBt6LpLaZMdj2nKnYG6bJ2CRaGawPwBfp" clientKey:@"2mqxgPt0KgN0gr9SM9E2rQzP3MH7EqGG6IAB4uwz"];
 
     [PFUser enableAutomaticUser];
     

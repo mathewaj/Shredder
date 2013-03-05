@@ -36,6 +36,7 @@
 +(void)sendMessage:(PFObject *)messagePermission withCompletionBlock:(ParseReturned)parseReturned;
 +(void)shredMessage:(PFObject *)messagePermission withCompletionBlock:(ParseReturned)parseReturned;
 +(void)deleteReport:(PFObject *)messagePermission withCompletionBlock:(ParseReturned)parseReturned;
++(void)grantAccessToWelcomeMessageForUser:(PFUser *)user;
 
 #pragma mark - Contact Methods
 

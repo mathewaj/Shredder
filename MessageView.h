@@ -52,5 +52,6 @@
 
 // Control Model: Attachment Status
 @property (nonatomic, assign, getter=isAttachmentOpen) BOOL attachmentOpen;
+@property (nonatomic, assign, getter=isWarningMessageShowing) BOOL warningMessageShowing;
 
 @end

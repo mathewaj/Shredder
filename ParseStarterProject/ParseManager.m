@@ -154,32 +154,46 @@
     
     PFObject *message = [messagePermission objectForKey:@"message"];
     
-    // Turn Message Permission Shredded Value to True and Record Time Shredder
-    [messagePermission setObject:[NSNumber numberWithBool:YES] forKey:@"permissionShredded"];
-    [messagePermission setObject:[NSDate date] forKey:@"permissionShreddedAt"];
-    
-    [messagePermission saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+    // Delete message permissions of Welcome Shredder Message
+    if([[[messagePermission objectForKey:@"sender"] username] isEqualToString:@"Welcome To Shredder!"]){
         
-        parseReturned(succeeded, error);
+        [messagePermission deleteInBackground];
         
-        // Check if this is the there are outstanding permissions for this message,
-        // If not delete message
-        PFQuery *query = [PFQuery queryWithClassName:@"MessagePermission"];
-        [query whereKey:@"message" equalTo:message];
-        [query whereKey:@"permissionShredder" equalTo:[NSNumber numberWithBool:NO]];
-        [query countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
+    } else {
+        
+        // Turn Message Permission Shredded Value to True and Record Time Shredder
+        [messagePermission setObject:[NSNumber numberWithBool:YES] forKey:@"permissionShredded"];
+        [messagePermission setObject:[NSDate date] forKey:@"permissionShreddedAt"];
+        
+        [messagePermission saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             
-            if(number == 0)
+            parseReturned(succeeded, error);
+            
+            if(succeeded)
             {
-                [message deleteInBackground];
+                // If last message permission shred message
+                PFQuery *query = [PFQuery queryWithClassName:@"MessagePermission"];
+                [query whereKey:@"message" equalTo:message];
+                [query whereKey:@"permissionShredder" equalTo:[NSNumber numberWithBool:NO]];
+                [query countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
+                    
+                    // Don't delete welcome message!
+                    if(number == 0)
+                    {
+                        [message deleteInBackground];
+                    }
+                }];
+                
             }
+            
+            
         }];
-    }];
-    
-    // Check if this is the last message permission
-    // If so, destroy message
+        
+    }
     
     
+    
+
 }
 
 +(void)deleteReport:(PFObject *)messagePermission withCompletionBlock:(ParseReturned)parseReturned{
@@ -244,22 +258,64 @@
     
 }
 
-+(void)sendWelcomeMessageToUser:(PFUser *)user
++(void)grantAccessToWelcomeMessageForUser:(PFUser *)user;
 {
     
-    PFObject *welcomeMessage = [self createNewMessage];
+    // Retrieve welcome message object
+    PFQuery *welcomeMessageQuery = [PFQuery queryWithClassName:@"Message"];
+    [welcomeMessageQuery includeKey:@"sender"];
+    [welcomeMessageQuery getObjectInBackgroundWithId:@"163jHoLVjP"
+                                 block:^(PFObject *message, NSError *error) {
+                                     if (!error) {
+                                         
+                                         PFACL *postACL = message.ACL;
+                                         [postACL setPublicReadAccess:YES];
+                                         [postACL setPublicWriteAccess:NO];
+                                         
+                                         // Retrieved message
+                                         PFObject *messagePermission = [self createMessagePermissionForWelcomeMessage:message andShredderUserRecipient:[PFUser currentUser]];
+                                         [ParseManager sendMessage:messagePermission withCompletionBlock:^(BOOL success, NSError *error) {
+                                             
+                                         }];
+                                         
+                                         
+                                         
+                                     } else {
+                                         // Log details of our failure
+                                         NSLog(@"Error: %@ %@", error, [error userInfo]);
+                                     }
+                                 }];
+}
+
++(PFObject *)createMessagePermissionForWelcomeMessage:(PFObject *)message andShredderUserRecipient:(PFUser *)recipient{
     
-    [welcomeMessage setObject:@"Welcome to Shredder!\n\nThis new private messaging app is designed to ensure that sensitive information is permanently erased once it has been viewed.\n\nImages may be attached to your messages, please hold the thumbnail in the top right to view. Beware the sender will be informed if you take a screenshot! \n\nWhen you are finished reading, please press the Shred button below to delete this message forever." forKey:@"body"];
+    // Create Message Permissions
+    // These cannot rely on the message still being present so must incorporate all the info
+    PFObject *messagePermission = [PFObject objectWithClassName:@"MessagePermission"];
+    [messagePermission setObject:[message objectForKey:@"sender"] forKey:@"sender"];
+    [messagePermission setObject:[PFUser currentUser] forKey:@"recipient"];
+    [messagePermission setObject:[NSNumber numberWithBool:NO] forKey:@"permissionShredded"];
     
+    // Set Message Permission Access
+    PFACL *messagePermissionACL = [PFACL ACL];
+    [messagePermissionACL setReadAccess:YES forUser:[PFUser currentUser]];
+    [messagePermissionACL setWriteAccess:YES forUser:[PFUser currentUser]];
+    [messagePermissionACL setReadAccess:YES forUser:recipient];
+    [messagePermissionACL setWriteAccess:YES forUser:recipient];
+    messagePermission.ACL = messagePermissionACL;
     
-    PFObject *welcomeMessagePermission = [self createMessagePermissionForMessage:welcomeMessage andShredderUserRecipient:user];
-    PFUser *shredder = [PFQuery getUserObjectWithId:@"RmRaaHMn9o"];
-    [welcomeMessagePermission setObject:shredder forKey:@"sender"];
-    [welcomeMessagePermission setObject:[PFUser currentUser] forKey:@"recipient"];
+    // Set Message Access
+    PFACL *messageACL = [PFACL ACL];
+    [messageACL setReadAccess:YES forUser:[PFUser currentUser]];
+    [messageACL setWriteAccess:YES forUser:[PFUser currentUser]];
+    [messageACL setReadAccess:YES forUser:recipient];
+    [messageACL setWriteAccess:YES forUser:recipient];
+    message.ACL = messageACL;
     
-    [ParseManager sendMessage:welcomeMessagePermission withCompletionBlock:^(BOOL success, NSError *error) {
-        
-    }];
+    [messagePermission setObject:message forKey:@"message"];
+    
+    return messagePermission;
+    
 }
 
 +(void)setBadgeWithNumberOfMessages:(NSNumber *)messagesCount{
@@ -291,25 +347,6 @@
     
 }
 
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    
-    if(buttonIndex == 0)
-    {
-        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:NO] forKey:@"PermissionToUploadContactsToShredder"];
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Shredder will not function fully without access to contacts \n\nPlease restart the app at your convenience to scan contacts" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alert show];
-        
-        //[self.delegate finishedMatchingContacts];
-        
-    } else {
-        
-        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:YES] forKey:@"PermissionToUploadContactsToShredder"];
-        //[self uploadAndCheckContacts];
-        //[self.delegate finishedMatchingContacts];
-    }
-}
-
 +(void)checkShredderDBForContacts:(NSArray *)allContacts withCompletionBlock:(ParseReturnedArray)parseReturned{
 
     // Array of phone numbers
@@ -335,39 +372,14 @@
             
             // Returns an array of matching users
             parseReturned(YES, error, objects);
-            
-            
-            /*for(PFUser *user in objects)
-            {
-                // Iterate through matched Parse Users
-                NSString *normalisedPhoneNumberString = user.username;
-                NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Contact"];
-                NSPredicate *predicate = [NSPredicate predicateWithFormat:@"normalisedPhoneNumber = %@", normalisedPhoneNumberString];
-                request.predicate = predicate;
-                NSArray *emailMatches = [self.contactsDatabase.managedObjectContext executeFetchRequest:request error:nil];
-                
-                for(Contact *contact in emailMatches)
-                {
-                    if(![contact.signedUp isEqualToNumber:[NSNumber numberWithBool:YES]])
-                    {
-                        contact.signedUp = [NSNumber numberWithBool:YES];
-                        contact.parseID = user.objectId;
-                    }
-                    
-                }
-                
-                
-            }*/
+  
             
         } else {
             // Log details of the failure
             NSLog(@"Error: %@ %@", error, [error userInfo]);
             parseReturned(NO, error, nil);
         }
-        
-        
-        
-        //[self.delegate finishedMatchingContacts];
+     
     }];
     
 }

@@ -89,6 +89,8 @@
 		0BEA0CE716E53F22006A1A24 /* 19-gear@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BEA0CE516E53F22006A1A24 /* 19-gear@2x.png */; };
 		0BEA0CEA16E547D9006A1A24 /* disclosure.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BEA0CE816E547D9006A1A24 /* disclosure.png */; };
 		0BEA0CEB16E547D9006A1A24 /* disclosure@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BEA0CE916E547D9006A1A24 /* disclosure@2x.png */; };
+		0BEA0CEE16E66837006A1A24 /* OKButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BEA0CEC16E66837006A1A24 /* OKButton.png */; };
+		0BEA0CEF16E66837006A1A24 /* OKButtonPressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BEA0CED16E66837006A1A24 /* OKButtonPressed.png */; };
 		0BEB004416C6CD7D0068ECDB /* NBNumberFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BEB003A16C6CD7D0068ECDB /* NBNumberFormat.m */; };
 		0BEB004516C6CD7D0068ECDB /* NBPhoneMetaData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BEB003C16C6CD7D0068ECDB /* NBPhoneMetaData.m */; };
 		0BEB004616C6CD7D0068ECDB /* NBPhoneNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BEB003E16C6CD7D0068ECDB /* NBPhoneNumber.m */; };
@@ -271,6 +273,8 @@
 		0BEA0CE516E53F22006A1A24 /* 19-gear@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "19-gear@2x.png"; sourceTree = "<group>"; };
 		0BEA0CE816E547D9006A1A24 /* disclosure.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = disclosure.png; sourceTree = "<group>"; };
 		0BEA0CE916E547D9006A1A24 /* disclosure@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "disclosure@2x.png"; sourceTree = "<group>"; };
+		0BEA0CEC16E66837006A1A24 /* OKButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = OKButton.png; sourceTree = "<group>"; };
+		0BEA0CED16E66837006A1A24 /* OKButtonPressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = OKButtonPressed.png; sourceTree = "<group>"; };
 		0BEB003916C6CD7D0068ECDB /* NBNumberFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBNumberFormat.h; sourceTree = "<group>"; };
 		0BEB003A16C6CD7D0068ECDB /* NBNumberFormat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBNumberFormat.m; sourceTree = "<group>"; };
 		0BEB003B16C6CD7D0068ECDB /* NBPhoneMetaData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBPhoneMetaData.h; sourceTree = "<group>"; };
@@ -493,6 +497,8 @@
 		0B71F0F716E53C7D00B75A54 /* Media */ = {
 			isa = PBXGroup;
 			children = (
+				0BEA0CEC16E66837006A1A24 /* OKButton.png */,
+				0BEA0CED16E66837006A1A24 /* OKButtonPressed.png */,
 				0BEA0CE816E547D9006A1A24 /* disclosure.png */,
 				0BEA0CE916E547D9006A1A24 /* disclosure@2x.png */,
 				0BEA0CE416E53F22006A1A24 /* 19-gear.png */,
@@ -812,6 +818,8 @@
 				0BEA0CE716E53F22006A1A24 /* 19-gear@2x.png in Resources */,
 				0BEA0CEA16E547D9006A1A24 /* disclosure.png in Resources */,
 				0BEA0CEB16E547D9006A1A24 /* disclosure@2x.png in Resources */,
+				0BEA0CEE16E66837006A1A24 /* OKButton.png in Resources */,
+				0BEA0CEF16E66837006A1A24 /* OKButtonPressed.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

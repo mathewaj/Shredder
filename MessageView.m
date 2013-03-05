@@ -101,13 +101,21 @@
     NSString *senderName = [self.delegate getNameForUser:self.contactee];
     
     if(!senderName){
+        
         senderName = [self.contactee username];
         NSString *combinedNameTimeString = [NSString stringWithFormat:@"**%@**\n//%@//|mush", senderName, [Converter timeAndDateStringFromDate:self.messagePermission.createdAt]];
         UIImageView *saveContactButton = [self getSaveContactButton];
-        header.leftItems = [NSArray arrayWithObjects:saveContactButton,combinedNameTimeString, nil];
+        
+        if([[[self.messagePermission objectForKey:@"sender"] username] isEqualToString:@"Welcome To Shredder!"]){
+            header.leftItems = [NSArray arrayWithObjects:combinedNameTimeString, nil];
+        } else {
+            header.leftItems = [NSArray arrayWithObjects:saveContactButton,combinedNameTimeString, nil];
+        }
+        
         header.onSwipe = ^{
             [self.delegate unknownContactSelected:self];
         };
+        
     } else {
         NSString *combinedNameTimeString = [NSString stringWithFormat:@"**%@**\n//%@//|mush", senderName, [Converter timeAndDateStringFromDate:self.messagePermission.createdAt]];
         header.leftItems = [NSArray arrayWithObjects:combinedNameTimeString, nil];
@@ -215,6 +223,10 @@
                    action:@selector(replyButtonPressed:)
          forControlEvents:UIControlEventTouchUpInside];
     [replyButton setTitle:@"Reply" forState:UIControlStateNormal];
+    
+    if([[[self.messagePermission objectForKey:@"sender"] username] isEqualToString:@"Welcome to Shredder!"]){
+        replyButton.userInteractionEnabled = NO;
+    }
     return replyButton;
 }
 
@@ -239,6 +251,10 @@
     [shredButton setImage:[UIImage imageNamed:@"ShredButton.png"] forState:UIControlStateNormal];
     UIButton *replyButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 117, 47)];
     [replyButton addTarget:self action:@selector(replyButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    
+    if([[[self.messagePermission objectForKey:@"sender"] username] isEqualToString:@"Welcome To Shredder!"]){
+        replyButton.userInteractionEnabled = NO;
+    }
     [replyButton setImage:[UIImage imageNamed:@"ReplyButton.png"] forState:UIControlStateNormal];
     
     NSMutableArray *array = [NSMutableArray arrayWithObjects:shredButton, replyButton, nil];
@@ -265,11 +281,11 @@
     attachmentView.file = (PFFile *)[self.message objectForKey:@"attachmentThumbnail"];
     
     attachmentView.userInteractionEnabled = YES;
-    //UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(attachmentImagePressed:)];
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(attachmentImagePressed:)];
     UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(attachmentImageLongPressed:)];
     longPressGesture.cancelsTouchesInView = NO;
     
-    //[attachmentView addGestureRecognizer:tapGesture];
+    [attachmentView addGestureRecognizer:tapGesture];
     [attachmentView addGestureRecognizer:longPressGesture];
     return attachmentView;
 }
@@ -287,6 +303,7 @@
     UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(attachmentImageLongPressed:)];
     longPressGesture.minimumPressDuration = 0.05;
 
+    //[attachmentView addGestureRecognizer:tapGesture];
     [attachmentView addGestureRecognizer:longPressGesture];
     return attachmentView;
 }
@@ -343,14 +360,57 @@
 
 -(void)attachmentImagePressed:(UIImageView *)sender{
     
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Try Again" message:@"You must hold your finger on the image to keep it on screen!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
-    [alert show];
+    if(!self.isWarningMessageShowing) {
+        
+        self.warningMessageShowing = YES;
+        
+        CGRect screenDimensions = [self.delegate retrieveScreenDimensions:self];
+        
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(screenDimensions.size.width/2-100, 0, 200, 30)];
+        [label setText:@"Press and hold!"];
+        label.textColor = [UIColor redColor];
+        label.alpha = 0;
+        label.textAlignment =UITextAlignmentCenter;
+        label.backgroundColor = [UIColor clearColor];
+        
+        [self addSubview:label];
+        
+        [UIView animateWithDuration:0.5
+                              delay:0
+                            options:UIViewAnimationOptionCurveEaseOut
+                         animations:^{
+            
+                             label.alpha = 1;
+            
+        }
+                         completion:^(BOOL finished){
+                             
+                             [UIView animateWithDuration:0.5
+                                                   delay:1
+                                                 options:UIViewAnimationOptionCurveEaseOut
+                                              animations:^{
+                                                  
+                                 label.alpha = 0;
+                                                  
+                             }
+                                              completion:^(BOOL finished) {
+                                                  
+                                 self.warningMessageShowing = NO;
+                             }];
+                             
+                         }];
+        
+    }
+    
+    
     
 }
 
 -(void)attachmentImageLongPressed:(UIImageView *)sender{
     
     if(!self.isAttachmentOpen){
+        
+        [self setAttachmentOpen:YES];
         
         CGRect screenDimensions = [self.delegate retrieveScreenDimensions:self];
          
@@ -383,7 +443,7 @@
                              
                          }];
         
-        [self setAttachmentOpen:YES];
+        
         
     }
     
@@ -425,29 +485,37 @@
 
 -(void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    [self screenshotDetected];
+    if(self.isAttachmentOpen){
+        
+        [self screenshotDetected];
+        
+        self.attachmentView.alpha = 0;
+        
+        [UIView animateWithDuration:1
+                         animations:^{
+                             
+                             self.obfuscationView.alpha = 0;
+                             
+                         }
+                         completion:^(BOOL finished){
+                             
+                             [self.obfuscationView removeFromSuperview];
+                             
+                         }];
+        
+    }
     
-    self.attachmentView.alpha = 0;
     
-    [UIView animateWithDuration:1
-                     animations:^{
-                         
-                         self.obfuscationView.alpha = 0;
-                         
-                     }
-                     completion:^(BOOL finished){
-                         
-                         [self.obfuscationView removeFromSuperview];
-                         
-                     }];
 }
 
 -(void)screenshotDetected{
     
+    NSLog(@"Screenshot");
+    
     if(self.messagePermission){
         [self.messagePermission setObject:[NSNumber numberWithBool:YES] forKey:@"screenshotDetected"];
     }
-    
+
 }
 
 #pragma mark - Attachment Handlers
