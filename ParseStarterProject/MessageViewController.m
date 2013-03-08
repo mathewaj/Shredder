@@ -48,7 +48,7 @@
     self.firstView = YES;
     
     // Set background
-    self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:iPhone568ImageNamed(@"BackgroundFullScreen.png")]];
+    self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:iPhone568ImageNamed(@"BackgroundBubbles.png")]];
     
     // Set up message view based on message mode
     if(self.isComposeMode){
@@ -175,6 +175,9 @@
     
     // Shred Message
     [self shredMessage:sender withCompletionBlock:^{
+        
+        // Will now be compose mode
+        self.composeMode = YES;
         
         // Reset container view location above window
         CGRect initialFrame = self.containerView.frame;
@@ -469,13 +472,16 @@
 
 -(void)appWillResignActive{
     
-    // Consider this the same as shredding message
-    [self shredMessage:self.messageView withCompletionBlock:^{
-        
-        // Pop View Controller
-        [self dismissModalViewControllerAnimated:YES];
-        
-    }];
+    if(!self.isComposeMode){
+        // Consider this the same as shredding message
+        [self shredMessage:self.messageView withCompletionBlock:^{
+            
+            // Pop View Controller
+            [self dismissModalViewControllerAnimated:YES];
+            
+        }];
+    }
+    
     
 }
 

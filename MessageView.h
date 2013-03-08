@@ -26,7 +26,7 @@
 
 @end
 
-@interface MessageView : MGTableBoxStyled
+@interface MessageView : MGTableBoxStyled <UIGestureRecognizerDelegate>
 
 - (id)initWithFrame:(CGRect)frame withEmptyMessage:(PFObject *)message forRecipient:(PFUser *) recipient andDelegate:(id <MessageViewDelegate>)delegate;
 - (id)initWithFrame:(CGRect)frame withPopulatedMessagePermission:(PFObject *)messagePermission andDelegate:(id <MessageViewDelegate>)delegate;

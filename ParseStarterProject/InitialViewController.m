@@ -57,7 +57,7 @@
     [super viewDidLoad];
     
     // Set background
-    self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:iPhone568ImageNamed(@"BackgroundFullScreen.png")]];
+    self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:iPhone568Image(@"BackgroundBubbles.png")];
     
 	[self directLoggedInOrNotLoggedInUserRespectively];
 }

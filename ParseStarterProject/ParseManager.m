@@ -155,7 +155,7 @@
     PFObject *message = [messagePermission objectForKey:@"message"];
     
     // Delete message permissions of Welcome Shredder Message
-    if([[[messagePermission objectForKey:@"sender"] username] isEqualToString:@"Welcome To Shredder!"]){
+    if([message.objectId isEqualToString:@"BQaxVDuxzn"]){
         
         [messagePermission deleteInBackground];
         
@@ -238,6 +238,8 @@
     [messageACL setWriteAccess:YES forUser:[PFUser currentUser]];
     [messageACL setReadAccess:YES forUser:recipient];
     [messageACL setWriteAccess:YES forUser:recipient];
+    //[messageACL setPublicReadAccess:YES];
+    //[messageACL setPublicWriteAccess:YES];
     message.ACL = messageACL;
     
     [messagePermission setObject:message forKey:@"message"];
@@ -264,13 +266,11 @@
     // Retrieve welcome message object
     PFQuery *welcomeMessageQuery = [PFQuery queryWithClassName:@"Message"];
     [welcomeMessageQuery includeKey:@"sender"];
-    [welcomeMessageQuery getObjectInBackgroundWithId:@"163jHoLVjP"
+    [welcomeMessageQuery getObjectInBackgroundWithId:@"BQaxVDuxzn"
                                  block:^(PFObject *message, NSError *error) {
                                      if (!error) {
                                          
-                                         PFACL *postACL = message.ACL;
-                                         [postACL setPublicReadAccess:YES];
-                                         [postACL setPublicWriteAccess:NO];
+                                        
                                          
                                          // Retrieved message
                                          PFObject *messagePermission = [self createMessagePermissionForWelcomeMessage:message andShredderUserRecipient:[PFUser currentUser]];
@@ -304,13 +304,13 @@
     [messagePermissionACL setWriteAccess:YES forUser:recipient];
     messagePermission.ACL = messagePermissionACL;
     
-    // Set Message Access
-    PFACL *messageACL = [PFACL ACL];
-    [messageACL setReadAccess:YES forUser:[PFUser currentUser]];
-    [messageACL setWriteAccess:YES forUser:[PFUser currentUser]];
-    [messageACL setReadAccess:YES forUser:recipient];
-    [messageACL setWriteAccess:YES forUser:recipient];
-    message.ACL = messageACL;
+    // Message Access Already Set
+    //PFACL *messageACL = [PFACL ACL];
+    //[messageACL setReadAccess:YES forUser:[PFUser currentUser]];
+    //[messageACL setWriteAccess:YES forUser:[PFUser currentUser]];
+    //[messageACL setReadAccess:YES forUser:recipient];
+    //[messageACL setWriteAccess:YES forUser:recipient];*/
+    //message.ACL = messageACL;
     
     [messagePermission setObject:message forKey:@"message"];
     

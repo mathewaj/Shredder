@@ -32,7 +32,7 @@
     [super viewDidLoad];
 	
     // Set background
-    self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:iPhone568ImageNamed(@"background.png")]];
+    self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:iPhone568ImageNamed(@"BackgroundBubbles.png")]];
     
     self.scrollView = [MGScrollView scrollerWithSize:self.view.bounds.size];
     [self.view addSubview:self.scrollView];

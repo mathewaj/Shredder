@@ -24,9 +24,6 @@
 		0B33D49016E171EC0025D127 /* NonSelectableTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B33D48F16E171EC0025D127 /* NonSelectableTextView.m */; };
 		0B33D49F16E17E700025D127 /* SaveContact.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B33D49D16E17E700025D127 /* SaveContact.png */; };
 		0B33D4A016E17E700025D127 /* SaveContact@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B33D49E16E17E700025D127 /* SaveContact@2x.png */; };
-		0B52463016A759F700082321 /* surferatsunset.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0B52462D16A759F700082321 /* surferatsunset.jpg */; };
-		0B52463116A759F700082321 /* surferatsunset-568h@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0B52462E16A759F700082321 /* surferatsunset-568h@2x.jpg */; };
-		0B52463216A759F700082321 /* surferatsunset@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0B52462F16A759F700082321 /* surferatsunset@2x.jpg */; };
 		0B52464616AA149200082321 /* spacer.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B52464516AA149200082321 /* spacer.png */; };
 		0B5282AF16DBC7F400B5FF6E /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B5282AE16DBC7F400B5FF6E /* LoginViewController.m */; };
 		0B5282B416DBCCC100B5FF6E /* Padlock.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B5282B216DBCCC100B5FF6E /* Padlock.png */; };
@@ -52,6 +49,14 @@
 		0B8453F616D6D18A00621165 /* BackgroundFullScreen-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B8453F316D6D18A00621165 /* BackgroundFullScreen-568h@2x.png */; };
 		0B8453FD16D6DC3A00621165 /* Flash.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B8453FB16D6DC3A00621165 /* Flash.png */; };
 		0B8453FE16D6DC3A00621165 /* Flash@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B8453FC16D6DC3A00621165 /* Flash@2x.png */; };
+		0B94629816E7F0AE00D9ED8B /* ScreenshotDetectedLand.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B94629616E7F0AB00D9ED8B /* ScreenshotDetectedLand.png */; };
+		0B94629916E7F0AE00D9ED8B /* ScreenshotDetectedLand@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B94629716E7F0AC00D9ED8B /* ScreenshotDetectedLand@2x.png */; };
+		0B94629E16E7FF1F00D9ED8B /* BackgroundBubblesStatus.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B94629B16E7FF1C00D9ED8B /* BackgroundBubblesStatus.png */; };
+		0B94629F16E7FF1F00D9ED8B /* BackgroundBubblesStatus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B94629C16E7FF1D00D9ED8B /* BackgroundBubblesStatus@2x.png */; };
+		0B9462A316E7FF2E00D9ED8B /* BackgroundBubbles-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B9462A016E7FF2800D9ED8B /* BackgroundBubbles-568h@2x.png */; };
+		0B9462A416E7FF2E00D9ED8B /* BackgroundBubbles.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B9462A116E7FF2A00D9ED8B /* BackgroundBubbles.png */; };
+		0B9462A516E7FF2E00D9ED8B /* BackgroundBubbles@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B9462A216E7FF2C00D9ED8B /* BackgroundBubbles@2x.png */; };
+		0B9462A716E800E900D9ED8B /* BackgroundBubblesStatus-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B9462A616E800E400D9ED8B /* BackgroundBubblesStatus-568h@2x.png */; };
 		0BAE4FBB16C5BBE000245288 /* ContactsDatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BAE4FBA16C5BBE000245288 /* ContactsDatabaseManager.m */; };
 		0BCB90D316CAE14600468B57 /* InitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BCB90D216CAE14600468B57 /* InitialViewController.m */; };
 		0BCB90D616CAE2AC00468B57 /* BackgroundImageHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BCB90D516CAE2AC00468B57 /* BackgroundImageHelper.m */; };
@@ -170,9 +175,6 @@
 		0B33D49D16E17E700025D127 /* SaveContact.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SaveContact.png; sourceTree = "<group>"; };
 		0B33D49E16E17E700025D127 /* SaveContact@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SaveContact@2x.png"; sourceTree = "<group>"; };
 		0B52462916A7458D00082321 /* ContactsDatabase 2.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ContactsDatabase 2.0.xcdatamodel"; sourceTree = "<group>"; };
-		0B52462D16A759F700082321 /* surferatsunset.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = surferatsunset.jpg; sourceTree = "<group>"; };
-		0B52462E16A759F700082321 /* surferatsunset-568h@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "surferatsunset-568h@2x.jpg"; sourceTree = "<group>"; };
-		0B52462F16A759F700082321 /* surferatsunset@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "surferatsunset@2x.jpg"; sourceTree = "<group>"; };
 		0B52464516AA149200082321 /* spacer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spacer.png; sourceTree = "<group>"; };
 		0B5282AD16DBC7F400B5FF6E /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		0B5282AE16DBC7F400B5FF6E /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
@@ -211,6 +213,14 @@
 		0B8453F316D6D18A00621165 /* BackgroundFullScreen-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BackgroundFullScreen-568h@2x.png"; sourceTree = "<group>"; };
 		0B8453FB16D6DC3A00621165 /* Flash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Flash.png; sourceTree = "<group>"; };
 		0B8453FC16D6DC3A00621165 /* Flash@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Flash@2x.png"; sourceTree = "<group>"; };
+		0B94629616E7F0AB00D9ED8B /* ScreenshotDetectedLand.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ScreenshotDetectedLand.png; sourceTree = "<group>"; };
+		0B94629716E7F0AC00D9ED8B /* ScreenshotDetectedLand@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ScreenshotDetectedLand@2x.png"; sourceTree = "<group>"; };
+		0B94629B16E7FF1C00D9ED8B /* BackgroundBubblesStatus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BackgroundBubblesStatus.png; sourceTree = "<group>"; };
+		0B94629C16E7FF1D00D9ED8B /* BackgroundBubblesStatus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BackgroundBubblesStatus@2x.png"; sourceTree = "<group>"; };
+		0B9462A016E7FF2800D9ED8B /* BackgroundBubbles-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BackgroundBubbles-568h@2x.png"; sourceTree = "<group>"; };
+		0B9462A116E7FF2A00D9ED8B /* BackgroundBubbles.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BackgroundBubbles.png; sourceTree = "<group>"; };
+		0B9462A216E7FF2C00D9ED8B /* BackgroundBubbles@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BackgroundBubbles@2x.png"; sourceTree = "<group>"; };
+		0B9462A616E800E400D9ED8B /* BackgroundBubblesStatus-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BackgroundBubblesStatus-568h@2x.png"; sourceTree = "<group>"; };
 		0BAE4FB916C5BBE000245288 /* ContactsDatabaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContactsDatabaseManager.h; path = ParseStarterProject/ContactsDatabaseManager.h; sourceTree = "<group>"; };
 		0BAE4FBA16C5BBE000245288 /* ContactsDatabaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ContactsDatabaseManager.m; path = ParseStarterProject/ContactsDatabaseManager.m; sourceTree = "<group>"; };
 		0BB9E35A16B0AC0600BE9850 /* ContactsDatabase 2. 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ContactsDatabase 2. 2.xcdatamodel"; sourceTree = "<group>"; };
@@ -497,6 +507,14 @@
 		0B71F0F716E53C7D00B75A54 /* Media */ = {
 			isa = PBXGroup;
 			children = (
+				0B9462A616E800E400D9ED8B /* BackgroundBubblesStatus-568h@2x.png */,
+				0B9462A016E7FF2800D9ED8B /* BackgroundBubbles-568h@2x.png */,
+				0B9462A116E7FF2A00D9ED8B /* BackgroundBubbles.png */,
+				0B9462A216E7FF2C00D9ED8B /* BackgroundBubbles@2x.png */,
+				0B94629B16E7FF1C00D9ED8B /* BackgroundBubblesStatus.png */,
+				0B94629C16E7FF1D00D9ED8B /* BackgroundBubblesStatus@2x.png */,
+				0B94629616E7F0AB00D9ED8B /* ScreenshotDetectedLand.png */,
+				0B94629716E7F0AC00D9ED8B /* ScreenshotDetectedLand@2x.png */,
 				0BEA0CEC16E66837006A1A24 /* OKButton.png */,
 				0BEA0CED16E66837006A1A24 /* OKButtonPressed.png */,
 				0BEA0CE816E547D9006A1A24 /* disclosure.png */,
@@ -531,9 +549,6 @@
 				0BE5E77416D2AEFB0069F144 /* sad.gif */,
 				0BE5E77216D2ADCD0069F144 /* sad.jpg */,
 				0B52464516AA149200082321 /* spacer.png */,
-				0B52462D16A759F700082321 /* surferatsunset.jpg */,
-				0B52462E16A759F700082321 /* surferatsunset-568h@2x.jpg */,
-				0B52462F16A759F700082321 /* surferatsunset@2x.jpg */,
 				E7AB3401167943CE008F4CA3 /* PaperClip.png */,
 				E7AB3402167943CF008F4CA3 /* PaperClip@2x.png */,
 				E7AB33B51677E15E008F4CA3 /* ButtonBackdrop.png */,
@@ -779,9 +794,6 @@
 				E7AB33B81677E15E008F4CA3 /* SpinningButton.png in Resources */,
 				E7AB3403167943CF008F4CA3 /* PaperClip.png in Resources */,
 				E7AB3404167943CF008F4CA3 /* PaperClip@2x.png in Resources */,
-				0B52463016A759F700082321 /* surferatsunset.jpg in Resources */,
-				0B52463116A759F700082321 /* surferatsunset-568h@2x.jpg in Resources */,
-				0B52463216A759F700082321 /* surferatsunset@2x.jpg in Resources */,
 				0B52464616AA149200082321 /* spacer.png in Resources */,
 				0B64967316B3141C00A875ED /* README.md in Resources */,
 				0B64967416B3141C00A875ED /* release_notes.md in Resources */,
@@ -820,6 +832,14 @@
 				0BEA0CEB16E547D9006A1A24 /* disclosure@2x.png in Resources */,
 				0BEA0CEE16E66837006A1A24 /* OKButton.png in Resources */,
 				0BEA0CEF16E66837006A1A24 /* OKButtonPressed.png in Resources */,
+				0B94629816E7F0AE00D9ED8B /* ScreenshotDetectedLand.png in Resources */,
+				0B94629916E7F0AE00D9ED8B /* ScreenshotDetectedLand@2x.png in Resources */,
+				0B94629E16E7FF1F00D9ED8B /* BackgroundBubblesStatus.png in Resources */,
+				0B94629F16E7FF1F00D9ED8B /* BackgroundBubblesStatus@2x.png in Resources */,
+				0B9462A316E7FF2E00D9ED8B /* BackgroundBubbles-568h@2x.png in Resources */,
+				0B9462A416E7FF2E00D9ED8B /* BackgroundBubbles.png in Resources */,
+				0B9462A516E7FF2E00D9ED8B /* BackgroundBubbles@2x.png in Resources */,
+				0B9462A716E800E900D9ED8B /* BackgroundBubblesStatus-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -903,8 +923,8 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: greg Birdthistle (W89Z2ERHNK)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: greg Birdthistle (W89Z2ERHNK)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Greg Birdthistle (9DBF63ZCD9)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Greg Birdthistle (9DBF63ZCD9)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
@@ -914,8 +934,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
-				PROVISIONING_PROFILE = "D8A81091-3BF6-40C0-977B-0DD87AD0DA07";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D8A81091-3BF6-40C0-977B-0DD87AD0DA07";
+				PROVISIONING_PROFILE = "CEC84215-DF6D-456B-BE8C-B78D953B0320";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "CEC84215-DF6D-456B-BE8C-B78D953B0320";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -928,8 +948,8 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Greg Birdthistle";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Greg Birdthistle";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Shredder Web Limited";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shredder Web Limited";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -937,8 +957,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				PROVISIONING_PROFILE = "BF5B52B0-2FCE-438D-98F8-8280C2757B7F";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "BF5B52B0-2FCE-438D-98F8-8280C2757B7F";
+				PROVISIONING_PROFILE = "234AD1D1-AA88-4880-8EE1-E914E3AF6784";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "234AD1D1-AA88-4880-8EE1-E914E3AF6784";
 				SDKROOT = iphoneos;
 			};
 			name = Release;
@@ -948,8 +968,9 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: greg Birdthistle (W89Z2ERHNK)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: greg Birdthistle (W89Z2ERHNK)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer: Greg Birdthistle (9DBF63ZCD9)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Greg Birdthistle (9DBF63ZCD9)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -966,8 +987,8 @@
 					"\"$(SRCROOT)/TestFlightSDK1\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "79C0DFD7-398E-437F-852A-39311BE9A25D";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "79C0DFD7-398E-437F-852A-39311BE9A25D";
+				"PROVISIONING_PROFILE[sdk=*]" = "CEC84215-DF6D-456B-BE8C-B78D953B0320";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "CEC84215-DF6D-456B-BE8C-B78D953B0320";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -977,8 +998,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Greg Birdthistle";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Greg Birdthistle";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Shredder Web Limited";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shredder Web Limited";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -994,8 +1015,8 @@
 					"\"$(SRCROOT)/TestFlightSDK1\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "E2056DFD-B028-422E-973C-CF4F86CB8BD4";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E2056DFD-B028-422E-973C-CF4F86CB8BD4";
+				PROVISIONING_PROFILE = "234AD1D1-AA88-4880-8EE1-E914E3AF6784";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "234AD1D1-AA88-4880-8EE1-E914E3AF6784";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};

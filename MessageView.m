@@ -38,6 +38,7 @@
         self.delegate = delegate;
         self.topMargin = 50;
         [self setUpForComposeMessage];
+        self.exclusiveTouch = YES;
     }
     return self;
 }
@@ -52,6 +53,7 @@
         self.topMargin = 30;
         self.contactee = [messagePermission objectForKey:@"sender"];
         [self setUpForShredMessage];
+        self.exclusiveTouch = YES;
     }
     return self;
 }
@@ -103,7 +105,7 @@
     if(!senderName){
         
         senderName = [self.contactee username];
-        NSString *combinedNameTimeString = [NSString stringWithFormat:@"**%@**\n//%@//|mush", senderName, [Converter timeAndDateStringFromDate:self.messagePermission.createdAt]];
+        NSString *combinedNameTimeString = [NSString stringWithFormat:@"**%@**\n%@\n%@|mush", senderName, [Converter dateStringFromDate:self.messagePermission.createdAt], [Converter timeStringFromDate:self.messagePermission.createdAt]];
         UIImageView *saveContactButton = [self getSaveContactButton];
         
         if([[[self.messagePermission objectForKey:@"sender"] username] isEqualToString:@"Welcome To Shredder!"]){
@@ -117,7 +119,7 @@
         };
         
     } else {
-        NSString *combinedNameTimeString = [NSString stringWithFormat:@"**%@**\n//%@//|mush", senderName, [Converter timeAndDateStringFromDate:self.messagePermission.createdAt]];
+        NSString *combinedNameTimeString = [NSString stringWithFormat:@"**%@**\n%@\n%@|mush", senderName, [Converter dateStringFromDate:self.messagePermission.createdAt], [Converter timeStringFromDate:self.messagePermission.createdAt]];
         header.leftItems = [NSArray arrayWithObjects:combinedNameTimeString, nil];
     }
     
@@ -277,6 +279,7 @@
     PFImageView *attachmentView = [[PFImageView alloc] initWithFrame:CGRectMake(0, 0, 60, 60)];
     attachmentView.contentMode = UIViewContentModeScaleAspectFit;
     attachmentView.userInteractionEnabled = YES;
+    attachmentView.exclusiveTouch = YES;
     
     attachmentView.file = (PFFile *)[self.message objectForKey:@"attachmentThumbnail"];
     
@@ -284,6 +287,7 @@
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(attachmentImagePressed:)];
     UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(attachmentImageLongPressed:)];
     longPressGesture.cancelsTouchesInView = NO;
+    longPressGesture.delegate = self;
     
     [attachmentView addGestureRecognizer:tapGesture];
     [attachmentView addGestureRecognizer:longPressGesture];
@@ -295,6 +299,7 @@
     PFImageView *attachmentView = [[PFImageView alloc] initWithFrame:CGRectZero];
     attachmentView.contentMode = UIViewContentModeScaleAspectFit;
     attachmentView.userInteractionEnabled = YES;
+    attachmentView.exclusiveTouch = YES;
     
     attachmentView.file = (PFFile *)[self.message objectForKey:@"attachment"];
     
@@ -413,8 +418,6 @@
         [self setAttachmentOpen:YES];
         
         CGRect screenDimensions = [self.delegate retrieveScreenDimensions:self];
-         
-        //[self.delegate showAttachmentView:self.attachmentView withBackgroundView:self.obfuscationView];
         
         // New Dimensions
         CGPoint screenCentre = CGPointMake(screenDimensions.size.width/2, screenDimensions.size.height/2);
@@ -485,8 +488,12 @@
 
 -(void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    
+    
     if(self.isAttachmentOpen){
-        
+    
+    NSLog(@"Screenshot");
+    
         [self screenshotDetected];
         
         self.attachmentView.alpha = 0;
@@ -562,6 +569,7 @@
 }
 */
 
-#pragma mark - UIActionSheet Delegate Methods
+#pragma mark - UIGestureRecognizer Delegate Methods
+
 
 @end

@@ -10,10 +10,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    [TestFlight takeOff:@"8445bc77beaae864a9d988226b4f873a_MTQ4NTAzMjAxMi0xMS0wNiAxMToxMToxNS44NzczNTc"];
+    //[TestFlight takeOff:@"8445bc77beaae864a9d988226b4f873a_MTQ4NTAzMjAxMi0xMS0wNiAxMToxMToxNS44NzczNTc"];
 
     // Parse credentials:
-     [Parse setApplicationId:@"CVc9dCHQBt6LpLaZMdj2nKnYG6bJ2CRaGawPwBfp" clientKey:@"2mqxgPt0KgN0gr9SM9E2rQzP3MH7EqGG6IAB4uwz"];
+     [Parse setApplicationId:@"X57dueJafXY0hpwK8K2THnKVVvKjEgG7zY7Rlqd8" clientKey:@"st8p3OqaogTZgtrdh9ESzbblDEjdRyvArgWosBKL"];
 
     [PFUser enableAutomaticUser];
     

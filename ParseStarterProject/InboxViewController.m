@@ -31,7 +31,7 @@
     [super viewDidLoad];
     
     // Set background
-    self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:iPhone568ImageNamed(@"background.png")]];
+    self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"BackgroundBubbles.png"]];
     
     /* Set Scroll View
     self.scrollView = [MGScrollView scrollerWithSize:self.view.frame.size];
@@ -61,8 +61,6 @@
     // Refresh contacts and set app to refresh contacts every time app activated
     [self.contactsDatabaseManager syncAddressBookContacts];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshContacts) name:UIApplicationDidBecomeActiveNotification object:nil];
-    
-    
     
 }
 
@@ -194,7 +192,7 @@
     
     MGLineStyled *placeholder = [MGLineStyled lineWithSize:rowSize];
     placeholder.minHeight = rowSize.height;
-    placeholder.middleItems = [NSArray arrayWithObjects:[UIImage imageNamed:@"sad.gif" ],@"      Your inbox is empty!", nil];
+    placeholder.middleItems = [NSArray arrayWithObjects:[UIImage imageNamed:@"sad.gif"],@"      Your inbox is empty!", nil];
     return placeholder;
 }
 
@@ -224,9 +222,10 @@
     }
     NSString *timeAndDate = [Converter nicerTimeAndDateStringFromDate:messagePermission.createdAt];
 
-    NSString *messageHeader = [NSString stringWithFormat:@"**%@**\n//%@//|mush", name, timeAndDate];
+    NSString *messageHeader = [NSString stringWithFormat:@"**%@**\n%@|mush", name, timeAndDate];
     MGLineStyled *messageRow = [MGLineStyled line];
-    messageRow.multilineLeft = messageHeader;
+    messageRow.font = [UIFont fontWithName:@"HelveticaNeue" size:15];
+    messageRow.leftItems = [NSArray arrayWithObject:messageHeader];
     messageRow.size = rowSize;
     messageRow.leftPadding = messageRow.rightPadding = 16;
     
@@ -256,37 +255,57 @@
     return messageRow;
 }
 
--(MGLineStyled *)addReportsBoxForMessagePermission:(PFObject *)messagePermission inSection:(MGTableBoxStyled *)section
+-(MGTableBoxStyled *)addReportsBoxForMessagePermission:(PFObject *)messagePermission inSection:(MGTableBoxStyled *)section
 {
-    CGSize rowSize = (CGSize){304, 80};
+    MGTableBoxStyled *reportRow = [MGTableBoxStyled box];
     
+    //CGSize rowSize = (CGSize){304, 50};
+    
+    // Add name box:
+    MGLineStyled *nameRow = [MGLineStyled line];
+    nameRow.minHeight = 50;
+    nameRow.font = [UIFont fontWithName:@"HelveticaNeue" size:15];
     NSString *name = [self.contactsDatabaseManager getNameForUser:[messagePermission objectForKey:@"recipient"]];
-    NSString *timeAndDateSent = [Converter nicerTimeAndDateStringFromDate:messagePermission.createdAt];
-    timeAndDateSent = [NSString stringWithFormat:@"Sent: %@", timeAndDateSent];
-    NSString *timeAndDateShredded = [Converter nicerTimeAndDateStringFromDate:[messagePermission objectForKey:@"permissionShreddedAt"]];
-    timeAndDateShredded = [NSString stringWithFormat:@"Shredded: %@", timeAndDateShredded];
-    
-    NSString *reportHeader = [NSString stringWithFormat:@"**%@**\n//%@//\n//%@//|mush", name, timeAndDateSent, timeAndDateShredded];
-    
-    MGLineStyled *reportRow = [MGLineStyled line];
-    reportRow.multilineRight = reportHeader;
-    reportRow.size = rowSize;
-    reportRow.leftPadding = reportRow.rightPadding = 16;
-    
+    NSString *formattedName = [NSString stringWithFormat:@"**%@**|mush", name];
+    nameRow.rightItems = [NSArray arrayWithObject:formattedName];
+    nameRow.leftPadding = nameRow.rightPadding = 16;
     if([[messagePermission objectForKey:@"screenshotDetected"] isEqualToNumber:[NSNumber numberWithBool:YES]])
     {
-        
-        reportRow.leftItems = [NSArray arrayWithObject:[UIImage imageNamed:@"ScreenshotDetected.png"]];
+        nameRow.leftItems = [NSArray arrayWithObject:[UIImage imageNamed:@"ScreenshotDetectedLand.png"]];
     }
     
-    __weak id wreportRow = reportRow;
     
-    [section.topLines addObject:reportRow];
+    // Add name of
+    MGLineStyled *detailsRow = [MGLineStyled line];
+    detailsRow.borderStyle = MGBorderNone;
+    detailsRow.underlineType = MGUnderlineBottom;
+    detailsRow.font = [UIFont fontWithName:@"HelveticaNeue" size:10];
+    detailsRow.minHeight = 20;
+    detailsRow.borderStyle = MGBorderEtchedTop;
+    NSString *timeAndDateSent = [Converter nicerTimeAndDateStringFromDate:messagePermission.createdAt];
+    timeAndDateSent = [NSString stringWithFormat:@"Sent: %@", timeAndDateSent];
+    timeAndDateSent = [NSString stringWithFormat:@"%@", timeAndDateSent];
     
-    reportRow.onTap = ^{
+    NSString *timeAndDateShredded = [Converter nicerTimeAndDateStringFromDate:[messagePermission objectForKey:@"permissionShreddedAt"]];
+    timeAndDateShredded = [NSString stringWithFormat:@"Shredded: %@", timeAndDateShredded];
+    timeAndDateShredded = [NSString stringWithFormat:@"%@", timeAndDateShredded];
+    
+    detailsRow.leftItems = [NSArray arrayWithObject:timeAndDateSent];
+    detailsRow.rightItems = [NSArray arrayWithObject:timeAndDateShredded];
+    detailsRow.leftPadding = detailsRow.rightPadding = 16;
+    //NSString *reportHeader = [NSString stringWithFormat:@"**%@**\n//%@//\n//%@//|mush", name, timeAndDateSent, timeAndDateShredded];
+    
+    __weak id wnameRow = nameRow;
+    __weak id wdetailsRow = detailsRow;
+    
+    [section.topLines addObject:nameRow];
+    [section.topLines addObject:detailsRow];
+    
+    nameRow.onTap = ^{
         
         // Remove message
-        [section.topLines removeObject:wreportRow];
+        [section.topLines removeObject:wnameRow];
+        [section.topLines removeObject:wdetailsRow];
         [self layoutInboxScrollView];
         
         [ParseManager deleteReport:messagePermission withCompletionBlock:^(BOOL success, NSError *error) {

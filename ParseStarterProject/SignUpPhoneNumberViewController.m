@@ -34,6 +34,9 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
+    // Set background
+    self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:iPhone568ImageNamed(@"BackgroundBubbles.png")]];
+    
     self.scrollView = [MGScrollView scrollerWithSize:self.view.bounds.size];
     [self.view addSubview:self.scrollView];
     
@@ -49,7 +52,7 @@
     CGSize rowSize = (CGSize){304, 60};
 
     MGTableBoxStyled *section2 = MGTableBoxStyled.box;
-    section2.topMargin = 10;
+    section2.topMargin = 25;
     [self.scrollView.boxes addObject:section2];
     
     // Prompt user for country and phone number
@@ -98,6 +101,7 @@
     [self.scrollView.boxes removeAllObjects];
     
     MGTableBoxStyled *section2 = MGTableBoxStyled.box;
+    section2.topMargin = 25;
     [self.scrollView.boxes addObject:section2];
     
     // Prompt user for password
@@ -130,6 +134,7 @@
     [self.scrollView.boxes removeAllObjects];
     
     MGTableBoxStyled *section2 = MGTableBoxStyled.box;
+    section2.topMargin = 25;
     [self.scrollView.boxes addObject:section2];
     
     // Prompt user for permission

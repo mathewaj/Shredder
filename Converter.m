@@ -20,6 +20,29 @@
     
 }
 
++(NSString *)dateStringFromDate:(NSDate *)date{
+
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"MMMM d"];
+    NSString *dateString = [dateFormat stringFromDate:date];
+    
+    return dateString;
+    
+}
+
++(NSString *)timeStringFromDate:(NSDate *)date{
+    
+    NSDateFormatter *timeFormatter = [[NSDateFormatter alloc]init];
+    timeFormatter.dateFormat = @"HH:mm";
+    
+    NSString *dateString = [timeFormatter stringFromDate:date];
+    
+    return dateString;
+    
+}
+
+
+
 +(NSString *)nicerTimeAndDateStringFromDate:(NSDate *)date{
     
     // Nicely formatted string
@@ -54,7 +77,7 @@
     } else if ([date compare:yesterday] == NSOrderedDescending)
     {
         // Set date to yesterday
-        result = @"Yesterday";
+        result = @"Yesterday ";
         
     } else {
         
