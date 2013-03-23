@@ -458,7 +458,7 @@
     messanger.messageComposeDelegate = self;
     NSArray *toRecipients = [NSArray arrayWithObject:contact.phoneNumber];
     [messanger setRecipients:toRecipients];
-    NSString *messageBody = [NSString stringWithFormat:@"I'd like to send you a confidential message on the new private messaging app Shredder. Please download it from the App Store now!\nitms://itunes.com/apps/Shredder"];
+    NSString *messageBody = [NSString stringWithFormat:@"I'd like to send you a confidential message on the new private messaging app Shredder. Please download it from the App Store now!\nhttp://appstore.com/shredderweblimited/shredder"];
     [messanger setBody:messageBody];
     [self presentModalViewController:messanger animated:YES];
 }

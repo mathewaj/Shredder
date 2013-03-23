@@ -95,45 +95,29 @@
     // Retrieve Messages Array from Parse
     [ParseManager retrieveReceivedMessagePermissionsForCurrentUser:[PFUser currentUser] withCompletionBlock:^(BOOL success, NSError *error, NSArray *objects) {
         count ++;
-        self.messagesArray = objects;
+        self.messagesArray = [objects mutableCopy];
         
         if (count == 2) {
-            [self checkForNewMessages];
+            [self loadInboxTable];
         }
     }];
     
     // Retrieve Reports Array from Parse
     [ParseManager retrieveAllReportsForCurrentUser:[PFUser currentUser] withCompletionBlock:^(BOOL success, NSError *error, NSArray *objects){
         count ++;
-        self.reportsArray = objects;
+        self.reportsArray = [objects mutableCopy];
         if (count == 2) {
-            [self checkForNewMessages];
+            [self loadInboxTable];
         }
     }];
     
 }
 
--(void)checkForNewMessages{
-    
-    if(self.existingMessagesArray != self.messagesArray || self.existingReportsArray != self.reportsArray){
-        
-        self.existingMessagesArray = self.messagesArray;
-        self.existingReportsArray = self.reportsArray;
-        
-        [self.messagesContainer.topLines removeAllObjects];
-        [self.reportsContainer.topLines removeAllObjects];
-        
-        [self loadInboxTable];
-        
-    } else {
-        
-        // No change
-        
-    }
-    
-}
-
 -(void)loadInboxTable{
+    
+    // Reset
+    [self.messagesContainer.topLines removeAllObjects];
+    [self.reportsContainer.topLines removeAllObjects];
     
     
     // If there are no messages, insert a place holder box
@@ -179,7 +163,8 @@
         self.reportsRibbon = [self getReportsRibbon];
         [self.reportsContainer addSubview:self.reportsRibbon];
     } else {
-        
+        [[self.reportsContainer subviews]
+         makeObjectsPerformSelector:@selector(removeFromSuperview)];
     }
     
     
@@ -192,7 +177,7 @@
     
     MGLineStyled *placeholder = [MGLineStyled lineWithSize:rowSize];
     placeholder.minHeight = rowSize.height;
-    placeholder.middleItems = [NSArray arrayWithObjects:[UIImage imageNamed:@"sad.gif"],@"      Your inbox is empty!", nil];
+    placeholder.middleItems = [NSArray arrayWithObjects:[UIImage imageNamed:@"SadFace.png"],@"      Your inbox is empty!", nil];
     return placeholder;
 }
 
@@ -244,6 +229,8 @@
         
         // Remove message
         [section.topLines removeObject:wmessageRow];
+        [self.messagesArray removeObject:messagePermission];
+        self.existingMessagesArray = self.messagesArray;
         
         // Set flag and perform segue
         [self setComposeRequest:NO];
@@ -312,8 +299,16 @@
             // Handle return - TBC
         }];
         
+        [self.reportsArray removeObject:messagePermission];
+        self.existingReportsArray = self.reportsArray;
+        
+        // Reload to remove ribbon if no reports
+        if([self.reportsArray count] == 0){
+            [self layoutInboxScrollView];
+        }
+        
     };
-    
+
     return reportRow;
 }
 

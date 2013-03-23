@@ -124,7 +124,14 @@
     
     [messagePermission saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         
-        [ParseManager sendNewMessageNotificationTo:[messagePermission objectForKey:@"recipient"]];
+        // If message permission doesn't save, make sure message is also deleted
+        if (!succeeded) {
+            
+            PFObject *message = [messagePermission objectForKey:@"message"];
+            [message deleteInBackground];
+            
+        }
+        
         parseReturned(succeeded, error);
         
     }];
@@ -157,30 +164,44 @@
     // Delete message permissions of Welcome Shredder Message
     if([message.objectId isEqualToString:@"BQaxVDuxzn"]){
         
-        [messagePermission deleteInBackground];
+        [messagePermission deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            parseReturned(succeeded, error);
+        }];
         
     } else {
         
-        // Turn Message Permission Shredded Value to True and Record Time Shredder
+        // Turn Message Permission Shredded Value to True and Record Time Shredded
         [messagePermission setObject:[NSNumber numberWithBool:YES] forKey:@"permissionShredded"];
         [messagePermission setObject:[NSDate date] forKey:@"permissionShreddedAt"];
         
         [messagePermission saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             
+            // Notify of result
             parseReturned(succeeded, error);
             
+            // If message permission successfully saved as shredded, check if message can be deleted
             if(succeeded)
             {
-                // If last message permission shred message
+                // If last message permission delete message
                 PFQuery *query = [PFQuery queryWithClassName:@"MessagePermission"];
                 [query whereKey:@"message" equalTo:message];
                 [query whereKey:@"permissionShredder" equalTo:[NSNumber numberWithBool:NO]];
                 [query countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
                     
-                    // Don't delete welcome message!
                     if(number == 0)
                     {
-                        [message deleteInBackground];
+                        [message deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                            
+                            // If message deletion fails, reinstate message and undelete permission
+                            if(!succeeded){
+                                
+                                [messagePermission setObject:[NSNumber numberWithBool:NO] forKey:@"permissionShredded"];
+                                [messagePermission setObject:message forKey:@"message"];
+                                [messagePermission saveInBackground];
+                                
+                            }
+                            
+                        }];
                     }
                 }];
                 

@@ -37,7 +37,9 @@
 
 #pragma mark - Contacts Database Creation
 
--(void)accessContactsDatabaseWithCompletionHandler:(ContactsDatabaseReturned)contactsDatabaseReturned{
+-(void)accessContactsDatabaseWithCompletionHandler:(ContactsDatabaseReturned)completionBlock{
+    
+    self.completionBlock = completionBlock;
     
     // Create UIManagedDocument to access database
     NSURL *url = [[[NSFileManager defaultManager] URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask] lastObject];
@@ -57,11 +59,11 @@
             
             if (success) {
                 
-                contactsDatabaseReturned(YES, self);
+                self.completionBlock(YES, self);
                 
             } else {
                 
-                contactsDatabaseReturned(NO, self);
+                //self.completionBlock(NO, self);
             }
         }];
         
@@ -71,11 +73,11 @@
         [self.contactsDatabase saveToURL:url forSaveOperation:UIDocumentSaveForCreating
                        completionHandler:^(BOOL success) {
                            
-                           
+                           // If new contacts database created, fetch contacts
                            if (success) {
                                
-                               [self databaseIsNew];
-                               contactsDatabaseReturned(YES, self);
+                               self.completionBlock(NO, self);
+                               
                                
                            } else {
                                NSLog(@"couldn’t create document at %@", url);
@@ -88,6 +90,13 @@
 // Fired on creation of database
 -(void)databaseIsNew{
     
+    [self syncAddressBookContacts];
+    
+}
+
+-(void)populateDatabaseWithCompletionHandler:(ContactsDatabaseReturned)completionBlock{
+    
+    self.completionBlock = completionBlock;
     [self syncAddressBookContacts];
     
 }
@@ -196,6 +205,8 @@
         
         
     }
+    
+    self.completionBlock(YES, self);
 
 }
 

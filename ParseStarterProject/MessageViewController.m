@@ -131,9 +131,6 @@
     
     if(!self.isSendButtonPressed){
         
-        // Animate sending of message - TBC
-        
-        
         // Pop view controller
         [self dismissModalViewControllerAnimated:YES];
         
@@ -146,13 +143,24 @@
         // Create message permissions
         PFObject *permission = [ParseManager createMessagePermissionForMessage:messageToBeSent andShredderUserRecipient:self.contact];
         
-        // Create Message Permission from message info
-        [ParseManager sendMessage:permission withCompletionBlock:^(BOOL success, NSError *error) {
-            // Handle Error - TBC
-        }];
-        
+        // Check message is intact and send
+        if(permission && [permission objectForKey:@"message"]){
+            
+            [ParseManager sendMessage:permission withCompletionBlock:^(BOOL success, NSError *error) {
+                if(success){
+                    [ParseManager sendNewMessageNotificationTo:[permission objectForKey:@"recipient"]];
+                } else {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Message not sent" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                    [alert show];
+                }
+            }];
+            
+        } else {
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Message not sent" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alert show];
+        }
     }
-    
 }
 
 -(void)shredButtonPressed:(MessageView *)sender{
@@ -248,17 +256,17 @@
         [self showShreddingMessageAnimationWithCompletionBlock:completionBlock];
         [self.containerView.boxes removeObject:self.messageView];
         [self.containerView.boxes removeAllObjects];
-        //completionBlock();
-
     }];
-    
-    
-    
-    
     
     // Delete Message
     [ParseManager shredMessage:self.messagePermission withCompletionBlock:^(BOOL success, NSError *error) {
         
+        if(!success){
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Warning: Network Error" message:@"Message deletion failed. Please reopen and try again." delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            [alert show];
+            
+        }        
     }];
     
 }

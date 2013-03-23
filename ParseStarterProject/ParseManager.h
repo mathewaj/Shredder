@@ -38,6 +38,9 @@
 +(void)deleteReport:(PFObject *)messagePermission withCompletionBlock:(ParseReturned)parseReturned;
 +(void)grantAccessToWelcomeMessageForUser:(PFUser *)user;
 
+#pragma mark - Message Notification Methods
++(void)sendNewMessageNotificationTo:(PFUser *)recipient;
+
 #pragma mark - Contact Methods
 
 +(void)checkShredderDBForContacts:(NSArray *)allContacts withCompletionBlock:(ParseReturnedArray)parseReturned;

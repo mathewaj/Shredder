@@ -31,6 +31,9 @@
 // Helper object to import contacts from Address Book
 @property (nonatomic, strong) AddressBookHelper *addressBookHelper;
 
+-(void)populateDatabaseWithCompletionHandler:(ContactsDatabaseReturned)completionBlock;
+@property (nonatomic, copy) ContactsDatabaseReturned completionBlock;
+
 // Database Access
 -(void)accessContactsDatabaseWithCompletionHandler:(ContactsDatabaseReturned)contactsDatabaseReturned;
 
