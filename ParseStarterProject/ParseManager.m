@@ -185,7 +185,7 @@
                 // If last message permission delete message
                 PFQuery *query = [PFQuery queryWithClassName:@"MessagePermission"];
                 [query whereKey:@"message" equalTo:message];
-                [query whereKey:@"permissionShredder" equalTo:[NSNumber numberWithBool:NO]];
+                [query whereKey:@"permissionShredded" equalTo:[NSNumber numberWithBool:NO]];
                 [query countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
                     
                     if(number == 0)
