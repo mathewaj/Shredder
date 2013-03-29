@@ -48,6 +48,9 @@
 
 -(void)didReceiveNewDataNotification{
     
+    // Broadcast when push notification recieved so that messaging view may reload
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"MessagesReceived" object:nil];
+    
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInMessagesSection:(NSInteger)section

@@ -24,6 +24,15 @@
 
 @implementation InboxViewController
 
+- (id)initWithCoder:(NSCoder*)coder
+{
+    if (self = [super init])
+    {
+        self.datasource = [[InboxDataSource alloc] init];
+        
+    }
+    return self;
+}
 
 
 -(void)viewDidLoad{
@@ -52,8 +61,11 @@
     [self.scrollView.boxes addObject:self.reportsContainer];
     
     // Check for new messages on these notifications
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadMessages) name:@"ReloadMessagesTable" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadMessages) name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshMessages) name:@"PushNotificationReceived" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshMessages) name:UIApplicationDidBecomeActiveNotification object:nil];
+    
+    // This notification says that messages have been received
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadMessages) name:@"MessagesReceived" object:nil];
     
     // Listen for app backgrounding
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
@@ -71,19 +83,33 @@
     
 }
 
-
+// Called every time view appears
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     
-    [self checkForMessages];
+    [self refreshMessages];
+    
+}
+/*
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}*/
+
+// Called every view did appear and push receipt
+-(void)refreshMessages{
+    
+    [self.datasource checkForMessages];
     
 }
 
+// Called when messages have been updated
 -(void)loadMessages
 {
-    // Check messages when push received
-    [self checkForMessages];
+    self.messagesArray = self.datasource.messagesArray;
+    self.reportsArray = self.datasource.reportsArray;
+    [self loadInboxTable];
+    
 }
 
 

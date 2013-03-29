@@ -63,7 +63,7 @@ didReceiveRemoteNotification:(NSDictionary *)userInfo {
     AudioServicesDisposeSystemSoundID(soundID);
 
     // Broadcast when push notification recieved so that messaging view may reload
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadMessagesTable" object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"PushNotificationReceived" object:nil];
     
     
 }

@@ -10,6 +10,8 @@
 
 @interface InboxDataSource : NSObject
 
+-(void)checkForMessages;
+
 // Model: Messages Array from Parse DB
 @property(nonatomic, strong) NSMutableArray *messagesArray;
 

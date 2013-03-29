@@ -10,8 +10,12 @@
 #import "ContactsDatabaseManager.h"
 #import "MGScrollView.h"
 #import "MGTableBoxStyled.h"
+#import "InboxDataSource.h"
 
 @interface InboxViewController : UIViewController
+
+// Model: Datasource
+@property (strong, nonatomic) InboxDataSource *datasource;
 
 // Model: Messages Array from Parse DB
 @property(nonatomic, strong) NSMutableArray *messagesArray;
