@@ -98,6 +98,7 @@
 		0BEA0CEB16E547D9006A1A24 /* disclosure@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BEA0CE916E547D9006A1A24 /* disclosure@2x.png */; };
 		0BEA0CEE16E66837006A1A24 /* OKButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BEA0CEC16E66837006A1A24 /* OKButton.png */; };
 		0BEA0CEF16E66837006A1A24 /* OKButtonPressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BEA0CED16E66837006A1A24 /* OKButtonPressed.png */; };
+		0BEA31421705EE6200DE7DDB /* InboxDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BEA31411705EE6200DE7DDB /* InboxDataSource.m */; };
 		0BEB004416C6CD7D0068ECDB /* NBNumberFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BEB003A16C6CD7D0068ECDB /* NBNumberFormat.m */; };
 		0BEB004516C6CD7D0068ECDB /* NBPhoneMetaData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BEB003C16C6CD7D0068ECDB /* NBPhoneMetaData.m */; };
 		0BEB004616C6CD7D0068ECDB /* NBPhoneNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BEB003E16C6CD7D0068ECDB /* NBPhoneNumber.m */; };
@@ -290,6 +291,8 @@
 		0BEA0CE916E547D9006A1A24 /* disclosure@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "disclosure@2x.png"; sourceTree = "<group>"; };
 		0BEA0CEC16E66837006A1A24 /* OKButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = OKButton.png; sourceTree = "<group>"; };
 		0BEA0CED16E66837006A1A24 /* OKButtonPressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = OKButtonPressed.png; sourceTree = "<group>"; };
+		0BEA31401705EE6200DE7DDB /* InboxDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InboxDataSource.h; sourceTree = "<group>"; };
+		0BEA31411705EE6200DE7DDB /* InboxDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InboxDataSource.m; sourceTree = "<group>"; };
 		0BEB003916C6CD7D0068ECDB /* NBNumberFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBNumberFormat.h; sourceTree = "<group>"; };
 		0BEB003A16C6CD7D0068ECDB /* NBNumberFormat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBNumberFormat.m; sourceTree = "<group>"; };
 		0BEB003B16C6CD7D0068ECDB /* NBPhoneMetaData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBPhoneMetaData.h; sourceTree = "<group>"; };
@@ -665,6 +668,8 @@
 				E7B8D7DE165179D900BD89B6 /* Contacts Database */,
 				0BDF6B7916DFD345005DAA64 /* CountryCodeInformation.h */,
 				0BDF6B7A16DFD345005DAA64 /* CountryCodeInformation.m */,
+				0BEA31401705EE6200DE7DDB /* InboxDataSource.h */,
+				0BEA31411705EE6200DE7DDB /* InboxDataSource.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -916,6 +921,7 @@
 				0BDF6B7B16DFD345005DAA64 /* CountryCodeInformation.m in Sources */,
 				0B33D49016E171EC0025D127 /* NonSelectableTextView.m in Sources */,
 				0BA1A53516FD0A6900211385 /* MBProgressHUD.m in Sources */,
+				0BEA31421705EE6200DE7DDB /* InboxDataSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

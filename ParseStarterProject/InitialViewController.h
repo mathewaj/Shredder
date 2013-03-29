@@ -11,12 +11,16 @@
 #import "ContactsDatabaseManager.h"
 
 
-// View Controller which presents SignUp View route on first run of app
+// This controller initialises the application
 
-@interface InitialViewController : UIViewController <SignUpPhoneNumberViewControllerProtocol>
+@interface InitialViewController : UIViewController <SignUpPhoneNumberViewControllerDelegate>
 
+// 1. Check if a signed in user is present
+-(void)checkForSignedInUser;
+
+// 2. Obtain access to contacts database
 @property (nonatomic, strong) ContactsDatabaseManager *contactsDatabaseManager;
 
--(void)directLoggedInOrNotLoggedInUserRespectively;
+// 3. Launch Inbox View
 
 @end

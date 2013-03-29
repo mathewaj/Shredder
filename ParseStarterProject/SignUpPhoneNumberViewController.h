@@ -16,9 +16,9 @@
 #import "Blocks.h"
 #import "CountryCodeInformation.h"
 
-@protocol SignUpPhoneNumberViewControllerProtocol <NSObject>
+@protocol SignUpPhoneNumberViewControllerDelegate <NSObject>
 
--(void)signedIn;
+-(void)startUserSignedInProcess;
 
 @end
 
@@ -44,6 +44,6 @@
 
 
 
-@property (nonatomic, weak) id <SignUpPhoneNumberViewControllerProtocol> delegate;
+@property (nonatomic, weak) id <SignUpPhoneNumberViewControllerDelegate> delegate;
 
 @end

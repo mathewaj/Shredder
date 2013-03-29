@@ -203,7 +203,6 @@
 
 -(void)finishedEnteringUploadPermission{
     
-    
     // Save Country Code to user defaults for later use
     [[NSUserDefaults standardUserDefaults] setObject:self.countryCodeInfo.countryCallingCode forKey:@"CurrentCountryCallingCode"];
     
@@ -252,7 +251,7 @@
     [ParseManager grantAccessToWelcomeMessageForUser:[PFUser currentUser]];
     
     [self dismissViewControllerAnimated:YES completion:^{
-        [self.delegate signedIn];
+        [self.delegate startUserSignedInProcess];
     }];
     
     
