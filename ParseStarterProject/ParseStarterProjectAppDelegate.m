@@ -10,7 +10,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    //[TestFlight takeOff:@"8445bc77beaae864a9d988226b4f873a_MTQ4NTAzMjAxMi0xMS0wNiAxMToxMToxNS44NzczNTc"];
+    [TestFlight takeOff:@"8445bc77beaae864a9d988226b4f873a_MTQ4NTAzMjAxMi0xMS0wNiAxMToxMToxNS44NzczNTc"];
 
     // Parse credentials:
      [Parse setApplicationId:@"X57dueJafXY0hpwK8K2THnKVVvKjEgG7zY7Rlqd8" clientKey:@"st8p3OqaogTZgtrdh9ESzbblDEjdRyvArgWosBKL"];
