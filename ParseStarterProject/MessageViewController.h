@@ -57,4 +57,7 @@
 // View: Shredding Animation
 @property (weak, nonatomic) IBOutlet ShreddingEffectView *shreddingEffectView;
 
+// View: Action Sheet
+@property (strong, nonatomic) UIActionSheet *actionSheet;
+
 @end

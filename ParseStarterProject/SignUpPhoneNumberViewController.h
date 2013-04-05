@@ -44,6 +44,7 @@
 
 
 
-@property (nonatomic, weak) id <SignUpPhoneNumberViewControllerDelegate> delegate;
+@property (nonatomic, weak) id <SignUpPhoneNumberViewControllerDelegate
+> delegate;
 
 @end

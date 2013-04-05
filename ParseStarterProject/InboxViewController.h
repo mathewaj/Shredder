@@ -14,15 +14,15 @@
 
 @interface InboxViewController : UIViewController
 
-// Model: Datasource
-@property (strong, nonatomic) InboxDataSource *datasource;
+// Model: Inbox Data Source
+@property (nonatomic, strong) InboxDataSource *datasource;
 
 // Model: Messages Array from Parse DB
-@property(nonatomic, strong) NSMutableArray *messagesArray;
+//@property(nonatomic, strong) NSMutableArray *messagesArray;
 @property(nonatomic, strong) NSMutableArray *existingMessagesArray;
 
 // Model: MessagePermissions Array from Parse DB
-@property(nonatomic, strong) NSMutableArray *reportsArray;
+//@property(nonatomic, strong) NSMutableArray *reportsArray;
 @property(nonatomic, strong) NSMutableArray *existingReportsArray;
 
 // Model: Contacts Database

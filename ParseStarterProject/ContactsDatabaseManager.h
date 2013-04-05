@@ -32,7 +32,8 @@
 @property (nonatomic, strong) AddressBookHelper *addressBookHelper;
 
 -(void)populateDatabaseWithCompletionHandler:(ContactsDatabaseReturned)completionBlock;
-@property (nonatomic, copy) ContactsDatabaseReturned completionBlock;
+@property (nonatomic, copy) ContactsDatabaseReturned accessCompletionBlock;
+@property (nonatomic, copy) ContactsDatabaseReturned populateCompletionBlock;
 
 // Database Access
 -(void)accessContactsDatabaseWithCompletionHandler:(ContactsDatabaseReturned)contactsDatabaseReturned;

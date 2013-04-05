@@ -39,7 +39,7 @@
 
 -(void)accessContactsDatabaseWithCompletionHandler:(ContactsDatabaseReturned)completionBlock{
     
-    self.completionBlock = completionBlock;
+    self.accessCompletionBlock = completionBlock;
     
     // Create UIManagedDocument to access database
     NSURL *url = [[[NSFileManager defaultManager] URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask] lastObject];
@@ -59,7 +59,10 @@
             
             if (success) {
                 
-                self.completionBlock(YES, self);
+                if(self.accessCompletionBlock){
+                    self.accessCompletionBlock(YES, self);
+                    self.accessCompletionBlock = nil;
+                }
                 
             } else {
                 
@@ -76,7 +79,10 @@
                            // If new contacts database created, fetch contacts
                            if (success) {
                                
-                               self.completionBlock(NO, self);
+                               if(self.accessCompletionBlock){
+                                   self.accessCompletionBlock(NO, self);
+                                   self.accessCompletionBlock = nil;
+                               }
                                
                                
                            } else {
@@ -96,7 +102,7 @@
 
 -(void)populateDatabaseWithCompletionHandler:(ContactsDatabaseReturned)completionBlock{
     
-    self.completionBlock = completionBlock;
+    self.populateCompletionBlock = completionBlock;
     [self syncAddressBookContacts];
     
 }
@@ -206,7 +212,12 @@
         
     }
     
-    self.completionBlock(YES, self);
+    if(self.populateCompletionBlock){
+        
+        self.populateCompletionBlock(YES, self);
+        self.populateCompletionBlock = nil;
+    }
+    
 
 }
 

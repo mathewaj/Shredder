@@ -25,7 +25,7 @@
     __block int count = 0;
     
     // Retrieve Messages Array from Parse
-    [ParseManager retrieveReceivedMessagePermissionsForCurrentUser:[PFUser currentUser] withCompletionBlock:^(BOOL success, NSError *error, NSArray *objects) {
+    [ParseManager retrieveReceivedMessagePermissionsForCurrentUserWithCompletionBlock:^(BOOL success, NSError *error, NSArray *objects) {
         count ++;
         self.messagesArray = [objects mutableCopy];
         
@@ -35,7 +35,7 @@
     }];
     
     // Retrieve Reports Array from Parse
-    [ParseManager retrieveAllReportsForCurrentUser:[PFUser currentUser] withCompletionBlock:^(BOOL success, NSError *error, NSArray *objects){
+    [ParseManager retrieveAllReportsForCurrentUserWithCompletionBlock:^(BOOL success, NSError *error, NSArray *objects){
         count ++;
         self.reportsArray = [objects mutableCopy];
         

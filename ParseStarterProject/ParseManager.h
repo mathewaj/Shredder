@@ -28,8 +28,8 @@
 
 #pragma mark - Message Database Reading Methods
 
-+(void)retrieveReceivedMessagePermissionsForCurrentUser:(PFUser *)user withCompletionBlock:(ParseReturnedArray)parseReturnedArray;
-+(void)retrieveAllReportsForCurrentUser:(PFUser *)user withCompletionBlock:(ParseReturnedArray)parseReturnedArray;
++(void)retrieveReceivedMessagePermissionsForCurrentUserWithCompletionBlock:(ParseReturnedArray)parseReturnedArray;
++(void)retrieveAllReportsForCurrentUserWithCompletionBlock:(ParseReturnedArray)parseReturnedArray;
 
 #pragma mark - Message Database Writing Methods
 

@@ -203,6 +203,7 @@
 
 -(void)finishedEnteringUploadPermission{
     
+    
     // Save Country Code to user defaults for later use
     [[NSUserDefaults standardUserDefaults] setObject:self.countryCodeInfo.countryCallingCode forKey:@"CurrentCountryCallingCode"];
     
@@ -228,6 +229,8 @@
             }];
             
         } else {
+            
+            [[NSUserDefaults standardUserDefaults] setObject:self.countryCodeInfo.countryCallingCode forKey:@"phoneNumber"];
             
             [self loggedIn];
         

@@ -15,6 +15,7 @@
 #import "MBProgressHUD.h"
 
 
+
 @interface InitialViewController ()
 
 @end
@@ -42,14 +43,23 @@
         
     } else {
         
-        [self startUserSignedInProcess];
+        if([[[NSUserDefaults standardUserDefaults] objectForKey:@"passwordLockSetting"] isEqualToNumber:[NSNumber numberWithBool:YES]])
+        {
+            
+            [self presentLoginScreen];
+            
+        } else {
+            
+            [self startUserSignedInProcess];
+            
+        }
+        
     }
 }
 
 -(void)startUserSignUpProcess{
     
     [self performSegueWithIdentifier:@"SignUp" sender:self];
-
 }
 
 -(void)startUserSignedInProcess{
@@ -101,7 +111,22 @@
 #pragma mark - Launch Inbox View
 
 -(void)contactsDatabaseReadySoProceed{
+    
     [self performSegueWithIdentifier:@"LoggedIn" sender:self];
+    
+}
+
+-(void)presentLoginScreen
+{
+    LoginViewController *vc = [[LoginViewController alloc] init];
+    vc.delegate = self;
+    [self presentModalViewController:vc animated:NO];
+}
+
+-(void)correctPasswordEntered{
+    
+    [self startUserSignedInProcess];
+    
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -118,5 +143,6 @@
         inboxViewController.contactsDatabaseManager = self.contactsDatabaseManager;
     }
 }
+
 
 @end

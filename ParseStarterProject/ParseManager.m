@@ -77,52 +77,88 @@
 
 #pragma mark - Messaging Functions
 
-+(void)retrieveReceivedMessagePermissionsForCurrentUser:(PFUser *)user withCompletionBlock:(ParseReturnedArray)parseReturnedArray{
++(void)retrieveReceivedMessagePermissionsForCurrentUserWithCompletionBlock:(ParseReturnedArray)parseReturnedArray{
     
-    PFQuery *query = [PFQuery queryWithClassName:@"MessagePermission"];
-    [query whereKey:@"recipient" equalTo:user];
-    [query whereKey:@"permissionShredded" equalTo:[NSNumber numberWithBool:NO]];
-    [query includeKey:@"sender"];
-    [query includeKey:@"message"];
-    [query orderByDescending:@"createdAt"];
-    
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+    if([[PFUser currentUser] username]){
         
-        if (!error) {
-            NSLog(@"Messages Found: %i", [objects count]);
-            parseReturnedArray(YES, error, objects);
-        } else {
-            // Log details of the failure
-            parseReturnedArray(NO, error, objects);
-        }
-    }];
+        PFQuery *query = [PFQuery queryWithClassName:@"MessagePermission"];
+        [query whereKey:@"recipient" equalTo:[PFUser currentUser]];
+        [query whereKey:@"permissionShredded" equalTo:[NSNumber numberWithBool:NO]];
+        [query includeKey:@"sender"];
+        [query includeKey:@"message"];
+        [query orderByDescending:@"createdAt"];
+        
+        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            
+            if (!error) {
+                
+                // If success, clean up any zombie permissions that may be in the system
+                NSMutableArray *mutableObjects = [objects mutableCopy];
+                
+                for(int i=0; i < [objects count]; i++){
+                    
+                    PFObject *permission = [objects objectAtIndex:i];
+                    
+                    if(![permission objectForKey:@"message"]){
+                        
+                        [TestFlight passCheckpoint:@"Zombie Permissions Deletion"];
+                        [permission deleteInBackground];
+                        [mutableObjects removeObject:permission];
+                    }
+                    
+                }
+            
+                parseReturnedArray(YES, error, mutableObjects);
+                
+            } else {
+                // Log details of the failure
+                parseReturnedArray(NO, error, objects);
+            }
+        }];
+        
+    } else {
+        parseReturnedArray(NO, nil, nil);
+    }
     
 }
 
-+(void)retrieveAllReportsForCurrentUser:(PFUser *)user withCompletionBlock:(ParseReturnedArray)parseReturnedArray{
++(void)retrieveAllReportsForCurrentUserWithCompletionBlock:(ParseReturnedArray)parseReturnedArray{
     
-    PFQuery *query = [PFQuery queryWithClassName:@"MessagePermission"];
-    [query whereKey:@"sender" equalTo:user];
-    [query whereKey:@"permissionShredded" equalTo:[NSNumber numberWithBool:YES]];
-    [query includeKey:@"recipient"];
-    [query includeKey:@"message"];
-    [query orderByDescending:@"createdAt"];
+    TFLog(@"In retrieveAllReportsForCurrentUserWithCompletionBlock");
     
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (!error) {
-            parseReturnedArray(YES, error, objects);
-        } else {
-            // Log details of the failure
-            parseReturnedArray(NO, error, objects);
-        }
-    }];
+    if([[PFUser currentUser] username]){
+        
+        PFQuery *query = [PFQuery queryWithClassName:@"MessagePermission"];
+        [query whereKey:@"sender" equalTo:[PFUser currentUser]];
+        [query whereKey:@"permissionShredded" equalTo:[NSNumber numberWithBool:YES]];
+        [query includeKey:@"recipient"];
+        [query includeKey:@"message"];
+        [query orderByDescending:@"createdAt"];
+        
+        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            TFLog(@"In retrieveAllReportsForCurrentUserWithCompletionBlockReturn");
+            if (!error) {
+                parseReturnedArray(YES, error, objects);
+            } else {
+                // Log details of the failure
+                parseReturnedArray(NO, error, objects);
+            }
+        }];
+        
+    } else {
+        parseReturnedArray(NO, nil, nil);
+    }
     
 }
 
 
 +(void)sendMessage:(PFObject *)messagePermission withCompletionBlock:(ParseReturned)parseReturned{
     
+    TFLog(@"In sendMessage: withCompletionBlock:");
+    
     [messagePermission saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        
+        TFLog(@"In sendMessage: withCompletionBlock: Return");
         
         // If message permission doesn't save, make sure message is also deleted
         if (!succeeded) {
@@ -140,78 +176,93 @@
 
 +(void)sendNewMessageNotificationTo:(PFUser *)recipient{
     
-    // Create our installation query
-    PFQuery *pushQuery = [PFInstallation query];
-    [pushQuery whereKey:@"owner" equalTo:recipient];
-    
-    // Send push notification to query
-    PFPush *push = [[PFPush alloc] init];
-    [push setQuery:pushQuery];
-    NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
-                          @"You have received a message on Shredder", @"alert",
-                          @"Increment", @"badge",
-                          @"chainsaw-02.wav", @"sound",
-                          nil];
-    [push setData:data];
-    [push sendPushInBackground];
+    if([recipient username]){
+        // Create our installation query
+        PFQuery *pushQuery = [PFInstallation query];
+        [pushQuery whereKey:@"owner" equalTo:recipient];
+        
+        // Send push notification to query
+        PFPush *push = [[PFPush alloc] init];
+        [push setQuery:pushQuery];
+        NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
+                              @"You have received a message on Shredder", @"alert",
+                              @"Increment", @"badge",
+                              @"chainsaw-02.wav", @"sound",
+                              nil];
+        [push setData:data];
+        [push sendPushInBackground];
+    }
     
 }
 
 +(void)shredMessage:(PFObject *)messagePermission withCompletionBlock:(ParseReturned)parseReturned{
     
+    TFLog(@"In shredMessage: withCompletionBlock:");
+    
     PFObject *message = [messagePermission objectForKey:@"message"];
     
-    // Delete message permissions of Welcome Shredder Message
-    if([message.objectId isEqualToString:@"BQaxVDuxzn"]){
+    if(message){
         
-        [messagePermission deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            parseReturned(succeeded, error);
-        }];
+        // Delete message permissions of Welcome Shredder Message
+        if([message.objectId isEqualToString:@"BQaxVDuxzn"]){
+            
+            [messagePermission deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                TFLog(@"In shredMessage: withCompletionBlock: Return Welcome Message");
+                parseReturned(succeeded, error);
+            }];
+            
+        } else {
+            
+            // Turn Message Permission Shredded Value to True and Record Time Shredded
+            [messagePermission setObject:[NSNumber numberWithBool:YES] forKey:@"permissionShredded"];
+            [messagePermission setObject:[NSDate date] forKey:@"permissionShreddedAt"];
+            
+            [messagePermission saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                
+                TFLog(@"In shredMessage: withCompletionBlock: Return");
+                
+                // Notify of result
+                parseReturned(succeeded, error);
+                
+                // If message permission successfully saved as shredded, check if message can be deleted
+                if(succeeded)
+                {
+                    // If last message permission delete message
+                    PFQuery *query = [PFQuery queryWithClassName:@"MessagePermission"];
+                    [query whereKey:@"message" equalTo:message];
+                    [query whereKey:@"permissionShredded" equalTo:[NSNumber numberWithBool:NO]];
+                    [query countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
+                        
+                        if(number == 0)
+                        {
+                            [message deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                                
+                                // If message deletion fails, reinstate message and undelete permission
+                                if(!succeeded){
+                                    
+                                    [messagePermission setObject:[NSNumber numberWithBool:NO] forKey:@"permissionShredded"];
+                                    [messagePermission setObject:message forKey:@"message"];
+                                    [messagePermission saveInBackground];
+                                    
+                                }
+                                
+                            }];
+                        }
+                    }];
+                    
+                }
+                
+                
+            }];
+            
+        }
+
         
     } else {
-        
-        // Turn Message Permission Shredded Value to True and Record Time Shredded
-        [messagePermission setObject:[NSNumber numberWithBool:YES] forKey:@"permissionShredded"];
-        [messagePermission setObject:[NSDate date] forKey:@"permissionShreddedAt"];
-        
-        [messagePermission saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            
-            // Notify of result
-            parseReturned(succeeded, error);
-            
-            // If message permission successfully saved as shredded, check if message can be deleted
-            if(succeeded)
-            {
-                // If last message permission delete message
-                PFQuery *query = [PFQuery queryWithClassName:@"MessagePermission"];
-                [query whereKey:@"message" equalTo:message];
-                [query whereKey:@"permissionShredded" equalTo:[NSNumber numberWithBool:NO]];
-                [query countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
-                    
-                    if(number == 0)
-                    {
-                        [message deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                            
-                            // If message deletion fails, reinstate message and undelete permission
-                            if(!succeeded){
-                                
-                                [messagePermission setObject:[NSNumber numberWithBool:NO] forKey:@"permissionShredded"];
-                                [messagePermission setObject:message forKey:@"message"];
-                                [messagePermission saveInBackground];
-                                
-                            }
-                            
-                        }];
-                    }
-                }];
-                
-            }
-            
-            
-        }];
-        
+        parseReturned(NO, nil);
     }
     
+        
     
     
 
@@ -219,7 +270,10 @@
 
 +(void)deleteReport:(PFObject *)messagePermission withCompletionBlock:(ParseReturned)parseReturned{
     
+    TFLog(@"In deleteReport: withCompletionBlock:");
+    
     [messagePermission deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        TFLog(@"In deleteReport: withCompletionBlock: Return");
         parseReturned(succeeded, error);
     }];
     
@@ -227,6 +281,8 @@
 }
 
 +(PFObject *)createNewMessage{
+    
+    TFLog(@"In createNewMessage:");
     
     PFObject *blankMessage = [PFObject objectWithClassName:@"Message"];
     [blankMessage setObject:[PFUser currentUser] forKey:@"sender"];
@@ -237,6 +293,8 @@
 }
 
 +(PFObject *)createMessagePermissionForMessage:(PFObject *)message andShredderUserRecipient:(PFUser *)recipient{
+    
+    TFLog(@"In createMessagePermissionForMessage: andShredderUserRecipient:");
     
     // Create Message Permissions
     // These cannot rely on the message still being present so must incorporate all the info
@@ -271,6 +329,8 @@
 
 +(PFObject *)attachImages:(NSArray *)images toMessage:(PFObject *)message{
     
+    TFLog(@"In attachImages:");
+    
     PFFile *photoFile = [images objectAtIndex:0];
     PFFile *thumbnailFile = [images objectAtIndex:1];
     
@@ -284,11 +344,15 @@
 +(void)grantAccessToWelcomeMessageForUser:(PFUser *)user;
 {
     
+     TFLog(@"In grantAccessToWelcomeMessageForUser:");
+    
     // Retrieve welcome message object
     PFQuery *welcomeMessageQuery = [PFQuery queryWithClassName:@"Message"];
     [welcomeMessageQuery includeKey:@"sender"];
     [welcomeMessageQuery getObjectInBackgroundWithId:@"BQaxVDuxzn"
                                  block:^(PFObject *message, NSError *error) {
+                                     
+                                     TFLog(@"In grantAccessToWelcomeMessageForUser: return");
                                      if (!error) {
                                          
                                         
@@ -309,6 +373,8 @@
 }
 
 +(PFObject *)createMessagePermissionForWelcomeMessage:(PFObject *)message andShredderUserRecipient:(PFUser *)recipient{
+    
+     TFLog(@"In createMessagePermissionForWelcomeMessage: andShredderUserRecipient:");
     
     // Create Message Permissions
     // These cannot rely on the message still being present so must incorporate all the info
@@ -341,6 +407,8 @@
 
 +(void)setBadgeWithNumberOfMessages:(NSNumber *)messagesCount{
     
+    TFLog(@"In setBadgeWithNumberOfMessages");
+    
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     currentInstallation.badge = [messagesCount intValue];
     [currentInstallation saveInBackground];
@@ -352,6 +420,8 @@
 
 -(void)promptUserForPermissionToUploadContacts
 {
+     TFLog(@"In promptUserForPermissionToUploadContacts:");
+    
     // Check if user has granted permission to Shredder to upload contacts
     if([[[NSUserDefaults standardUserDefaults] objectForKey:@"PermissionToUploadContactsToShredder"] isEqualToNumber:[NSNumber numberWithBool:NO]])
     {
@@ -369,6 +439,8 @@
 }
 
 +(void)checkShredderDBForContacts:(NSArray *)allContacts withCompletionBlock:(ParseReturnedArray)parseReturned{
+    
+    TFLog(@"In checkShredderDBForContacts: withCompletionBlock:");
 
     // Array of phone numbers
     NSMutableArray *phoneNumberArray = [[NSMutableArray alloc] init];
@@ -389,6 +461,9 @@
     
     // CALL TO PARSE
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        
+        TFLog(@"In checkShredderDBForContacts: withCompletionBlock: Return");
+        
         if (!error) {
             
             // Returns an array of matching users
@@ -407,20 +482,34 @@
 
 +(void)shredderUserForContact:(Contact *)contact withCompletionBlock:(ParseReturnedArray)parseReturnedArray{
     
-    PFQuery *userQuery = [PFUser query];
-    [userQuery whereKey:@"username" equalTo:contact.normalisedPhoneNumber];
+    TFLog(@"In  shredderUserForContact withCompletionBlock");
     
-    [userQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+    if(contact){
+        PFQuery *userQuery = [PFUser query];
+        [userQuery whereKey:@"username" equalTo:contact.normalisedPhoneNumber];
         
-        parseReturnedArray(YES, error, objects);
-        
-    }];
+        [userQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            
+            TFLog(@"In  shredderUserForContact withCompletionBlock Return");
+            
+            parseReturnedArray(YES, error, objects);
+            
+        }];
+    } else {
+        parseReturnedArray(NO, nil, nil);
+    }
+    
+    TFLog(@"Closing shredderUserForContact");
+    
+    
     
 }
 
 #pragma mark - Image Functions
 
 +(void)startUploadingImages:(NSArray *)imagesArray{
+    
+    TFLog(@"In startUploadingImages");
     
     PFFile *thumbnailFile = [imagesArray objectAtIndex:0];
     PFFile *photoFile = [imagesArray objectAtIndex:1];

@@ -463,8 +463,6 @@
 
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
     
-    NSLog(@"Not me...");
-    
     [self setAttachmentOpen:NO];
     
     CGRect screenDimensions = [self.delegate retrieveScreenDimensions:self];
@@ -488,11 +486,9 @@
 
 -(void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    
+    [TestFlight passCheckpoint:@"Screenshot Detection"];
     
     if(self.isAttachmentOpen){
-    
-    NSLog(@"Screenshot");
     
         [self screenshotDetected];
         

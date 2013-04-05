@@ -9,11 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "SignUpPhoneNumberViewController.h"
 #import "ContactsDatabaseManager.h"
+#import "LoginViewController.h"
 
 
 // This controller initialises the application
 
-@interface InitialViewController : UIViewController <SignUpPhoneNumberViewControllerDelegate>
+@interface InitialViewController : UIViewController <SignUpPhoneNumberViewControllerDelegate, LoginViewControllerDelegate>
 
 // 1. Check if a signed in user is present
 -(void)checkForSignedInUser;

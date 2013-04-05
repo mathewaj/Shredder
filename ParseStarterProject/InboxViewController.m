@@ -16,6 +16,7 @@
 #import "MGLineStyled.h"
 #import "Converter.h"
 
+
 @interface InboxViewController ()
 
 @property (nonatomic, strong) ParseManager *parseManager;
@@ -24,16 +25,16 @@
 
 @implementation InboxViewController
 
-- (id)initWithCoder:(NSCoder*)coder
+-(id)initWithCoder:(NSCoder *)aDecoder
 {
-    if (self = [super init])
-    {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        // Get ordered list of Country Code Information Objects,
         self.datasource = [[InboxDataSource alloc] init];
-        
     }
+    
     return self;
 }
-
 
 -(void)viewDidLoad{
     
@@ -42,20 +43,12 @@
     // Set background
     self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"BackgroundBubbles.png"]];
     
-    /* Set Scroll View
-    self.scrollView = [MGScrollView scrollerWithSize:self.view.frame.size];
-    [self.view addSubview:self.scrollView];
-    */
-    
-    // Set up the tables
-    
     // Create Messages Container
-    self.messagesContainer = [MGTableBoxStyled box];
-    self.messagesContainer.topMargin = 50;
+    self.messagesContainer = [self getMessagesContainer];
     [self.scrollView.boxes addObject:self.messagesContainer];
     
     // Set Reports Section
-    self.reportsContainer = [MGTableBoxStyled box];
+    self.reportsContainer = [self getReportsContainer];
     self.reportsContainer.topMargin = 50;
     self.reportsContainer.bottomMargin = 50;
     [self.scrollView.boxes addObject:self.reportsContainer];
@@ -63,9 +56,7 @@
     // Check for new messages on these notifications
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshMessages) name:@"PushNotificationReceived" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshMessages) name:UIApplicationDidBecomeActiveNotification object:nil];
-    
-    // This notification says that messages have been received
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadMessages) name:@"MessagesReceived" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshMessages) name:@"MessagesReceived" object:nil];
     
     // Listen for app backgrounding
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
@@ -74,42 +65,55 @@
     [self.contactsDatabaseManager syncAddressBookContacts];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshContacts) name:UIApplicationDidBecomeActiveNotification object:nil];
     
-}
-
--(void)refreshContacts{
     
-    // Refresh contacts database
-    [self.contactsDatabaseManager syncAddressBookContacts];
     
 }
 
-// Called every time view appears
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     
-    [self refreshMessages];
+    if([self checkUserIsLoggedIn]){
+        
+        [self.datasource checkForMessages];
+        
+    } else {
+        
+        [self presentLoginScreen];
+        
+    }
     
 }
-/*
--(void)dealloc{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}*/
 
-// Called every view did appear and push receipt
+-(BOOL)checkUserIsLoggedIn{
+    
+    if([[PFUser currentUser] username]){
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
+-(void)refreshContacts{
+    
+    [self.contactsDatabaseManager syncAddressBookContacts];
+    
+}
+
 -(void)refreshMessages{
-    
-    [self.datasource checkForMessages];
-    
+
+    [self refreshMessagesContainerView];
+    [self refreshReportsContainerView];
+    [self layoutInboxScrollView];
 }
 
-// Called when messages have been updated
+
+
+/*
 -(void)loadMessages
 {
-    self.messagesArray = self.datasource.messagesArray;
-    self.reportsArray = self.datasource.reportsArray;
-    [self loadInboxTable];
-    
+    // Check messages when push received
+    [self checkForMessages];
 }
 
 
@@ -137,26 +141,63 @@
         }
     }];
     
-}
+}*/
 
--(void)loadInboxTable{
+-(void)refreshMessagesContainerView{
     
-    // Reset
     [self.messagesContainer.topLines removeAllObjects];
-    [self.reportsContainer.topLines removeAllObjects];
-    
     
     // If there are no messages, insert a place holder box
-    if([self.messagesArray count] == 0){
+    if([self.datasource.messagesArray count] == 0){
         
         [self.messagesContainer.topLines addObject:[self getPlaceholderBox]];
         
     } else {
         
         // Populate Message Rows
-        for(int i=0;i<[self.messagesArray count];i++){
+        for(int i=0;i<[self.datasource.messagesArray count];i++){
             
-            PFObject *receivedMessagePermission = [self.messagesArray objectAtIndex:i];
+            PFObject *receivedMessagePermission = [self.datasource.messagesArray objectAtIndex:i];
+            [self addMessageBoxForMessagePermission:receivedMessagePermission inSection:self.messagesContainer];
+        }
+        
+    }
+    
+    
+    
+}
+
+-(void)refreshReportsContainerView{
+    
+    [self.reportsContainer.topLines removeAllObjects];
+    
+    // Set Report Rows
+    for(int i=0;i<[self.datasource.reportsArray count];i++){
+        
+        PFObject *receivedReportsPermission = [self.datasource.reportsArray objectAtIndex:i];
+        [self addReportsBoxForMessagePermission:receivedReportsPermission inSection:self.reportsContainer];
+        
+    }
+    
+}
+/*
+-(void)loadInboxTable{
+    
+    // Reset
+    [self.messagesContainer.topLines removeAllObjects];
+    [self.reportsContainer.topLines removeAllObjects];
+    
+    // If there are no messages, insert a place holder box
+    if([self.datasource.messagesArray count] == 0){
+        
+        [self.messagesContainer.topLines addObject:[self getPlaceholderBox]];
+        
+    } else {
+        
+        // Populate Message Rows
+        for(int i=0;i<[self.datasource.messagesArray count];i++){
+            
+            PFObject *receivedMessagePermission = [self.datasource.messagesArray objectAtIndex:i];
             [self addMessageBoxForMessagePermission:receivedMessagePermission inSection:self.messagesContainer]; 
         }
         
@@ -164,9 +205,9 @@
 
     
     // Set Report Rows
-    for(int i=0;i<[self.reportsArray count];i++){
+    for(int i=0;i<[self.datasource.reportsArray count];i++){
         
-        PFObject *receivedReportsPermission = [self.reportsArray objectAtIndex:i];
+        PFObject *receivedReportsPermission = [self.datasource.reportsArray objectAtIndex:i];
         [self addReportsBoxForMessagePermission:receivedReportsPermission inSection:self.reportsContainer];
         
     }
@@ -175,8 +216,7 @@
     
     
 }
-
-#pragma mark - Views
+*/
 
 -(void)layoutInboxScrollView{
     
@@ -185,7 +225,7 @@
     // Add Ribbons to container boxes
     [self.messagesContainer addSubview:[self getMessagesRibbon]];
     
-    if([self.reportsArray count] !=0 ){
+    if([self.datasource.reportsArray count] !=0 ){
         self.reportsRibbon = [self getReportsRibbon];
         [self.reportsContainer addSubview:self.reportsRibbon];
     } else {
@@ -194,6 +234,25 @@
     }
     
     
+    
+}
+
+#pragma mark - View Factory Methods
+
+-(MGTableBoxStyled *)getMessagesContainer{
+    
+    MGTableBoxStyled *box = [MGTableBoxStyled box];
+    box.topMargin = 50;
+    return box;
+    
+}
+
+-(MGTableBoxStyled *)getReportsContainer{
+    
+    MGTableBoxStyled *box = [MGTableBoxStyled box];
+    box.topMargin = 50;
+    box.bottomMargin = 50;
+    return box;
     
 }
 
@@ -255,8 +314,7 @@
         
         // Remove message
         [section.topLines removeObject:wmessageRow];
-        [self.messagesArray removeObject:messagePermission];
-        self.existingMessagesArray = self.messagesArray;
+        [self.datasource.messagesArray removeObject:messagePermission];
         
         // Set flag and perform segue
         [self setComposeRequest:NO];
@@ -325,11 +383,10 @@
             // Handle return - TBC
         }];
         
-        [self.reportsArray removeObject:messagePermission];
-        self.existingReportsArray = self.reportsArray;
+        [self.datasource.reportsArray removeObject:messagePermission];
         
         // Reload to remove ribbon if no reports
-        if([self.reportsArray count] == 0){
+        if([self.datasource.reportsArray count] == 0){
             [self layoutInboxScrollView];
         }
         
@@ -398,7 +455,19 @@
         if (modalPresent){
             [self dismissViewControllerAnimated:NO completion:^{
                 NSLog(@"In higher view");
-                [self presentLoginScreen];
+                
+                BOOL modalPresent2 = (BOOL)(self.presentedViewController);
+                
+                if (modalPresent2){
+                    [self dismissViewControllerAnimated:NO completion:^{
+                        NSLog(@"In evenhigher view");
+                        [self presentLoginScreen];
+                    }];
+                } else {
+                    NSLog(@"In inbox view");
+                    [self presentLoginScreen];
+                }
+                
             }];
         } else {
             NSLog(@"In inbox view");
@@ -410,7 +479,7 @@
 -(void)setBadgeCount{
     
     // Set correct badge count for app
-    [ParseManager setBadgeWithNumberOfMessages:[NSNumber numberWithInt:[self.messagesArray count]]];
+    [ParseManager setBadgeWithNumberOfMessages:[NSNumber numberWithInt:[self.datasource.messagesArray count]]];
     
 }
 

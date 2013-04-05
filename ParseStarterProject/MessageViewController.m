@@ -18,16 +18,6 @@
 
 @implementation MessageViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-        
-    }
-    return self;
-}
-
 -(void)viewDidLoad{
     
     [super viewDidLoad];
@@ -38,7 +28,7 @@
     [self.view addSubview:self.scrollView];
     self.scrollView.keepFirstResponderAboveKeyboard = YES;
     
-    // Set up container view
+    // Set up message container view
     self.containerView = [MGBox boxWithSize:self.view.bounds.size];
     self.containerView.backgroundColor = [UIColor blackColor];
     self.containerView.backgroundColor = [UIColor clearColor];
@@ -53,8 +43,7 @@
     // Set up message view based on message mode
     if(self.isComposeMode){
         
-        // Contact Prompt will appear in viewdidappear if not loaded
-        
+        // Handled in view did appear
         
     } else {
         
@@ -73,12 +62,19 @@
 -(void)viewDidAppear:(BOOL)animated{
     
     [super viewDidAppear:animated];
-    
-    if(self.isComposeMode && !self.contact && self.isFirstView){
-        [self requestContact];
-        self.firstView = NO;
+
+    if(self.isComposeMode && !self.message){
+        self.message = [ParseManager createNewMessage];
     }
+    
+    if(self.isComposeMode && !self.contact && self.firstView){
+        [self requestContact];
+    }
+    
+    self.firstView = NO;
+  
 }
+
 
 -(void)requestContact{
     
@@ -90,18 +86,23 @@
     
     [self.containerView.boxes removeAllObjects];
     [self.containerView.boxes addObject:self.messageView];
-    //[self.containerView layoutWithSpeed:0.3 completion:nil];
     [self.scrollView layoutWithSpeed:0.3 completion:nil];
-    
     
 }
 
+-(MessageView *)setUpComposeMessageView{
+        
+    MessageView *messageView = [[MessageView alloc] initWithFrame:CGRectMake(0, 0, 300, 400) withEmptyMessage:self.message forRecipient:self.contact andDelegate:self];
+    
+    return messageView;
+}
 
+// DEPRECATE BELOW
 -(MessageView *)setUpComposeMessageViewForRecipient:(PFUser *)recipient{
         
-    self.message = [ParseManager createNewMessage];
+    //self.message = [ParseManager createNewMessage];
     
-    MessageView *messageView = [[MessageView alloc] initWithFrame:CGRectMake(0, 0, 300, 400) withEmptyMessage:self.message forRecipient:recipient andDelegate:self];
+    MessageView *messageView = [[MessageView alloc] initWithFrame:CGRectMake(0, 0, 300, 400) withEmptyMessage:self.message forRecipient:self.contact andDelegate:self];
     
     return messageView;
 }
@@ -128,6 +129,8 @@
     
 }
 -(void)sendButtonPressed:(PFObject *)messageToBeSent{
+    
+    [TestFlight passCheckpoint:@"Send Button Pressed"];
     
     if(!self.isSendButtonPressed){
         
@@ -165,6 +168,8 @@
 
 -(void)shredButtonPressed:(MessageView *)sender{
     
+    [TestFlight passCheckpoint:@"Shred Button Pressed"];
+    
     // Shred Message
     [self shredMessage:sender withCompletionBlock:^{
         
@@ -181,11 +186,15 @@
 
 -(void)replyButtonPressed:(MessageView *)sender{
     
+    [TestFlight passCheckpoint:@"Reply Button Pressed"];
+    
     // Shred Message
     [self shredMessage:sender withCompletionBlock:^{
         
         // Will now be compose mode
         self.composeMode = YES;
+        
+        self.message = [ParseManager createNewMessage];
         
         // Reset container view location above window
         CGRect initialFrame = self.containerView.frame;
@@ -301,13 +310,15 @@
 
 - (void)attachmentIconPressed:(MessageView *)sender {
     
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@""
+    [TestFlight passCheckpoint:@"Attached Image"];
+    
+    self.actionSheet = [[UIActionSheet alloc] initWithTitle:@""
                                                        delegate:self
                                               cancelButtonTitle:@"Cancel"
                                          destructiveButtonTitle:nil
                                               otherButtonTitles:@"Choose An Existing Photo", @"Take A Photo", nil];
-    sheet.actionSheetStyle = UIActionSheetStyleDefault;
-    [sheet showInView:self.view];
+    self.actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
+    [self.actionSheet showInView:self.view];
     
 }
 
@@ -428,17 +439,15 @@
 -(void)didSelectShredderContact:(PFUser *)shredderUser{
     
     // Create new message and message view for Shredder contact
-    self.messageView = [self setUpComposeMessageViewForRecipient:shredderUser];
     self.contact = shredderUser;
+    self.messageView = [self setUpComposeMessageViewForRecipient:shredderUser];
     [self showMessageView];
     
 }
 
 
 -(void)didCancelSelectingContact{
-    
-    [self dismissViewControllerAnimated:YES completion:nil];
-    
+    [self.presentingViewController dismissViewControllerAnimated:NO completion:nil];
 }
 
 #pragma mark - Add New Contact
@@ -479,6 +488,9 @@
 #pragma mark App Backgrounding
 
 -(void)appWillResignActive{
+    
+    // Remove action sheet from view
+    [self.actionSheet dismissWithClickedButtonIndex:0 animated:NO];
     
     if(!self.isComposeMode){
         // Consider this the same as shredding message

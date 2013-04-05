@@ -11,6 +11,7 @@
 #import "MGBox.h"
 #import "MGTableBoxStyled.h"
 #import "MGLineStyled.h"
+#import "ParseManager.h"
 
 @interface LoginViewController ()
 
@@ -94,9 +95,42 @@
     
     if([self.passwordTextField.text isEqualToString:[[NSUserDefaults standardUserDefaults] objectForKey:@"password"]]){
         
-        [self dismissViewControllerAnimated:YES completion:^{
+        if([[PFUser currentUser] username]){
             
-        }];
+            [self dismissViewControllerAnimated:YES completion:^{
+                
+                [self.delegate correctPasswordEntered];
+                
+            }];
+            
+        } else {
+            
+            // User may be already signed up
+            [ParseManager loginWithPhoneNumber:[[NSUserDefaults standardUserDefaults] objectForKey:@"phoneNumber"] andPassword:[[NSUserDefaults standardUserDefaults] objectForKey:@"password"] withCompletionBlock:^(BOOL success, NSError *error) {
+                if(!success){
+                    
+                    // Log details of the failure
+                    NSLog(@"Error: %@ %@", error, [error userInfo]);
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"User Login Failed" message:@"Please try again" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                    [alert show];
+                    
+                    
+                } else {
+                    
+                    [self dismissViewControllerAnimated:YES completion:^{
+                        
+                        [self.delegate correctPasswordEntered];
+                        
+                    }];
+                    
+                }
+            }];
+            
+            
+            
+        }
+        
+        
         
     } else {
         

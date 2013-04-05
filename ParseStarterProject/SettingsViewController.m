@@ -58,6 +58,8 @@
 
 -(UISwitch *)getPasswordLockSwitch{
     
+    [TestFlight passCheckpoint:@"Password Lock Changed"];
+    
     UISwitch *switchControl = [[UISwitch alloc] initWithFrame:CGRectMake(0, 0, 40, 30)];
     switchControl.on = [[[NSUserDefaults standardUserDefaults] objectForKey:@"passwordLockSetting"] boolValue];
     [switchControl addTarget: self action: @selector(passwordSwitchChanged:) forControlEvents:UIControlEventValueChanged];
